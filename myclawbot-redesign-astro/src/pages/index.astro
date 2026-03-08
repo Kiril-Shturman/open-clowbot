@@ -474,7 +474,7 @@ import "../styles/main.css";
       }
       if (headerBalance) {
         const balance = data.balance ?? data.wallet_balance ?? data.credits ?? data.tokens_balance;
-        const balanceText = (typeof balance === 'number') ? `${balance.toLocaleString('ru-RU')} ₽` : '—';
+        const balanceText = (typeof balance === 'number') ? `${balance.toLocaleString('ru-RU')} ₽` : '0.0₽';
         headerBalance.textContent = `Баланс: ${balanceText}`;
         headerBalance.style.display = 'inline-flex';
       }
