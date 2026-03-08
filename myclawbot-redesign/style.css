@@ -152,25 +152,18 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
   padding:11px 12px;
   border:1px solid rgba(255,255,255,.16);
   border-radius:14px;
-  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
   color:#f1e6ea;
   font-size:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
 }
+/* mixed card styles like original: gradient / plain / dashed */
+.chip:nth-child(3n+1), .chip-grad{background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04));}
+.chip:nth-child(3n+2), .chip-plain{background:rgba(255,255,255,.02);}
+.chip:nth-child(3n), .chip-dashed{background:rgba(255,255,255,.04);border-style:dashed}
+
 .chip img{width:18px;height:18px;flex:0 0 auto;filter:brightness(0) invert(1)}
-.kb-link{display:block;text-align:center;color:#91b2ff;text-decoration:none;font-weight:700;margin:16px 0 8px;font-size:22px}
+.kb-link{display:block;text-align:center;color:#ff6f8f;text-decoration:none;font-weight:700;margin:16px 0 8px;font-size:22px}
 .board-note{margin:0;text-align:center;color:#b7a5ab;font-style:italic;line-height:1.45}
-.board-cta{
-  display:block;
-  width:max-content;
-  margin:14px auto 0;
-  padding:8px 16px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.28);
-  background:rgba(255,255,255,.08);
-  color:#f3e9ec;
-  text-decoration:none;
-  font-weight:700;
-}
 
 .price-card{max-width:640px;margin:0 auto}
 .muted{margin:0;color:var(--muted);font-size:16px}
