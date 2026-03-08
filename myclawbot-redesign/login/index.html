@@ -3,27 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Вход — open-clawbot.ru</title>
-  <link rel="stylesheet" href="/legal.css" />
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <meta name="theme-color" content="#0b0709" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="color-scheme" content="dark" />
+  <title>Вход — open-clawbot.ru</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-  <header class="header"><div class="wrap nav"><a class="brand" href="/"><img class="brand-logo" src="/assets/logo-bot.png" alt="logo"></a><a class="btn" href="/">На главную</a></div></header>
+  <header class="header">
+    <div class="wrap nav">
+      <a href="/"><img class="brand-logo" src="/assets/logo-bot.png" alt="logo"></a>
+      <a class="btn" href="/">На главную</a>
+    </div>
+  </header>
+
   <main class="wrap main">
-    <article class="panel" style="max-width:520px;margin:0 auto;">
-      <h1>Войти через Google</h1>
-      <p class="muted" id="loginHint">Используйте Google-аккаунт для входа в личный кабинет.</p>
-      <div id="googleBtn"></div>
-    </article>
+    <section class="card">
+      <h1>Вход в аккаунт</h1>
+      <p class="muted">Добро пожаловать обратно в защищенную зону</p>
+
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="input-wrap"><span class="icon">person_outline</span><input class="input" type="email" placeholder="you@example.com"></div>
+      </div>
+
+      <div class="field">
+        <label class="label">Пароль</label>
+        <div class="input-wrap"><span class="icon">lock_outline</span><input id="pwd" class="input" type="password" placeholder="••••••••"><span class="password-actions">visibility_off</span></div>
+      </div>
+
+      <button class="login-btn" type="button" id="emailLoginBtn">Войти</button>
+
+      <div class="divider">ИЛИ ВОЙТИ ЧЕРЕЗ</div>
+      <div id="googleBtnWrap">
+        <button class="google-btn" type="button">Google</button>
+      </div>
+
+      <p class="bottom">Нет аккаунта? <a href="/account/">Зарегистрироваться</a></p>
+      <p class="muted" id="loginHint" style="margin-top:8px"></p>
+    </section>
   </main>
 
   <script>
     const CLIENT_ID = '884284199336-h238f68r3kthrj59adokma1f9612ud0o.apps.googleusercontent.com';
+
+    document.getElementById('emailLoginBtn').onclick = () => {
+      document.getElementById('loginHint').textContent = 'Email/пароль подключим следующим шагом (backend). Сейчас рабочий вход — через Google.';
+    };
 
     function handleCredentialResponse(response) {
       fetch('/api/auth/google', {
@@ -42,12 +71,11 @@
     }
 
     window.addEventListener('load', () => {
-      if (CLIENT_ID.includes('PASTE_GOOGLE_CLIENT_ID_HERE')) {
-        document.getElementById('loginHint').textContent = 'Нужно указать GOOGLE_CLIENT_ID в login/index.html и в auth-сервисе.';
-        return;
-      }
+      if (!window.google || !CLIENT_ID) return;
       google.accounts.id.initialize({ client_id: CLIENT_ID, callback: handleCredentialResponse });
-      google.accounts.id.renderButton(document.getElementById('googleBtn'), { theme: 'outline', size: 'large', width: 320 });
+      const wrap = document.getElementById('googleBtnWrap');
+      wrap.innerHTML = '<div id="googleRealBtn"></div>';
+      google.accounts.id.renderButton(document.getElementById('googleRealBtn'), { theme: 'outline', size: 'large', width: 420 });
     });
   </script>
 </body>
