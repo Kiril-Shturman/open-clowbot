@@ -151,7 +151,7 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 .section{padding-top:44px}
 #capabilities{min-height:100vh;min-height:100svh;display:flex;align-items:center}
 #capabilities .skills-board{width:100%}
-.subhead{margin:-4px 0 34px;color:var(--muted);font-size:20px;text-align:center}
+.subhead{margin:-4px 0 56px;color:var(--muted);font-size:20px;text-align:center}
 
 .skills-board{
   padding:38px 0 24px;
@@ -195,7 +195,7 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 }
 
 .chip img{width:18px;height:18px;flex:0 0 auto;filter:brightness(0) invert(1)}
-.kb-link{display:block;text-align:center;color:var(--brand-1);text-decoration:none;font-weight:700;margin:16px 0 8px;font-size:22px}
+.kb-link{display:block;text-align:center;color:var(--brand-1);text-decoration:none;font-weight:700;margin:56px 0 8px;font-size:22px}
 .board-note{margin:0;text-align:center;color:#b7a5ab;font-style:italic;line-height:1.45}
 
 .price-card{max-width:640px;margin:0 auto}
