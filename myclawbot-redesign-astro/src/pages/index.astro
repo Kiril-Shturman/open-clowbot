@@ -287,8 +287,9 @@ import "../styles/main.css";
             vec2 m=iMouse/iResolution;
             float d=distance(uv0,m);
             float spot=(1.0-smoothstep(0.0,max(uSpotlightRadius,1e-4),d))*uSpotlightOpacity;
-            float blindMask = smoothstep(0.05,0.9,1.0-stripe);
-            vec3 col = base * (0.55 + 0.8*spot) * (0.35 + blindMask);
+            float bars = 0.82 + 0.18 * smoothstep(0.15,0.95,1.0-stripe); // softer blinds
+            vec3 col = base * bars;
+            col *= (0.82 + 0.55*spot); // center emphasis
             col += (rand(gl_FragCoord.xy + iTime)-0.5)*uNoise;
             gl_FragColor=vec4(col,1.0);
           }`;
@@ -311,12 +312,12 @@ import "../styles/main.css";
         const uMouse=gl.getUniformLocation(prog,'iMouse');
         const uTime=gl.getUniformLocation(prog,'iTime');
 
-        gl.uniform1f(gl.getUniformLocation(prog,'uAngle'), -0.38);
-        gl.uniform1f(gl.getUniformLocation(prog,'uNoise'), 0.3);
-        gl.uniform1f(gl.getUniformLocation(prog,'uBlindCount'), 12.0);
-        gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightRadius'), 0.78);
-        gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightSoftness'), 1.0);
-        gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightOpacity'), 0.95);
+        gl.uniform1f(gl.getUniformLocation(prog,'uAngle'), -0.32);
+        gl.uniform1f(gl.getUniformLocation(prog,'uNoise'), 0.16);
+        gl.uniform1f(gl.getUniformLocation(prog,'uBlindCount'), 9.0);
+        gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightRadius'), 0.88);
+        gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightSoftness'), 1.15);
+        gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightOpacity'), 1.0);
         gl.uniform1f(gl.getUniformLocation(prog,'uDistort'), 0.0);
         gl.uniform3f(gl.getUniformLocation(prog,'uColor0'), 1.0, 0.42, 0.42);  // #ff6b6b
         gl.uniform3f(gl.getUniformLocation(prog,'uColor1'), 0.70, 0.10, 0.00); // #b51a00
