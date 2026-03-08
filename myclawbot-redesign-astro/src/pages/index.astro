@@ -75,6 +75,19 @@ import "../styles/main.css";
         <button class="channel active" id="tgOpen"><img src="./assets/icons/telegram.png" alt="Telegram"> Telegram</button>
       </div>
 
+      <div class="token-block">
+        <p class="setup-subhead token-subhead">Выбрать количество токенов на старте</p>
+        <div class="token-pills" id="tokenPills">
+          <button class="token-pill active" type="button" data-value="1000">1000 ₽</button>
+          <button class="token-pill" type="button" data-value="3000">3000 ₽</button>
+          <button class="token-pill" type="button" data-value="5000">5000 ₽</button>
+        </div>
+        <div class="token-custom-row">
+          <label for="tokenAmount">Своя сумма (минимум 1000 ₽)</label>
+          <input id="tokenAmount" type="number" min="1000" step="500" value="1000" />
+        </div>
+      </div>
+
       <a class="btn btn-google full" href="#">Войти через Google</a>
       <p class="form-note">Вход нужен для запуска бота.</p>
     </section>
@@ -380,6 +393,29 @@ import "../styles/main.css";
         renderModel(btn.dataset.model);
       });
     });
+
+    // token amount selector (min 1000 ₽)
+    const tokenPills = document.querySelectorAll('.token-pill');
+    const tokenAmount = document.getElementById('tokenAmount');
+    tokenPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        tokenPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        if (tokenAmount) tokenAmount.value = pill.dataset.value;
+      });
+    });
+    if (tokenAmount) {
+      tokenAmount.addEventListener('input', () => {
+        let v = parseInt(tokenAmount.value || '1000', 10);
+        if (Number.isNaN(v)) v = 1000;
+        if (v < 1000) v = 1000;
+        tokenAmount.value = String(v);
+        tokenPills.forEach(p => p.classList.toggle('active', p.dataset.value === String(v)));
+      });
+      tokenAmount.addEventListener('blur', () => {
+        if (parseInt(tokenAmount.value || '0', 10) < 1000) tokenAmount.value = '1000';
+      });
+    }
 
     renderModel('claude');
 
