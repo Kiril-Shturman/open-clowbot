@@ -248,14 +248,13 @@ import "../styles/main.css";
     const moreAiPanel = document.getElementById('moreAiPanel');
     const aiOptions = document.querySelectorAll('.ai-option');
 
-    // Threads-style animated background for first screen (canvas 2D)
+    // Threads-like centered wave bundle (closer to reactbits reference)
     const ditherCanvas = document.getElementById('heroDither');
     if (ditherCanvas) {
       const ctx = ditherCanvas.getContext('2d', { alpha: true });
       if (ctx) {
         let w = 0, h = 0;
-        const lines = [];
-        const LINE_COUNT = 52;
+        const LINE_COUNT = 22;
 
         function resizeThreads() {
           const rect = ditherCanvas.getBoundingClientRect();
@@ -264,58 +263,64 @@ import "../styles/main.css";
           h = Math.max(1, Math.floor(rect.height * dpr));
           ditherCanvas.width = w;
           ditherCanvas.height = h;
-          lines.length = 0;
-          for (let i = 0; i < LINE_COUNT; i++) {
-            const y = (i / LINE_COUNT) * h;
-            lines.push({ y, phase: Math.random() * Math.PI * 2, speed: 0.25 + Math.random() * 0.55, amp: 8 + Math.random() * 28 });
-          }
         }
 
-        function draw(t) {
-          const time = t * 0.001;
+        function draw(ts) {
+          const t = ts * 0.001;
           ctx.clearRect(0, 0, w, h);
 
-          // dark red base gradient
-          const bg = ctx.createLinearGradient(0, 0, w, h);
-          bg.addColorStop(0, '#070203');
-          bg.addColorStop(0.5, '#180405');
-          bg.addColorStop(1, '#090203');
+          // dark almost-black base
+          const bg = ctx.createLinearGradient(0, 0, 0, h);
+          bg.addColorStop(0, '#060205');
+          bg.addColorStop(1, '#090204');
           ctx.fillStyle = bg;
           ctx.fillRect(0, 0, w, h);
 
-          ctx.globalCompositeOperation = 'lighter';
-          for (let i = 0; i < lines.length; i++) {
-            const l = lines[i];
-            const yy = l.y + Math.sin(time * l.speed + l.phase) * (l.amp * 0.7);
-            const g = ctx.createLinearGradient(0, yy - 8, w, yy + 8);
-            g.addColorStop(0, 'rgba(255,80,80,0.00)');
-            g.addColorStop(0.22, 'rgba(255,70,70,0.10)');
-            g.addColorStop(0.5, 'rgba(255,98,98,0.26)');
-            g.addColorStop(0.78, 'rgba(255,70,70,0.10)');
-            g.addColorStop(1, 'rgba(255,80,80,0.00)');
-            ctx.strokeStyle = g;
-            ctx.lineWidth = 0.75 + (i % 4 === 0 ? 0.35 : 0.0);
+          const cx = w * 0.54;
+          const cy = h * 0.56;
+          const sigma = w * 0.17;
+          const baseAmp = Math.min(h * 0.075, 56);
+          const freq = 0.014;
+
+          ctx.save();
+          ctx.globalCompositeOperation = 'screen';
+
+          for (let i = 0; i < LINE_COUNT; i++) {
+            const k = (i / (LINE_COUNT - 1)) - 0.5;
+            const lineOffset = k * 66.0;
+            const alpha = 0.11 + (1.0 - Math.abs(k) * 1.2) * 0.36;
+            const width = 1.15 + (1.0 - Math.abs(k)) * 1.3;
+
+            const grad = ctx.createLinearGradient(0, 0, w, 0);
+            grad.addColorStop(0, `rgba(255,120,120,0.00)`);
+            grad.addColorStop(0.35, `rgba(255,205,205,${alpha * 0.45})`);
+            grad.addColorStop(0.5, `rgba(255,245,245,${alpha})`);
+            grad.addColorStop(0.65, `rgba(255,205,205,${alpha * 0.5})`);
+            grad.addColorStop(1, `rgba(255,120,120,0.00)`);
+
             ctx.beginPath();
-            for (let x = 0; x <= w; x += 14) {
-              const wave = Math.sin((x / w) * 10.5 + time * 1.25 + l.phase) * (1.6 + (i % 4) * 0.18);
-              const drift = Math.cos((x / w) * 3.5 + time * 0.4 + l.phase) * 0.9;
-              const y2 = yy + wave + drift;
-              if (x === 0) ctx.moveTo(x, y2);
-              else ctx.lineTo(x, y2);
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = width;
+
+            for (let x = 0; x <= w; x += 8) {
+              const dx = x - cx;
+              const envelope = Math.exp(-(dx * dx) / (2.0 * sigma * sigma));
+              const wave = Math.sin(x * freq + t * 1.9 + i * 0.33) * baseAmp * envelope;
+              const y = cy + lineOffset + wave;
+              if (x === 0) ctx.moveTo(x, y);
+              else ctx.lineTo(x, y);
             }
             ctx.stroke();
           }
-          ctx.globalCompositeOperation = 'source-over';
 
-          // subtle grain
-          for (let i = 0; i < 180; i++) {
-            const x = Math.random() * w;
-            const y = Math.random() * h;
-            const a = Math.random() * 0.03;
-            ctx.fillStyle = `rgba(255,120,120,${a})`;
-            ctx.fillRect(x, y, 1, 1);
-          }
+          // soft glow around center bundle
+          const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, sigma * 1.35);
+          glow.addColorStop(0, 'rgba(255,200,200,0.16)');
+          glow.addColorStop(1, 'rgba(255,200,200,0.00)');
+          ctx.fillStyle = glow;
+          ctx.fillRect(0, 0, w, h);
 
+          ctx.restore();
           requestAnimationFrame(draw);
         }
 
