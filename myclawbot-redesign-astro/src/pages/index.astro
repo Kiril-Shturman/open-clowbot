@@ -92,7 +92,7 @@ import "../styles/main.css";
 
       <div class="auth-row">
         <a class="btn btn-primary full" href="/login/">Войти</a>
-        <a class="btn btn-google full" href="/login/"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"> Войти через Google</a>
+        <button class="btn btn-google full" id="heroGoogleBtn" type="button"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"> Войти через Google</button>
       </div>
       <p class="form-note">Вход нужен для запуска бота.</p>
     </section>
@@ -435,6 +435,24 @@ import "../styles/main.css";
     }
 
     renderModel('claude');
+
+    // Google OAuth from homepage setup block
+    const heroGoogleBtn = document.getElementById('heroGoogleBtn');
+    if (heroGoogleBtn) {
+      heroGoogleBtn.addEventListener('click', () => {
+        const CLIENT_ID = '884284199336-h238f68r3kthrj59adokma1f9612ud0o.apps.googleusercontent.com';
+        const REDIRECT_URI = 'https://open-clawbot.ru/login/';
+        const nonce = (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now());
+        const url = new URL('https://accounts.google.com/o/oauth2/v2/auth');
+        url.searchParams.set('client_id', CLIENT_ID);
+        url.searchParams.set('redirect_uri', REDIRECT_URI);
+        url.searchParams.set('response_type', 'id_token');
+        url.searchParams.set('scope', 'openid email profile');
+        url.searchParams.set('nonce', nonce);
+        url.searchParams.set('prompt', 'select_account');
+        location.href = url.toString();
+      });
+    }
 
     const tgModal = document.getElementById('tgModal');
     const tgOpen = document.getElementById('tgOpen');
