@@ -1,0 +1,19 @@
+:root{--brand-1:#ff4d4d;--brand-2:#ff6b6b;--brand-3:#e63f3f;--brand-soft:#ffb2c1;--brand-text:#ffd6df;--brand-text-strong:#fff3f6;--brand-tint:#ff4d4d22;--brand-tint-soft:rgba(255,77,77,.10);--brand-line:#ff6b6b33;--brand-line-strong:#ff6b6b66;--brand-fill-soft:rgba(255,77,77,.08);--brand-fill:rgba(255,107,107,.18);--brand-stroke:rgba(255,107,107,.24);--brand-stroke-strong:rgba(255,107,107,.36);--brand-stroke-dash:rgba(255,107,107,.42);--brand-gradient-main:linear-gradient(180deg,var(--brand-2) 0%,var(--brand-1) 58%,var(--brand-3) 100%);--bg:#0b0709;--bg2:#160b10;--panel:#1a0e13;--line:rgba(255,255,255,.14);--text:#fff4f6;--muted:#cdb6bd;--red:var(--brand-1)}
+*{box-sizing:border-box}html,body{margin:0;padding:0}body{font-family:Onest,system-ui,sans-serif;color:var(--text);background:radial-gradient(1000px 520px at 50% -140px,#6f1b36 0%,transparent 62%),linear-gradient(180deg,var(--bg),var(--bg2))}
+.wrap{width:min(1100px,92%);margin:0 auto}.header{position:sticky;top:0;background:#0c0609db;border-bottom:1px solid rgba(255,255,255,.1);backdrop-filter:blur(6px)}.nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0}.brand-logo{width:30px;height:30px;display:block}.btn{border:1px solid var(--line);border-radius:12px;padding:10px 14px;color:#fff;text-decoration:none;background:#ffffff0a}
+.main{min-height:calc(100vh - 70px);display:grid;place-items:center;padding:20px 0}.card{width:min(460px,100%);background:linear-gradient(180deg,var(--panel),#12090d);border:1px solid var(--line);border-radius:18px;padding:22px}
+h1{margin:0 0 8px;font-size:34px;line-height:1}.muted{color:var(--muted);margin:0 0 14px}.field{margin:12px 0}.label{display:block;font-size:13px;color:var(--muted);margin-bottom:7px}
+.input-wrap{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:0 11px;background:#ffffff08}.icon{opacity:1;width:16px;height:16px;display:block;filter:brightness(0) invert(1)}.input{height:46px;width:100%;background:transparent;border:0;outline:none;color:#fff !important;-webkit-text-fill-color:#fff !important;font-size:15px;caret-color:#fff}.input::placeholder{color:#bfa9b0}.input:-webkit-autofill,.input:-webkit-autofill:hover,.input:-webkit-autofill:focus,.input:-webkit-autofill:active{ -webkit-text-fill-color:#fff !important; -webkit-box-shadow:0 0 0 1000px rgba(255,255,255,0) inset !important; box-shadow:0 0 0 1000px rgba(255,255,255,0) inset !important; background-color:transparent !important; transition:background-color 99999s ease-out 0s; }
+/* If Safari still paints autofill, make whole row uniform instead of patchy */
+.input-wrap:has(input:-webkit-autofill),.input-wrap:has(input:-webkit-autofill:hover),.input-wrap:has(input:-webkit-autofill:focus){background:rgba(255,255,255,.10)}
+.eye{border:0;background:transparent;cursor:pointer;padding:0 2px;display:inline-flex;align-items:center;justify-content:center}.eye img{width:16px;height:16px;display:block;filter:brightness(0) invert(1)}
+.login-btn{width:100%;height:46px;border:0;border-radius:12px;background:var(--brand-gradient-main);color:#fff;font-weight:800;cursor:pointer;margin-top:10px}
+.divider{display:flex;align-items:center;gap:8px;margin:16px 0;color:#bca2a8;font-size:12px}.divider:before,.divider:after{content:"";height:1px;flex:1;background:#ffffff22}
+.google-btn{width:100%;height:46px;border-radius:12px;border:1px solid #ffffff2a;background:#fff;color:#1b1b1b;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}
+.google-btn img{width:18px;height:18px;display:block}
+.bottom{margin-top:12px;text-align:center;color:#cdb4bb;font-size:14px}.bottom a{color:var(--brand-2);text-decoration:none}
+
+@media(max-width:760px){
+  .card{padding:16px;border-radius:16px}
+  h1{font-size:30px}
+}
