@@ -47,16 +47,19 @@ h1 { font-size: clamp(30px, 6vw, 54px); line-height: 1.08; margin: 0 0 14px; }
   display: flex; align-items: center; gap: 10px; font-size: 17px;
 }
 .pick.active { border-color: rgba(255,255,255,.35); background: #1a223f; }
-.icon { width: 24px; height: 24px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; }
-.icon.claude { background: #4b2d2a; color: #ff9d7b; }
-.icon.gpt { background: #1f2a2a; color: #95e3c6; }
-.icon.gemini { background: #2a2340; color: #a9c0ff; }
+.icon-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  border-radius: 6px;
+}
 .check { margin-left: auto; opacity: .9; }
 .channels { display: flex; gap: 8px; margin-bottom: 14px; }
 .channel {
   border: 1px solid var(--line); background: #101832; color: var(--text); border-radius: 12px;
-  padding: 10px 12px; font-size: 15px;
+  padding: 10px 12px; font-size: 15px; display: inline-flex; align-items: center; gap: 8px;
 }
+.channel-icon { width: 18px; height: 18px; object-fit: contain; }
 .channel.active { border-color: rgba(109,125,255,.6); }
 .channel.disabled { opacity: .6; }
 .warn { color: #f2b763; margin: 12px 0 0; font-size: 14px; }
