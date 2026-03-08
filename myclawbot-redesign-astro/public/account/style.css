@@ -17,11 +17,11 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 .profile-name{margin:0 0 4px;font-size:16px;font-weight:700;color:#fff}
 .icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:#fff1;color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
 .icon-btn img{width:18px;height:18px;display:block;filter:brightness(0) invert(1)}
-.balance-main{margin-top:12px;display:flex;align-items:flex-end;justify-content:space-between;gap:14px}
+.balance-main{margin-top:12px;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
 .balance-main h1{margin:6px 0 0}
 .balance-line{display:flex;align-items:flex-end;gap:10px}
 .balance-usd{font-size:18px;line-height:1.2;color:#cdb6bd;font-weight:600;margin-bottom:5px}
-.balance-actions{display:flex;gap:8px;flex-wrap:nowrap;justify-content:flex-end}
+.balance-actions{display:flex;gap:8px;flex-wrap:nowrap;justify-content:flex-start}
 .balance-actions .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px}
 .balance-actions .btn .btn-icon{width:14px;height:14px;display:block;filter:brightness(0) invert(1)}
 .ok{color:var(--brand-soft)}
