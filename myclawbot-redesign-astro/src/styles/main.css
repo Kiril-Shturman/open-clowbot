@@ -102,6 +102,7 @@ h1{
 .setup{margin-top:18px;background:linear-gradient(180deg,rgba(255,107,107,.14),rgba(230,63,63,.08) 52%,rgba(255,255,255,.02) 100%);border:1px solid var(--brand-stroke)}
 h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spacing:-.2px}
 .setup-subhead{margin:-8px 0 14px;color:var(--muted);font-size:15px;line-height:1.35}
+.channel-subhead{margin:14px 0 10px}
 
 .model-tabs{display:grid;gap:10px}
 .model-tab,
