@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Вход — open-clawbot.ru</title>
+  <link rel="stylesheet" href="/legal.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <header class="header"><div class="wrap nav"><a class="brand" href="/"><img class="brand-logo" src="/assets/logo-bot.png" alt="logo"></a><a class="btn" href="/">На главную</a></div></header>
+  <main class="wrap main">
+    <article class="panel" style="max-width:520px;margin:0 auto;">
+      <h1>Войти через Google</h1>
+      <p class="muted" id="loginHint">Используйте Google-аккаунт для входа в личный кабинет.</p>
+      <div id="googleBtn"></div>
+    </article>
+  </main>
+
+  <script>
+    const CLIENT_ID = 'PASTE_GOOGLE_CLIENT_ID_HERE';
+
+    function handleCredentialResponse(response) {
+      fetch('/api/auth/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ credential: response.credential })
+      })
+      .then(r => r.json().then(j => ({ok:r.ok, j})))
+      .then(({ok, j}) => {
+        if (!ok) throw new Error(j.error || 'login_failed');
+        location.href = '/account/';
+      })
+      .catch(err => {
+        document.getElementById('loginHint').textContent = 'Ошибка входа: ' + err.message;
+      });
+    }
+
+    window.addEventListener('load', () => {
+      if (CLIENT_ID.includes('PASTE_GOOGLE_CLIENT_ID_HERE')) {
+        document.getElementById('loginHint').textContent = 'Нужно указать GOOGLE_CLIENT_ID в login/index.html и в auth-сервисе.';
+        return;
+      }
+      google.accounts.id.initialize({ client_id: CLIENT_ID, callback: handleCredentialResponse });
+      google.accounts.id.renderButton(document.getElementById('googleBtn'), { theme: 'outline', size: 'large', width: 320 });
+    });
+  </script>
+</body>
+</html>

@@ -15,7 +15,7 @@
       <a class="brand" href="/"><img class="brand-logo" src="/assets/logo-bot.png" alt="logo"></a>
       <div class="row gap8">
         <a class="btn ghost" href="/guides/">База знаний</a>
-        <a class="btn solid" href="#">Выйти</a>
+        <a class="btn solid" href="#" id="logoutBtn">Выйти</a>
       </div>
     </div>
   </header>
@@ -114,6 +114,16 @@
   </div>
 
   <script>
+    fetch('/api/auth/me').then(r => r.json()).then((data) => {
+      if (!data.ok) location.href = '/login/';
+    }).catch(() => location.href = '/login/');
+
+    document.getElementById('logoutBtn').onclick = async (e) => {
+      e.preventDefault();
+      await fetch('/api/auth/logout', { method: 'POST' });
+      location.href = '/login/';
+    };
+
     const m = document.getElementById('topupModal');
     document.getElementById('topupOpen').onclick = ()=>m.classList.add('show');
     document.getElementById('topupClose').onclick = ()=>m.classList.remove('show');
