@@ -21,7 +21,7 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 .balance-main h1{margin:6px 0 0}
 .balance-line{display:flex;align-items:flex-end;gap:10px}
 .balance-usd{font-size:18px;line-height:1.2;color:#cdb6bd;font-weight:600;margin-bottom:5px}
-.balance-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.balance-actions{display:flex;gap:8px;flex-wrap:nowrap;justify-content:flex-end}
 .balance-actions .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px}
 .balance-actions .btn .btn-icon{width:14px;height:14px;display:block;filter:brightness(0) invert(1)}
 .ok{color:var(--brand-soft)}
@@ -43,7 +43,7 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid #ffffff1f;text-align:left}th{color:var(--muted);font-size:12px}
 .modal-bg{display:none;position:fixed;inset:0;background:#000a;align-items:center;justify-content:center;padding:14px}.modal-bg.show{display:flex}.modal{width:min(520px,100%);position:relative}.close{position:absolute;right:8px;top:4px;border:0;background:transparent;color:#fff;font-size:30px;cursor:pointer}
 .topup-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.amount{border:1px solid var(--line);background:#fff1;color:#fff;border-radius:10px;padding:10px;cursor:pointer}
-@media(max-width:900px){.bots-grid,.grid2{grid-template-columns:1fr}h1{font-size:34px}.balance-main{flex-direction:column;align-items:flex-start}}
+@media(max-width:900px){.bots-grid,.grid2{grid-template-columns:1fr}h1{font-size:34px}}
 
 .brand{display:inline-flex;align-items:center;gap:8px}
 .brand-logo{width:28px;height:28px;object-fit:contain;display:block}
