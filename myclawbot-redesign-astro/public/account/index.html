@@ -56,6 +56,15 @@
       <div class="bots-grid" id="botsGrid"></div>
     </section>
 
+    <section class="panel quick-setup" id="quickSetupBlock" hidden>
+      <h3>Быстрая установка</h3>
+      <p class="muted">Запусти нового бота за пару минут: выбери модель, подключи Telegram и задай стартовый бюджет.</p>
+      <div class="row gap8 quick-setup-actions">
+        <a class="btn solid" href="/#price">Открыть быструю установку</a>
+        <button class="btn ghost" id="quickSetupClose" type="button">Закрыть</button>
+      </div>
+    </section>
+
     <section class="grid2">
       <article class="panel">
         <h3>История списаний</h3>
@@ -142,15 +151,16 @@
       loadBots();
     }).catch(() => location.href = '/login/');
 
-    document.getElementById('addBotBtn').onclick = async () => {
-      const name = prompt('Название бота (латиницей), например sales_assistant_bot');
-      if (!name) return;
-      const username = prompt('Telegram username (например @my_bot), можно пусто') || '';
-      await fetch('/api/account/bots', {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ name, telegram_username: username })
-      });
-      loadBots();
+    const quickSetupBlock = document.getElementById('quickSetupBlock');
+    const quickSetupClose = document.getElementById('quickSetupClose');
+
+    document.getElementById('addBotBtn').onclick = () => {
+      quickSetupBlock.hidden = false;
+      quickSetupBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    quickSetupClose.onclick = () => {
+      quickSetupBlock.hidden = true;
     };
 
     document.getElementById('logoutBtn').onclick = async (e) => {

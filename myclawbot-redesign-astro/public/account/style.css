@@ -30,6 +30,8 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 .bots-head h3{margin:0}
 .link-red{border:0;background:transparent;color:var(--brand-2);font-weight:700;cursor:pointer;padding:0}
 .bots-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.quick-setup{margin-top:12px}
+.quick-setup-actions{justify-content:flex-start;margin-top:8px}
 .bot-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff1}
 .bot-card.active{border-color:var(--brand-2)80;background:var(--brand-tint-soft)}
 .bot-name{margin:0 0 4px;font-weight:700;font-size:16px}
