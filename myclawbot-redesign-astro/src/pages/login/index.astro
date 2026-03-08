@@ -58,7 +58,7 @@
     const CLIENT_ID = '884284199336-h238f68r3kthrj59adokma1f9612ud0o.apps.googleusercontent.com';
     const rawReturnTo = new URLSearchParams(location.search).get('return_to') || '/account/';
     const RETURN_TO = (rawReturnTo.startsWith('/') && !rawReturnTo.startsWith('//')) ? rawReturnTo : '/account/';
-    const REDIRECT_URI = `https://open-clawbot.ru/login/?return_to=${encodeURIComponent(RETURN_TO)}`;
+    const REDIRECT_URI = 'https://open-clawbot.ru/login/';
 
     async function loginByGoogleIdToken(idToken) {
       const r = await fetch('/api/auth/google', {
@@ -68,7 +68,6 @@
       });
       const j = await r.json();
       if (!r.ok) throw new Error(j.error || 'google_login_failed');
-      location.href = RETURN_TO;
     }
 
     function parseHashForIdToken() {
@@ -77,11 +76,26 @@
       return params.get('id_token');
     }
 
+    function parseHashStateReturnTo() {
+      const hash = location.hash.startsWith('#') ? location.hash.slice(1) : '';
+      const params = new URLSearchParams(hash);
+      const state = params.get('state') || '';
+      try {
+        const decoded = atob(state);
+        if (decoded.startsWith('/') && !decoded.startsWith('//')) return decoded;
+      } catch (_) {}
+      return RETURN_TO;
+    }
+
     (async () => {
       const idToken = parseHashForIdToken();
       if (!idToken) return;
-      history.replaceState({}, document.title, location.pathname);
-      try { await loginByGoogleIdToken(idToken); }
+      const returnToFromState = parseHashStateReturnTo();
+      history.replaceState({}, document.title, location.pathname + location.search);
+      try {
+        await loginByGoogleIdToken(idToken);
+        location.href = returnToFromState;
+      }
       catch (e) { document.getElementById('loginHint').textContent = 'Ошибка входа Google: ' + e.message; }
     })();
 
@@ -113,12 +127,14 @@
 
     document.getElementById('googleCustomBtn').onclick = () => {
       const nonce = (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now());
+      const state = btoa(RETURN_TO);
       const url = new URL('https://accounts.google.com/o/oauth2/v2/auth');
       url.searchParams.set('client_id', CLIENT_ID);
       url.searchParams.set('redirect_uri', REDIRECT_URI);
       url.searchParams.set('response_type', 'id_token');
       url.searchParams.set('scope', 'openid email profile');
       url.searchParams.set('nonce', nonce);
+      url.searchParams.set('state', state);
       url.searchParams.set('prompt', 'select_account');
       location.href = url.toString();
     };

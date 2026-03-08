@@ -443,14 +443,16 @@ import "../styles/main.css";
     if (heroGoogleBtn) {
       heroGoogleBtn.addEventListener('click', () => {
         const CLIENT_ID = '884284199336-h238f68r3kthrj59adokma1f9612ud0o.apps.googleusercontent.com';
-        const REDIRECT_URI = 'https://open-clawbot.ru/login/?return_to=%2F';
+        const REDIRECT_URI = 'https://open-clawbot.ru/login/';
         const nonce = (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now());
+        const state = btoa('/');
         const url = new URL('https://accounts.google.com/o/oauth2/v2/auth');
         url.searchParams.set('client_id', CLIENT_ID);
         url.searchParams.set('redirect_uri', REDIRECT_URI);
         url.searchParams.set('response_type', 'id_token');
         url.searchParams.set('scope', 'openid email profile');
         url.searchParams.set('nonce', nonce);
+        url.searchParams.set('state', state);
         url.searchParams.set('prompt', 'select_account');
         location.href = url.toString();
       });
