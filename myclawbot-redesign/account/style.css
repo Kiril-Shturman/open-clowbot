@@ -6,7 +6,7 @@
 .btn{border:1px solid var(--line);border-radius:12px;padding:10px 14px;text-decoration:none;color:#fff;background:#fff1;cursor:pointer}.btn.solid{background:linear-gradient(180deg,#ff6b6b 0%,#ff4d4d 58%,#e63f3f 100%);border:0;color:#fff;font-weight:800}.btn.ghost{background:#ffffff0a}.btn.full{width:100%}
 .main{padding:22px 0 30px}.panel{background:linear-gradient(180deg,var(--panel),#12090d);border:1px solid var(--line);border-radius:16px;padding:16px}
 .hero{display:flex;align-items:flex-end;justify-content:space-between;gap:14px}h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}h3{font-size:28px;margin:0 0 12px}.muted{color:var(--muted);margin:0}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.ok{color:#82f0b2}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.ok{color:#ffb2c1}
 .bots{margin-top:12px}
 .bots-head{margin-bottom:10px}
 .bots-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
