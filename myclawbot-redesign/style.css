@@ -86,7 +86,7 @@ h1{
   box-shadow:0 16px 36px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.05);
 }
 .setup{margin-top:18px}
-h2{font-size:clamp(34px,5vw,56px);line-height:.98;margin:0 0 14px;letter-spacing:-.2px}
+h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spacing:-.2px}
 
 .model-tabs{display:grid;gap:10px}
 .model-tab{
@@ -94,10 +94,11 @@ h2{font-size:clamp(34px,5vw,56px);line-height:.98;margin:0 0 14px;letter-spacing
   background:#130a0f;
   color:var(--text);
   border-radius:14px;
-  padding:13px 14px;
+  padding:12px 13px;
   text-align:left;
   display:flex;align-items:center;gap:10px;
   font-weight:600;
+  font-size:15px;
 }
 .model-tab img{width:20px;height:20px;object-fit:contain}
 .model-tab.active{border-color:#ff8ea7;background:#2a1119;box-shadow:0 0 0 1px rgba(255,120,150,.16) inset}
@@ -109,10 +110,10 @@ h2{font-size:clamp(34px,5vw,56px);line-height:.98;margin:0 0 14px;letter-spacing
   border-radius:14px;
   padding:14px;
 }
-.model-info h3{margin:0 0 5px;font-size:38px;line-height:.95;letter-spacing:-.2px}
-.model-info p{margin:0;color:#e0c7ce;font-size:19px;line-height:1.35}
+.model-info h3{margin:0 0 5px;font-size:30px;line-height:1;letter-spacing:-.2px}
+.model-info p{margin:0;color:#e0c7ce;font-size:16px;line-height:1.4}
 
-.channel-row{margin-top:12px}
+.channel-row{margin-top:14px}
 .channel{
   display:inline-flex;align-items:center;gap:8px;
   padding:8px 12px;
@@ -121,10 +122,12 @@ h2{font-size:clamp(34px,5vw,56px);line-height:.98;margin:0 0 14px;letter-spacing
   background:#0f0b0d;
   color:#fff;
   font-weight:700;
+  margin-bottom:12px;
 }
 .channel img{width:14px;height:14px}
 
-.form-note{margin:12px 2px 0;color:#d2bbc2;font-size:14px;line-height:1.4}
+.btn-google.full{margin-top:6px}
+.form-note{margin:12px 2px 0;color:#d2bbc2;font-size:13px;line-height:1.45}
 
 .section{padding-top:44px}
 .subhead{margin:-4px 0 14px;color:var(--muted);font-size:20px}
@@ -169,22 +172,22 @@ h2{font-size:clamp(34px,5vw,56px);line-height:.98;margin:0 0 14px;letter-spacing
 .modal-close{position:absolute;right:12px;top:8px;border:0;background:transparent;color:#fff;font-size:34px;cursor:pointer}
 
 @media(max-width:760px){
-  .brand{font-size:28px}
-  h1{font-size:44px}
-  h2{font-size:38px}
-  .model-info h3{font-size:30px}
-  .cards h3{font-size:28px}
-  .cards p{font-size:16px}
+  .brand{font-size:24px}
+  h1{font-size:38px}
+  h2{font-size:32px}
+  .model-info h3{font-size:26px}
+  .cards h3{font-size:24px}
+  .cards p{font-size:15px}
   .stats,.cards,.footer-grid{grid-template-columns:1fr}
-  .lead,.subhead{font-size:17px;line-height:1.35}
-  .btn{font-size:16px;padding:12px 14px}
+  .lead,.subhead{font-size:16px;line-height:1.35}
+  .btn{font-size:15px;padding:11px 13px}
   .kicker{font-size:12px}
-  .model-tab{font-size:17px;padding:12px}
-  .model-tab img{width:20px;height:20px}
-  .channel{font-size:15px;padding:8px 12px}
+  .model-tab{font-size:15px;padding:11px}
+  .model-tab img{width:18px;height:18px}
+  .channel{font-size:14px;padding:8px 11px}
   .channel img{width:14px;height:14px}
-  .form-note{font-size:14px;line-height:1.4}
-  .price{font-size:52px}
-  .price span{font-size:19px}
-  .price-card li{font-size:15px}
+  .form-note{font-size:13px;line-height:1.45}
+  .price{font-size:46px}
+  .price span{font-size:18px}
+  .price-card li{font-size:14px}
 }
