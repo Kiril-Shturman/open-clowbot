@@ -14,15 +14,24 @@
   <header class="header">
     <div class="container nav">
       <a class="brand" href="/">MyClawBot.ru</a>
-      <a class="btn" href="/">На главную</a>
+      <div class="nav-right">
+        <a class="btn ghost" href="https://t.me/myclawbot_ru">Телеграм-канал</a>
+        <a class="btn solid" href="/">Установить OpenClaw</a>
+      </div>
     </div>
   </header>
 
-  <main class="container">
+  <main class="container main">
+    <div class="crumbs"><a href="/">Главная</a> <span>›</span> <span>База знаний</span></div>
+
     <section class="hero">
-      <p class="badge">База знаний</p>
-      <h1>Гайды, кейсы и разборы — всё на русском языке</h1>
-      <p class="lead">Собрали лучшие материалы по OpenClaw: от первого запуска до сравнений с другими AI-ассистентами.</p>
+      <h1>База знаний</h1>
+      <p>Гайды, кейсы и разборы — всё на русском языке</p>
+      <div class="filters">
+        <button class="filter active">Все статьи <b>5</b></button>
+        <button class="filter">Начало работы <b>3</b></button>
+        <button class="filter">Установка и настройка <b>2</b></button>
+      </div>
     </section>
 
     <section class="group">
@@ -32,26 +41,26 @@
       </div>
 
       <div class="cards">
-        <article class="card">
+        <a class="card-link" href="/guides/openclaw-chto-eto.html"><article class="card">
           <div class="meta"><span class="tag">Обзор</span><time>11 февраля 2026</time></div>
           <h3>Что такое OpenClaw? Полный гайд по AI-ассистенту</h3>
-          <p>OpenClaw (ClawdBot) — AI-агент для Telegram с открытым кодом. Что умеет, как установить, сколько стоит.</p>
-          <a href="/guides/openclaw-chto-eto.html">Читать →</a>
-        </article>
+          <p>OpenClaw (ClawdBot) — AI-агент для Telegram с открытым кодом. Что умеет, как установить, сколько стоит. Обзор возможностей простым языком.</p>
+          <span class="read">Читать →</span>
+        </article></a>
 
-        <article class="card">
+        <a class="card-link" href="/guides/ii-agenty-2026.html"><article class="card">
           <div class="meta"><span class="tag">Обзор</span><time>4 марта 2026</time></div>
           <h3>ИИ-агенты 2026: что это и какие бывают</h3>
-          <p>Что такое ИИ-агенты, чем отличаются от чат-ботов, какие бывают и как выбрать подходящее решение.</p>
-          <a href="/guides/ii-agenty-2026.html">Читать →</a>
-        </article>
+          <p>Что такое ИИ-агенты, чем отличаются от чат-ботов, какие бывают. Обзор лучших решений: OpenClaw, ChatGPT, Claude.</p>
+          <span class="read">Читать →</span>
+        </article></a>
 
-        <article class="card">
-          <div class="meta"><span class="tag">Сравнение</span><time>6 марта 2026</time></div>
+        <a class="card-link" href="/guides/openclaw-vs-chatgpt.html"><article class="card">
+          <div class="meta"><span class="tag compare">Сравнение</span><time>8 марта 2026</time></div>
           <h3>OpenClaw vs ChatGPT: в чём разница и что выбрать</h3>
-          <p>Сравнение возможностей, цены, приватности и моделей. Таблица различий и рекомендации по выбору.</p>
-          <a href="/guides/openclaw-vs-chatgpt.html">Читать →</a>
-        </article>
+          <p>Сравнение OpenClaw и ChatGPT: возможности, цены, приватность, модели. Таблица различий и рекомендации по выбору.</p>
+          <span class="read">Читать →</span>
+        </article></a>
       </div>
     </section>
 
@@ -61,20 +70,33 @@
         <p>Пошаговые инструкции для Linux, macOS, Windows и Docker</p>
       </div>
       <div class="cards two">
-        <article class="card">
-          <div class="meta"><span class="tag">Инструкция</span><time>Новый</time></div>
-          <h3>Как установить OpenClaw без технических знаний</h3>
-          <p>Пошаговая инструкция: BotFather, токен, выбор модели и запуск без SSH/Docker.</p>
-          <a href="/guides/kak-ustanovit-openclaw.html">Читать →</a>
-        </article>
-        <article class="card">
-          <div class="meta"><span class="tag">Инструкция</span><time>Новый</time></div>
-          <h3>Как подключить Telegram к OpenClaw</h3>
-          <p>Разбор ошибок, правильный формат токена и быстрая проверка запуска бота.</p>
-          <a href="/guides/podklyuchit-telegram.html">Читать →</a>
-        </article>
+        <a class="card-link" href="/guides/kak-ustanovit-openclaw.html"><article class="card">
+          <div class="meta"><span class="tag install">Установка</span><time>1 марта 2026</time></div>
+          <h3>Как установить OpenClaw: пошаговая инструкция</h3>
+          <p>Установка OpenClaw на Linux, macOS и Windows. Настройка Docker, подключение к Telegram, выбор AI-модели.</p>
+          <span class="read">Читать →</span>
+        </article></a>
+
+        <a class="card-link" href="/guides/openclaw-na-windows.html"><article class="card">
+          <div class="meta"><span class="tag windows">Windows</span><time>8 марта 2026</time></div>
+          <h3>OpenClaw на Windows: как установить и запустить</h3>
+          <p>Установка OpenClaw на Windows через WSL2: от установки WSL до запуска бота в Telegram.</p>
+          <span class="read">Читать →</span>
+        </article></a>
       </div>
     </section>
   </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <p class="ft-title">База знаний</p>
+        <a href="/guides/openclaw-chto-eto.html">Что такое OpenClaw</a>
+        <a href="/guides/kak-ustanovit-openclaw.html">Как установить OpenClaw</a>
+        <a href="/guides/">Все статьи</a>
+      </div>
+      <div class="legal">© 2026 MyClawBot</div>
+    </div>
+  </footer>
 </body>
 </html>
