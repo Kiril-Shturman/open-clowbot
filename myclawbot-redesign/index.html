@@ -3,105 +3,87 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyClawBot — OpenClaw в Telegram за 1 минуту</title>
-  <meta name="description" content="Один тариф 3 890 ₽/мес. Быстрый запуск OpenClaw в Telegram без SSH и Docker." />
+  <title>MyClawBot — Запуск OpenClaw за 1 минуту</title>
+  <meta name="description" content="Запусти OpenClaw в Telegram за 1 минуту. Один тариф — 3 890 ₽/мес." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div class="wrap topbar-row">
-      <a class="logo" href="#">MyClawBot</a>
-      <nav class="nav">
-        <a href="#benefits">Что внутри</a>
-        <a href="#compare">Сравнение</a>
-        <a href="#price">Тариф</a>
-      </nav>
-      <a class="btn btn-google" href="#">G Войти через Google</a>
+  <header class="header">
+    <div class="container nav">
+      <strong class="brand">MyClawBot</strong>
+      <a class="btn btn-outline" href="#">Войти через Google</a>
     </div>
   </header>
 
   <main>
-    <section class="hero wrap">
-      <div class="hero-left">
-        <p class="badge">OpenClaw в Telegram без SSH и Docker</p>
-        <h1>Личный AI-ассистент за 1 минуту</h1>
-        <p class="sub">Подключаете токен, выбираете модель, оплачиваете — и бот уже работает. Один тариф: <b>3 890 ₽/мес</b>.</p>
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="#price">Запустить за 3 890 ₽</a>
-          <a class="btn btn-ghost" href="#how">Как это работает</a>
-        </div>
-        <div class="proof">
-          <div><strong>1 мин</strong><span>до запуска</span></div>
-          <div><strong>1 тариф</strong><span>без путаницы</span></div>
-          <div><strong>24/7</strong><span>бот онлайн</span></div>
-        </div>
+    <section class="hero container">
+      <p class="pill">OpenClaw в Telegram без SSH и Docker</p>
+      <h1>Запусти своего AI-ассистента за 1 минуту</h1>
+      <p class="lead">Один понятный тариф <strong>3 890 ₽/мес</strong>. Сервер, установка, обновления и поддержка — уже внутри.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#price">Запустить за 3 890 ₽</a>
+        <a class="btn btn-outline" href="#how">Как это работает</a>
       </div>
-      <aside class="setup-card">
-        <h3>Быстрая настройка</h3>
-        <button class="pick active"><img src="./assets/icons/claude.svg" alt="Claude"> Claude Opus 4.5 <span>✓</span></button>
-        <button class="pick"><img src="./assets/icons/chatgpt.png" alt="ChatGPT"> GPT-5.2</button>
-        <button class="pick"><img src="./assets/icons/gemini.png" alt="Gemini"> Gemini 3 Flash</button>
+      <div class="metrics">
+        <div><b>1 минута</b><span>до запуска</span></div>
+        <div><b>1 тариф</b><span>без лишних опций</span></div>
+        <div><b>24/7</b><span>бот онлайн</span></div>
+      </div>
+    </section>
+
+    <section class="container setup">
+      <div class="card">
+        <h2>Выбор модели на старте</h2>
+        <div class="choices">
+          <button class="choice active"><img src="./assets/icons/claude.svg" alt="Claude"> Claude Opus 4.5</button>
+          <button class="choice"><img src="./assets/icons/chatgpt.png" alt="ChatGPT"> GPT-5.2</button>
+          <button class="choice"><img src="./assets/icons/gemini.png" alt="Gemini"> Gemini 3 Flash</button>
+        </div>
         <div class="channels">
           <span><img src="./assets/icons/telegram.png" alt="Telegram"> Telegram</span>
           <span><img src="./assets/icons/whatsapp.png" alt="WhatsApp"> WhatsApp</span>
         </div>
-        <a class="btn btn-google full" href="#">Войти через Google</a>
-      </aside>
+      </div>
     </section>
 
-    <section id="benefits" class="wrap section">
+    <section class="container features">
       <h2>Что входит в подписку</h2>
-      <div class="grid-2">
-        <article class="card"><h4>Выделенный VPS</h4><p>Отдельный сервер, уже в цене.</p></article>
-        <article class="card"><h4>Установленный OpenClaw</h4><p>Готовый к работе после оплаты.</p></article>
-        <article class="card"><h4>1 000 ₽ бонуса на AI</h4><p>Стартовый запас на запросы к моделям.</p></article>
-        <article class="card"><h4>Обновления + поддержка</h4><p>Без ручных апдейтов и возни.</p></article>
+      <div class="grid">
+        <article class="card"><h3>Выделенный VPS</h3><p>Персональный сервер в цене.</p></article>
+        <article class="card"><h3>OpenClaw под ключ</h3><p>Установлен и готов к работе.</p></article>
+        <article class="card"><h3>1 000 ₽ бонуса на AI</h3><p>Стартовый бюджет на запросы.</p></article>
+        <article class="card"><h3>Поддержка и обновления</h3><p>Без ручных апдейтов и боли.</p></article>
       </div>
     </section>
 
-    <section id="compare" class="wrap section">
-      <h2>Обычный путь vs MyClawBot</h2>
-      <div class="table-card">
-        <table>
-          <thead><tr><th>Критерий</th><th>Самостоятельно</th><th>MyClawBot</th></tr></thead>
-          <tbody>
-            <tr><td>Время</td><td>30–60 минут</td><td>1 минута</td></tr>
-            <tr><td>SSH / Docker</td><td>Нужно</td><td>Не нужно</td></tr>
-            <tr><td>Обновления</td><td>Вручную</td><td>Автоматически</td></tr>
-            <tr><td>Поддержка</td><td>Форумы/доки</td><td>На русском</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section id="how" class="wrap section">
-      <h2>Как начать</h2>
-      <ol class="steps">
-        <li><b>Войти через Google</b> и создать проект.</li>
-        <li><b>Создать бота в @BotFather</b> и вставить токен.</li>
-        <li><b>Выбрать модель и оплатить</b> — через минуту бот онлайн.</li>
+    <section id="how" class="container how">
+      <h2>3 шага до запуска</h2>
+      <ol>
+        <li><strong>Вход через Google</strong> и создание проекта</li>
+        <li><strong>Токен от @BotFather</strong> и выбор модели</li>
+        <li><strong>Оплата тарифа</strong> — бот уже в Telegram</li>
       </ol>
     </section>
 
-    <section id="price" class="wrap section">
+    <section id="price" class="container">
       <div class="price-card">
-        <p class="muted">Один тариф</p>
+        <p class="small">Один тариф</p>
         <p class="price">3 890 ₽ <span>/ месяц</span></p>
         <ul>
           <li>Выделенный VPS</li>
-          <li>OpenClaw под ключ</li>
+          <li>OpenClaw установлен</li>
           <li>Выбор AI-модели</li>
-          <li>1 000 ₽ на AI-запросы</li>
-          <li>Автообновления и поддержка</li>
+          <li>1 000 ₽ бонус на AI</li>
+          <li>Поддержка на русском</li>
         </ul>
         <a class="btn btn-primary full" href="#">Оплатить и запустить</a>
       </div>
     </section>
   </main>
 
-  <footer class="wrap footer">© MyClawBot</footer>
+  <footer class="container footer">© MyClawBot</footer>
 </body>
 </html>
