@@ -11,7 +11,7 @@
   --primary-2:var(--brand-2);
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;width:100%;max-width:100%;overflow-x:hidden}
+html,body{margin:0;padding:0;width:100%;max-width:100%;overflow-x:clip}
 body{
   font-family:Onest,system-ui,sans-serif;
   color:var(--text);
@@ -20,7 +20,8 @@ body{
     linear-gradient(180deg,var(--bg),var(--bg2));
 }
 .bg-noise{display:none}
-.container{width:min(1080px,92%);margin:0 auto}
+.container{width:min(1080px,92%);margin:0 auto;max-width:100%}
+main,.header,.footer{max-width:100%;overflow-x:clip}
 .row{display:flex;align-items:center}
 .small-gap{gap:8px}
 
@@ -151,7 +152,7 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 .skills-board h2{text-align:center}
 
 .marquee-rows{margin-top:12px;display:grid;gap:10px;overflow:hidden}
-.marquee-row{overflow:hidden;position:relative}
+.marquee-row{overflow:hidden;position:relative;max-width:100%}
 .marquee-track{display:flex;gap:10px;width:max-content;animation:marqueeLeft 28s linear infinite}
 .marquee-row.right .marquee-track{animation-name:marqueeRight}
 .chip{
@@ -262,7 +263,7 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
   .include-card p{font-size:14px}
 
   .marquee-rows{gap:8px}
-  .marquee-row{overflow:hidden;position:relative}
+  .marquee-row{overflow:hidden;position:relative;max-width:100%}
   .marquee-track{display:flex;gap:8px;width:max-content;animation:marqueeLeft 24s linear infinite;padding-left:8px}
   .marquee-row.right .marquee-track{animation:marqueeRight 24s linear infinite}
   .chip{min-width:270px;font-size:13px;padding:9px 10px}
