@@ -81,8 +81,10 @@ h1{
 .header-btn__icon{width:14px;height:14px;filter:brightness(0) invert(1);display:block}
 .btn-google{background:#fff;color:#151515;border:0;font-weight:800}
 .full{width:100%}
-.auth-row{display:grid;grid-template-columns:1fr;gap:8px;margin-top:6px}
+.auth-row{display:grid;grid-template-columns:1fr;gap:8px;margin-top:14px}
 .auth-row .btn{height:40px;padding:10px 16px}
+.auth-row .btn-google{display:flex;align-items:center;justify-content:center;gap:8px}
+.auth-row .btn-google img{width:16px;height:16px;display:block}
 
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
 .stats>div{
