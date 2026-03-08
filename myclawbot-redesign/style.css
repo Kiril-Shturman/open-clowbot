@@ -217,8 +217,23 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 
   .footer-grid{grid-template-columns:1fr}
   .lead,.subhead{font-size:16px;line-height:1.35}
+
+  /* mobile: freeze marquee to avoid cropped moving text */
   .marquee-rows{gap:8px}
-  .chip{min-width:260px;font-size:13px;padding:9px 10px}
+  .marquee-row{overflow:visible}
+  .marquee-track{
+    animation:none !important;
+    width:100%;
+    min-width:0;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+  .chip{min-width:0;font-size:13px;padding:9px 10px}
+  .marquee-track .chip:nth-child(n+3){display:none}
+
+  .kb-link{margin-top:12px}
+  .board-note{font-size:12px}
 
   .cta-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .cta-row .btn{width:100%;white-space:nowrap}
