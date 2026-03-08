@@ -158,16 +158,16 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
   min-height:52px;
   min-width:330px;
   padding:11px 12px;
-  border:1px solid rgba(255,255,255,.16);
+  border:1px solid rgba(255,122,156,.28);
   border-radius:14px;
   color:#f1e6ea;
   font-size:14px;
-  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
+  background:linear-gradient(180deg,rgba(255,94,136,.16),rgba(255,94,136,.06));
 }
-/* mixed card styles like original: gradient / plain / dashed */
-.chip:nth-child(3n+1), .chip-grad{background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04));}
-.chip:nth-child(3n+2), .chip-plain{background:rgba(255,255,255,.02);}
-.chip:nth-child(3n), .chip-dashed{background:rgba(255,255,255,.04);border-style:dashed}
+/* mixed red fills: gradient / plain / dashed */
+.chip:nth-child(3n+1), .chip-grad{background:linear-gradient(180deg,rgba(255,115,156,.20),rgba(255,90,128,.08));}
+.chip:nth-child(3n+2), .chip-plain{background:rgba(255,78,122,.10);}
+.chip:nth-child(3n), .chip-dashed{background:rgba(255,78,122,.12);border-style:dashed}
 
 .chip img{width:18px;height:18px;flex:0 0 auto;filter:brightness(0) invert(1)}
 .kb-link{display:block;text-align:center;color:#ff6f8f;text-decoration:none;font-weight:700;margin:16px 0 8px;font-size:22px}
