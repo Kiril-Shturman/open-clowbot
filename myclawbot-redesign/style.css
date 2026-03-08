@@ -255,11 +255,11 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
   .include-card p{font-size:14px}
 
   .marquee-rows{gap:8px}
-  .marquee-row{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none}
-  .marquee-row::-webkit-scrollbar{display:none}
-  .marquee-track{display:flex;gap:8px;width:max-content;animation:none;padding:0 4px}
-  .marquee-row.right .marquee-track{animation:none}
-  .chip{min-width:270px;font-size:13px;padding:9px 10px}
+  .marquee-row{overflow:visible}
+  .marquee-track{display:grid;grid-template-columns:1fr;gap:8px;width:100%;animation:none;transform:none !important;padding:0}
+  .marquee-row.right .marquee-track{animation:none;transform:none !important}
+  .marquee-track .chip:nth-child(n+4){display:none}
+  .chip{min-width:0;width:100%;font-size:13px;padding:9px 10px}
 
   .kb-link{margin-top:12px}
   .board-note{font-size:12px}
