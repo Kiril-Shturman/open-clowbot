@@ -57,6 +57,7 @@ h1{
 }
 .lead{max-width:690px;color:var(--muted);font-size:20px;line-height:1.45;margin:0}
 .cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.cta-row .btn{height:40px;padding:10px 16px}
 
 .btn{
   display:inline-flex;align-items:center;justify-content:center;
