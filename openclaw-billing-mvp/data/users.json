@@ -1,0 +1,17 @@
+{
+  "users": {
+    "demo_user": {
+      "balanceRub": 1250,
+      "dailyLimitRub": 500,
+      "monthlyLimitRub": 3890,
+      "allowedModels": [
+        "openai/gpt-4.1-mini",
+        "anthropic/claude-3.5-sonnet",
+        "google/gemini-2.0-flash-001"
+      ],
+      "spentTodayRub": 0,
+      "spentMonthRub": 0,
+      "updatedAt": "2026-03-08T15:15:10.002Z"
+    }
+  }
+}
