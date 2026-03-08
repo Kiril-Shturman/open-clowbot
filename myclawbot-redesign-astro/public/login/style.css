@@ -17,3 +17,14 @@ h1{margin:0 0 8px;font-size:34px;line-height:1}.muted{color:var(--muted);margin:
   .card{padding:16px;border-radius:16px}
   h1{font-size:30px}
 }
+
+/* iOS Safari safe-area + overscroll fixes */
+html{background:#0b0709}
+body{background-color:#0b0709;padding-bottom:env(safe-area-inset-bottom)}
+.header,.top{padding-top:env(safe-area-inset-top)}
+@supports (-webkit-touch-callout: none){
+  html,body{min-height:-webkit-fill-available}
+}
+html,body{background:#0b0709 !important;overscroll-behavior-y:none}
+body::before{content:"";position:fixed;inset:0;background:#0b0709;z-index:-1;pointer-events:none}
+body::after{content:"";position:fixed;left:0;top:0;width:100%;height:calc(env(safe-area-inset-top) + 2px);background:#0b0709;z-index:9999;pointer-events:none}

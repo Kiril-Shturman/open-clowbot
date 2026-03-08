@@ -14,3 +14,14 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px s
 .modal-bg{display:none;position:fixed;inset:0;background:#000a;align-items:center;justify-content:center;padding:14px}.modal-bg.show{display:flex}.modal{width:min(520px,100%);position:relative}.close{position:absolute;right:8px;top:4px;border:0;background:transparent;color:#fff;font-size:30px;cursor:pointer}
 .topup-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.amount{border:1px solid var(--line);background:#fff1;color:#fff;border-radius:10px;padding:10px;cursor:pointer}
 @media(max-width:900px){.stats{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}h1{font-size:34px}.hero{flex-direction:column;align-items:flex-start}}
+
+/* iOS Safari safe-area + overscroll fixes */
+html{background:#0b0709}
+body{background-color:#0b0709;padding-bottom:env(safe-area-inset-bottom)}
+.header,.top{padding-top:env(safe-area-inset-top)}
+@supports (-webkit-touch-callout: none){
+  html,body{min-height:-webkit-fill-available}
+}
+html,body{background:#0b0709 !important;overscroll-behavior-y:none}
+body::before{content:"";position:fixed;inset:0;background:#0b0709;z-index:-1;pointer-events:none}
+body::after{content:"";position:fixed;left:0;top:0;width:100%;height:calc(env(safe-area-inset-top) + 2px);background:#0b0709;z-index:9999;pointer-events:none}
