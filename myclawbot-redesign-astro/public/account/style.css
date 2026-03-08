@@ -15,7 +15,8 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 .profile-left{display:flex;align-items:center;gap:12px}
 .profile-avatar{width:48px;height:48px;border-radius:999px;border:1px solid var(--line);background:#fff1;object-fit:cover}
 .profile-name{margin:0 0 4px;font-size:16px;font-weight:700;color:#fff}
-.icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:#fff1;color:#fff;cursor:pointer;font-size:18px}
+.icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:#fff1;color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.icon-btn img{width:16px;height:16px;display:block;filter:brightness(0) invert(1)}
 .balance-main{margin-top:12px;display:flex;align-items:flex-end;justify-content:space-between;gap:14px}
 .balance-main h1{margin:6px 0 0}
 .balance-line{display:flex;align-items:flex-end;gap:10px}
