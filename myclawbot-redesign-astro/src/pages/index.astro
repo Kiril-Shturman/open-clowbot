@@ -426,7 +426,9 @@ import "../styles/main.css";
         if (Number.isNaN(v) || v < 1000) v = 1000;
         tokenAmount.value = String(v);
         tokenPills.forEach(p => p.classList.toggle('active', p.dataset.value === String(v)));
+        tokenAmount.classList.add('selected');
       });
+      tokenAmount.addEventListener('focus', () => tokenAmount.classList.remove('selected'));
     }
 
     renderModel('claude');
