@@ -32,3 +32,13 @@ h2{font-size:32px;margin:0 0 10px}p{line-height:1.7;color:#e8dce0}ul,ol{line-hei
 
 .brand{display:inline-flex;align-items:center;gap:8px}
 .brand-logo{width:28px;height:28px;object-fit:contain;display:block}
+
+/* iOS Safari + unified header sizing */
+html{background:#0b0709}
+body{background-color:#0b0709;padding-bottom:env(safe-area-inset-bottom)}
+.header,.top{padding-top:env(safe-area-inset-top)}
+.nav,.top .wrap{min-height:56px}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:40px}
+@supports (-webkit-touch-callout: none){
+  html,body{min-height:-webkit-fill-available}
+}
