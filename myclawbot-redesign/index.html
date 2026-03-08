@@ -14,25 +14,47 @@
   <header class="topbar">
     <div class="container row">
       <div class="logo">MyClawBot</div>
-      <a class="btn btn-ghost" href="#cta">Запустить за 1 минуту</a>
+      <div class="row small-gap">
+        <a class="btn btn-google" href="#">Войти через Google</a>
+        <a class="btn btn-ghost" href="#cta">Запустить за 1 минуту</a>
+      </div>
     </div>
   </header>
 
   <main>
     <section class="hero container">
-      <p class="badge">OpenClaw в Telegram без SSH и Docker</p>
-      <h1>Ваш AI-ассистент в Telegram за 1 минуту</h1>
-      <p class="sub">Один понятный тариф: <strong>3 890 ₽/мес</strong>. Подключаете токен бота — и получаете готового OpenClaw на выделенном сервере.</p>
+      <div class="hero-grid">
+        <div>
+          <p class="badge">OpenClaw в Telegram без SSH и Docker</p>
+          <h1>Ваш AI-ассистент в Telegram за 1 минуту</h1>
+          <p class="sub">Один понятный тариф: <strong>3 890 ₽/мес</strong>. Подключаете токен бота — и получаете готового OpenClaw на выделенном сервере.</p>
 
-      <div class="hero-cta" id="cta">
-        <a class="btn btn-primary" href="#start">Подключить бота</a>
-        <a class="btn btn-ghost" href="#how">Как это работает</a>
+          <div class="hero-cta" id="cta">
+            <a class="btn btn-primary" href="#start">Подключить бота</a>
+            <a class="btn btn-ghost" href="#how">Как это работает</a>
+          </div>
+
+          <div class="proof">
+            <div><strong>1 минута</strong><span>до запуска</span></div>
+            <div><strong>1 тариф</strong><span>без скрытых опций</span></div>
+            <div><strong>24/7</strong><span>ваш бот в онлайне</span></div>
+          </div>
+        </div>
+
+        <div class="hero-shot">
+          <img src="./preview.svg" alt="Превью интерфейса MyClawBot" />
+        </div>
       </div>
+    </section>
 
-      <div class="proof">
-        <div><strong>1 минута</strong><span>до запуска</span></div>
-        <div><strong>1 тариф</strong><span>без скрытых опций</span></div>
-        <div><strong>24/7</strong><span>ваш бот в онлайне</span></div>
+    <section class="container models" aria-label="Выбор модели">
+      <h2>Выбор модели при запуске</h2>
+      <p class="muted center">На старте можно выбрать модель и поменять её позже в боте.</p>
+      <div class="model-grid">
+        <article class="model-card active"><h3>Claude</h3><p>Для сложных задач и кода</p></article>
+        <article class="model-card"><h3>ChatGPT</h3><p>Быстрый универсальный режим</p></article>
+        <article class="model-card"><h3>Gemini</h3><p>Текст + изображения</p></article>
+        <article class="model-card"><h3>DeepSeek</h3><p>Экономичный вариант</p></article>
       </div>
     </section>
 
@@ -63,6 +85,8 @@
         <ul>
           <li>Выделенный VPS-сервер</li>
           <li>Установленный OpenClaw</li>
+          <li>Вход через Google</li>
+          <li>Выбор AI-модели при запуске</li>
           <li>Бонус 1 000 ₽ на AI-запросы</li>
           <li>Автоматические обновления</li>
           <li>Поддержка на русском</li>
@@ -75,9 +99,9 @@
     <section class="container how" id="how">
       <h2>Как начать</h2>
       <ol>
-        <li><strong>Создайте бота</strong> в Telegram через @BotFather.</li>
-        <li><strong>Вставьте токен</strong>, выберите модель и оплатите тариф.</li>
-        <li><strong>Готово:</strong> через минуту бот отвечает в Telegram.</li>
+        <li><strong>Войдите через Google</strong> и создайте проект.</li>
+        <li><strong>Создайте бота</strong> в Telegram через @BotFather и вставьте токен.</li>
+        <li><strong>Выберите модель и оплатите</strong> — через минуту бот уже работает.</li>
       </ol>
     </section>
 
@@ -88,8 +112,8 @@
         <p>Да. Никаких SSH, Docker и команд в терминале.</p>
       </details>
       <details>
-        <summary>Какие модели доступны?</summary>
-        <p>Claude, ChatGPT, Gemini, DeepSeek и другие совместимые модели.</p>
+        <summary>Можно поменять модель после запуска?</summary>
+        <p>Да, модель можно переключать в любой момент.</p>
       </details>
       <details>
         <summary>Можно отменить в любой момент?</summary>
