@@ -158,20 +158,27 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
   min-height:52px;
   min-width:330px;
   padding:11px 12px;
-  border:1px solid rgba(255,255,255,.16);
+  border:1px solid var(--brand-line);
   border-radius:14px;
   color:#f1e6ea;
   font-size:14px;
-  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
+  background:transparent;
 }
-/* unified chip style for consistent brand system */
-.chip,
-.chip-grad,
-.chip-plain,
-.chip-dashed{
-  border-color:var(--brand-line);
+/* 3 visual types: gradient / plain / dashed in one brand palette */
+.chip:nth-child(3n+1), .chip-grad{
+  border-color:var(--brand-line-strong);
   background:linear-gradient(180deg,var(--brand-fill),var(--brand-fill-soft));
   border-style:solid;
+}
+.chip:nth-child(3n+2), .chip-plain{
+  border-color:rgba(255,255,255,.26);
+  background:transparent;
+  border-style:solid;
+}
+.chip:nth-child(3n), .chip-dashed{
+  border-color:rgba(255,255,255,.26);
+  background:transparent;
+  border-style:dashed;
 }
 
 .chip img{width:18px;height:18px;flex:0 0 auto;filter:brightness(0) invert(1)}
@@ -256,11 +263,10 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
   .include-card p{font-size:14px}
 
   .marquee-rows{gap:8px}
-  .marquee-row{overflow:visible}
-  .marquee-track{display:grid;grid-template-columns:1fr;gap:8px;width:100%;animation:none;transform:none !important;padding:0}
-  .marquee-row.right .marquee-track{animation:none;transform:none !important}
-  .marquee-track .chip:nth-child(n+4){display:none}
-  .chip{min-width:0;width:100%;font-size:13px;padding:9px 10px}
+  .marquee-row{overflow:hidden;position:relative}
+  .marquee-track{display:flex;gap:8px;width:max-content;animation:marqueeLeft 24s linear infinite;padding-left:8px}
+  .marquee-row.right .marquee-track{animation:marqueeRight 24s linear infinite}
+  .chip{min-width:270px;font-size:13px;padding:9px 10px}
 
   .kb-link{margin-top:12px}
   .board-note{font-size:12px}
