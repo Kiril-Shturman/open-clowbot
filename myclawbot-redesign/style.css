@@ -141,15 +141,14 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 }
 .skills-board h2{text-align:center}
 
-.chips-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:12px;
-}
+.marquee-rows{margin-top:12px;display:grid;gap:10px}
+.marquee-row{overflow:hidden;position:relative}
+.marquee-track{display:flex;gap:10px;width:max-content;animation:marqueeLeft 28s linear infinite}
+.marquee-row.right .marquee-track{animation-name:marqueeRight}
 .chip{
   display:flex;align-items:center;gap:10px;
   min-height:52px;
+  min-width:330px;
   padding:11px 12px;
   border:1px solid rgba(255,255,255,.16);
   border-radius:14px;
@@ -157,7 +156,7 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
   color:#f1e6ea;
   font-size:14px;
 }
-.chip img{width:18px;height:18px;flex:0 0 auto;color:#ff9db4}
+.chip img{width:18px;height:18px;flex:0 0 auto;filter:brightness(0) invert(1)}
 .kb-link{display:block;text-align:center;color:#91b2ff;text-decoration:none;font-weight:700;margin:16px 0 8px;font-size:22px}
 .board-note{margin:0;text-align:center;color:#b7a5ab;font-style:italic;line-height:1.45}
 .board-cta{
@@ -187,6 +186,9 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 .footer p{margin:8px 0 0;color:var(--muted)}
 .footer a{display:block;color:#e7c6cc;text-decoration:none;margin:6px 0}
 .copy{padding:12px 0 22px;border-top:1px solid var(--line-soft);color:var(--muted);font-size:14px}
+
+@keyframes marqueeLeft{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes marqueeRight{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 
 .modal-backdrop{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:16px;z-index:30}
 .modal-backdrop.open{display:flex}
@@ -222,8 +224,8 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 
   .footer-grid{grid-template-columns:1fr}
   .lead,.subhead{font-size:16px;line-height:1.35}
-  .chips-grid{grid-template-columns:1fr}
-  .chip{font-size:13px;padding:9px 10px}
+  .marquee-rows{gap:8px}
+  .chip{min-width:260px;font-size:13px;padding:9px 10px}
 
   .cta-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .cta-row .btn{width:100%;white-space:nowrap}
