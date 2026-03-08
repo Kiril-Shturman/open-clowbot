@@ -62,21 +62,30 @@
         <button class="btn ghost" id="quickSetupClose" type="button">Закрыть</button>
       </div>
       <p class="setup-subhead">Выбор модели на старте</p>
-      <div class="model-tabs" id="setupTabs">
+      <div class="model-tabs" id="setupTabs" role="tablist" aria-label="Выбор модели">
         <button class="model-tab active" data-model="claude" type="button">Anthropic Claude</button>
         <button class="model-tab" data-model="gpt" type="button">OpenAI ChatGPT</button>
         <button class="model-tab" data-model="gemini" type="button">Google Gemini</button>
         <button class="model-tab" data-model="deepseek" type="button">DeepSeek</button>
       </div>
+      <button class="more-ai-btn" id="setupMoreAiBtn" type="button">Другие нейросети</button>
+      <div class="more-ai-panel" id="setupMoreAiPanel" aria-hidden="true">
+        <button class="ai-option" data-model="mistral"><img src="https://mistral.ai/favicon.ico" alt="Mistral"> Mistral AI</button>
+        <button class="ai-option" data-model="llama"><img src="https://cdn.simpleicons.org/meta/7ec6ff" alt="Llama"> Meta Llama</button>
+        <button class="ai-option" data-model="cohere"><img src="https://cohere.com/favicon.ico" alt="Cohere"> Cohere</button>
+        <button class="ai-option" data-model="qwen"><img src="https://chat.qwen.ai/favicon.ico" alt="Qwen"> Alibaba Qwen</button>
+        <button class="ai-option" data-model="grok"><img src="https://grok.com/favicon.ico" alt="Grok"> xAI Grok</button>
+      </div>
       <div class="model-info" id="setupModelInfo">
         <h3>Anthropic Claude</h3>
         <p>Максимум качества для сложных задач, кода и анализа.</p>
+        <div class="model-pills" id="setupModelPills"></div>
       </div>
-      <p class="muted" style="margin-top:12px">Настроить способ связи</p>
+      <p class="setup-subhead channel-subhead">Настроить способ связи</p>
       <div class="channel-row">
         <button class="channel active" type="button"><img src="/assets/icons/telegram.png" alt="Telegram"> Telegram</button>
       </div>
-      <p class="muted" style="margin-top:12px">Выбрать количество токенов на старте</p>
+      <p class="setup-subhead token-subhead">Выбрать количество токенов на старте</p>
       <div class="token-pills" id="setupTokenPills">
         <button class="token-pill active" type="button" data-value="1000">1000 ₽</button>
         <button class="token-pill" type="button" data-value="3000">3000 ₽</button>
@@ -90,9 +99,7 @@
         </div>
       </div>
       <p class="token-note">Токены можно пополнить позже в личном кабинете.</p>
-      <div class="quick-setup-footer">
-        <button class="btn solid" type="button">Сохранить и добавить бота</button>
-      </div>
+      <p class="form-note">Вход нужен для запуска бота.</p>
     </section>
 
     <section class="grid2">
@@ -195,20 +202,82 @@
 
     const setupTabs = document.querySelectorAll('#setupTabs .model-tab');
     const setupInfo = document.getElementById('setupModelInfo');
+    const setupMoreAiBtn = document.getElementById('setupMoreAiBtn');
+    const setupMoreAiPanel = document.getElementById('setupMoreAiPanel');
+    const setupAiOptions = document.querySelectorAll('#setupMoreAiPanel .ai-option');
+    const setupModelPills = document.getElementById('setupModelPills');
+
     const setupModels = {
       claude: { title: 'Anthropic Claude', text: 'Максимум качества для сложных задач, кода и анализа.' },
       gpt: { title: 'OpenAI ChatGPT', text: 'Универсальный быстрый режим для ежедневной работы.' },
       gemini: { title: 'Google Gemini', text: 'Отлично подходит для мультимодальных сценариев.' },
-      deepseek: { title: 'DeepSeek', text: 'Сильная модель для кода и рабочих задач по цене ниже топовых.' }
+      deepseek: { title: 'DeepSeek', text: 'Сильная модель для кода и рабочих задач по цене ниже топовых.' },
+      mistral: { title: 'Mistral AI', text: 'Быстрая и стабильная модель для повседневных задач и чатов.' },
+      llama: { title: 'Meta Llama', text: 'Сбалансированная open-weight модель для широкого спектра задач.' },
+      cohere: { title: 'Cohere', text: 'Хороша для корпоративных сценариев и структурированных ответов.' },
+      qwen: { title: 'Alibaba Qwen', text: 'Мощная универсальная линейка моделей от Alibaba Cloud.' },
+      grok: { title: 'xAI Grok', text: 'Модель xAI для живых диалогов и быстрого поиска инсайтов.' }
     };
+
+    const setupProviderModels = {
+      claude: ['Claude 4.5 Opus', 'Claude 4.5 Sonnet', 'Claude 4.1 Sonnet'],
+      gpt: ['GPT-5.2', 'GPT-5.1', 'GPT-4.1'],
+      gemini: ['Gemini 2.5 Pro', 'Gemini 2.5 Flash', 'Gemini 2.0 Flash'],
+      deepseek: ['DeepSeek R1', 'DeepSeek V3', 'DeepSeek Coder V2'],
+      mistral: ['Mistral Large 2', 'Mistral Nemo', 'Codestral 2'],
+      llama: ['Llama 4', 'Llama 3.3 70B', 'Llama 3.1 405B'],
+      cohere: ['Command R+ 08-2024', 'Command R', 'Command R7B'],
+      qwen: ['Qwen 2.5 Max', 'Qwen 2.5 72B', 'Qwen 2.5 Coder'],
+      grok: ['Grok 3', 'Grok 2', 'Grok Vision']
+    };
+
+    function renderSetupModel(key) {
+      const m = setupModels[key];
+      if (!m || !setupInfo) return;
+      const h = setupInfo.querySelector('h3');
+      const p = setupInfo.querySelector('p');
+      if (h) h.textContent = m.title;
+      if (p) p.textContent = m.text;
+
+      const models = setupProviderModels[key] || [];
+      if (setupModelPills) {
+        setupModelPills.innerHTML = models.map((name, i) => `<button class="model-pill ${i===0?'active':''}" type="button">${name}</button>`).join('');
+        setupModelPills.querySelectorAll('.model-pill').forEach(btn => {
+          btn.onclick = () => {
+            setupModelPills.querySelectorAll('.model-pill').forEach(x => x.classList.remove('active'));
+            btn.classList.add('active');
+          };
+        });
+      }
+    }
+
     setupTabs.forEach(tab => {
       tab.onclick = () => {
         setupTabs.forEach(t => t.classList.remove('active'));
+        setupAiOptions.forEach(a => a.classList.remove('active'));
         tab.classList.add('active');
-        const m = setupModels[tab.dataset.model];
-        if (m && setupInfo) setupInfo.innerHTML = `<h3>${m.title}</h3><p>${m.text}</p>`;
+        renderSetupModel(tab.dataset.model);
       };
     });
+
+    setupAiOptions.forEach(btn => {
+      btn.onclick = () => {
+        setupTabs.forEach(t => t.classList.remove('active'));
+        setupAiOptions.forEach(a => a.classList.remove('active'));
+        btn.classList.add('active');
+        renderSetupModel(btn.dataset.model);
+      };
+    });
+
+    if (setupMoreAiBtn) {
+      setupMoreAiBtn.onclick = () => {
+        const open = setupMoreAiPanel.classList.toggle('open');
+        setupMoreAiPanel.setAttribute('aria-hidden', open ? 'false' : 'true');
+        if (open) setupMoreAiBtn.style.display = 'none';
+      };
+    }
+
+    renderSetupModel('claude');
 
     const setupTokenPills = document.querySelectorAll('#setupTokenPills .token-pill');
     const setupTokenAmount = document.getElementById('setupTokenAmount');

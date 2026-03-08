@@ -38,6 +38,15 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 .quick-setup .model-info{margin-top:12px;border:1px solid var(--brand-stroke-strong);border-radius:14px;padding:14px;background:linear-gradient(180deg,var(--brand-fill),rgba(255,77,77,.10) 55%,rgba(230,63,63,.12))}
 .quick-setup .model-info h3{margin:0 0 5px;font-size:30px;line-height:1;letter-spacing:-.2px}
 .quick-setup .model-info p{margin:0;color:#e0c7ce;font-size:16px;line-height:1.4}
+.quick-setup .model-pills{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+.quick-setup .model-pill{border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.06);color:#fff;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:600;cursor:pointer}
+.quick-setup .model-pill.active{border-color:var(--brand-2);background:linear-gradient(180deg,var(--brand-fill),var(--brand-fill-soft));box-shadow:0 0 0 1px rgba(255,77,77,.18) inset}
+.quick-setup .more-ai-btn{margin-top:10px;width:100%;border:1px dashed var(--brand-stroke-dash);background:rgba(255,77,77,.06);color:#ffd9de;padding:10px 12px;border-radius:12px;text-align:center;font-weight:600;cursor:pointer}
+.quick-setup .more-ai-panel{display:none;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.quick-setup .more-ai-panel.open{display:grid}
+.quick-setup .ai-option{border:1px solid rgba(255,255,255,.13);background:#130a0f;color:#fff;border-radius:14px;padding:12px 13px;text-align:left;display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;cursor:pointer}
+.quick-setup .ai-option img{width:20px;height:20px;object-fit:contain}
+.quick-setup .ai-option.active{border-color:var(--brand-2);background:linear-gradient(180deg,var(--brand-fill),var(--brand-fill-soft));box-shadow:0 0 0 1px rgba(255,77,77,.18) inset}
 .quick-setup .token-pills{display:flex;gap:8px;flex-wrap:wrap}
 .quick-setup .token-pill{border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.05);color:#fff;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:700;cursor:pointer}
 .quick-setup .token-pill.active{border-color:var(--brand-2);background:linear-gradient(180deg,var(--brand-fill),var(--brand-fill-soft))}
