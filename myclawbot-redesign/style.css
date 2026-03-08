@@ -133,7 +133,7 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 .section{padding-top:44px}
 .subhead{margin:-4px 0 16px;color:var(--muted);font-size:20px;text-align:center}
 .skills-board{
-  padding:22px 0 8px;
+  padding:38px 0 24px;
   border:0;
   border-radius:0;
   background:transparent;
