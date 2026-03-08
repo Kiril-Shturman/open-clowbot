@@ -103,10 +103,17 @@ const server = http.createServer((req, res) => {
     const ua = data.ua || req.headers['user-agent'] || 'unknown';
     const type = isDesktop(ua) ? '🖥 desktop браузер' : '📱 mobile браузер';
 
+    if (!ipInfo.publicIp) {
+      console.log(`[visit-logger] skip local/internal visit ipRaw=${ipInfo.raw || 'none'} path=${data.path || '/'}`);
+      res.statusCode = 204;
+      res.end();
+      return;
+    }
+
     const msg = [
       `🌍 Новый визит (${type})`,
       `⏰ Время: ${nowStr()}`,
-      `🌐 IP: ${ipInfo.publicIp || ipInfo.raw || 'unknown'}`,
+      `🌐 IP: ${ipInfo.publicIp}`,
       `📄 Страница: ${data.path || '/'}`,
       `📱 UserAgent: ${ua}`
     ].join('\n');
