@@ -11,10 +11,11 @@
   --primary-2:var(--brand-2);
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;width:100%;max-width:100%;overflow-x:clip}
+html,body{margin:0;padding:0;width:100%;max-width:100%;overflow-x:hidden;overscroll-behavior-x:none;touch-action:pan-y}
 body{
   font-family:Onest,system-ui,sans-serif;
   color:var(--text);
+  position:relative;
   background:
     radial-gradient(900px 440px at 50% -120px, #5e1830 0%, transparent 62%),
     linear-gradient(180deg,var(--bg),var(--bg2));
@@ -152,7 +153,7 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 .skills-board h2{text-align:center}
 
 .marquee-rows{margin-top:12px;display:grid;gap:10px;overflow:hidden}
-.marquee-row{overflow:hidden;position:relative;max-width:100%}
+.marquee-row{overflow:hidden;position:relative;max-width:100%;overscroll-behavior-x:none;touch-action:pan-y}
 .marquee-track{display:flex;gap:10px;width:max-content;animation:marqueeLeft 28s linear infinite}
 .marquee-row.right .marquee-track{animation-name:marqueeRight}
 .chip{
@@ -263,7 +264,7 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
   .include-card p{font-size:14px}
 
   .marquee-rows{gap:8px}
-  .marquee-row{overflow:hidden;position:relative;max-width:100%}
+  .marquee-row{overflow:hidden;position:relative;max-width:100%;overscroll-behavior-x:none;touch-action:pan-y}
   .marquee-track{display:flex;gap:8px;width:max-content;animation:marqueeLeft 24s linear infinite;padding-left:8px}
   .marquee-row.right .marquee-track{animation:marqueeRight 24s linear infinite}
   .chip{min-width:270px;font-size:13px;padding:9px 10px}
