@@ -8,8 +8,15 @@
 .header-btn__icon{width:14px;height:14px;filter:brightness(0) invert(1);display:block}
 .btn.solid{background:var(--brand-gradient-main);border:0;color:#fff;font-weight:800}.btn.ghost{background:#ffffff0a}.btn.full{width:100%}
 .main{padding:22px 0 30px}.panel{background:linear-gradient(180deg,var(--panel),#12090d);border:1px solid var(--line);border-radius:16px;padding:16px}
-.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:14px}h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}h3{font-size:28px;margin:0 0 12px}.muted{color:var(--muted);margin:0}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.ok{color:var(--brand-soft)}
+h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}h3{font-size:28px;margin:0 0 12px}.muted{color:var(--muted);margin:0}
+.profile-card{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.profile-left{display:flex;align-items:center;gap:12px}
+.profile-avatar{width:48px;height:48px;border-radius:999px;border:1px solid var(--line);background:#fff1;object-fit:cover}
+.profile-name{margin:0 0 4px;font-size:16px;font-weight:700;color:#fff}
+.icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:#fff1;color:#fff;cursor:pointer;font-size:18px}
+.balance-main{margin-top:12px;display:flex;align-items:flex-end;justify-content:space-between;gap:14px}
+.balance-main h1{margin:6px 0 0}
+.ok{color:var(--brand-soft)}
 .bots{margin-top:12px}
 .bots-head{margin-bottom:10px}
 .bots-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -26,7 +33,7 @@
 table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid #ffffff1f;text-align:left}th{color:var(--muted);font-size:12px}
 .modal-bg{display:none;position:fixed;inset:0;background:#000a;align-items:center;justify-content:center;padding:14px}.modal-bg.show{display:flex}.modal{width:min(520px,100%);position:relative}.close{position:absolute;right:8px;top:4px;border:0;background:transparent;color:#fff;font-size:30px;cursor:pointer}
 .topup-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.amount{border:1px solid var(--line);background:#fff1;color:#fff;border-radius:10px;padding:10px;cursor:pointer}
-@media(max-width:900px){.stats{grid-template-columns:1fr 1fr}.bots-grid,.grid2{grid-template-columns:1fr}h1{font-size:34px}.hero{flex-direction:column;align-items:flex-start}}
+@media(max-width:900px){.bots-grid,.grid2{grid-template-columns:1fr}h1{font-size:34px}.balance-main{flex-direction:column;align-items:flex-start}}
 
 .brand{display:inline-flex;align-items:center;gap:8px}
 .brand-logo{width:28px;height:28px;object-fit:contain;display:block}

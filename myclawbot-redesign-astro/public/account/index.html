@@ -26,20 +26,23 @@
   </header>
 
   <main class="wrap main">
-    <section class="hero panel">
-      <div>
-        <p class="muted">Личный кабинет</p>
-        <h1>Баланс и лимиты AI</h1>
-        <p class="muted">Здесь пользователь пополняет баланс, видит расходы и управляет лимитами.</p>
+    <section class="panel profile-card">
+      <div class="profile-left">
+        <img class="profile-avatar" src="/assets/logo-bot.png" alt="avatar">
+        <div>
+          <p class="profile-name" id="profileName">Пользователь</p>
+          <p class="muted" id="profileEmail">—</p>
+        </div>
       </div>
-      <button class="btn solid" id="topupOpen">Пополнить баланс</button>
+      <button class="icon-btn" type="button" aria-label="Настройки">⚙</button>
     </section>
 
-    <section class="stats">
-      <article class="panel stat"><p class="muted">Текущий баланс</p><h2 id="balance">1 250 ₽</h2></article>
-      <article class="panel stat"><p class="muted">Потрачено сегодня</p><h2>143 ₽</h2></article>
-      <article class="panel stat"><p class="muted">Лимит в день</p><h2>500 ₽</h2></article>
-      <article class="panel stat"><p class="muted">Статус</p><h2 class="ok">Активен</h2></article>
+    <section class="panel balance-main">
+      <div>
+        <p class="muted">Текущий баланс</p>
+        <h1 id="balance">1 250 ₽</h1>
+      </div>
+      <button class="btn solid" id="topupOpen">Пополнить баланс</button>
     </section>
 
     <section class="panel bots">
@@ -121,6 +124,23 @@
     fetch('/api/auth/me').then(async r => {
       const data = await r.json();
       if (!data.ok) return location.href = '/login/';
+
+      const user = data.user || data;
+      const name = user.name || user.full_name || user.username || 'Пользователь';
+      const email = user.email || '—';
+      const balance = user.balance ?? user.wallet_balance ?? user.credits ?? user.tokens_balance;
+
+      const profileNameEl = document.getElementById('profileName');
+      const profileEmailEl = document.getElementById('profileEmail');
+      const balanceEl = document.getElementById('balance');
+
+      if (profileNameEl) profileNameEl.textContent = name;
+      if (profileEmailEl) profileEmailEl.textContent = email;
+      if (balanceEl) {
+        const balanceText = (typeof balance === 'number') ? `${balance.toLocaleString('ru-RU')} ₽` : '0.0₽';
+        balanceEl.textContent = balanceText;
+      }
+
       loadBots();
     }).catch(() => location.href = '/login/');
 
