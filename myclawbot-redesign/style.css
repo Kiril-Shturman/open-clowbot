@@ -199,12 +199,6 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 .include-card h3{margin:0 0 8px;font-size:24px;line-height:1.05;display:flex;align-items:center;gap:8px}
 .include-icon{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center}
 .include-icon img{width:18px;height:18px;filter:brightness(0) invert(1)}
-.includes-grid .include-card:nth-child(1) .include-icon img{filter:invert(69%) sepia(40%) saturate(1926%) hue-rotate(179deg) brightness(103%) contrast(102%)}
-.includes-grid .include-card:nth-child(2) .include-icon img{filter:invert(82%) sepia(29%) saturate(463%) hue-rotate(91deg) brightness(100%) contrast(95%)}
-.includes-grid .include-card:nth-child(3) .include-icon img{filter:invert(86%) sepia(61%) saturate(597%) hue-rotate(338deg) brightness(103%) contrast(102%)}
-.includes-grid .include-card:nth-child(4) .include-icon img{filter:invert(72%) sepia(23%) saturate(1448%) hue-rotate(216deg) brightness(103%) contrast(98%)}
-.includes-grid .include-card:nth-child(5) .include-icon img{filter:invert(78%) sepia(27%) saturate(1120%) hue-rotate(297deg) brightness(102%) contrast(101%)}
-.includes-grid .include-card:nth-child(6) .include-icon img{filter:invert(74%) sepia(52%) saturate(1368%) hue-rotate(325deg) brightness(102%) contrast(100%)}
 .include-card p{margin:0;color:#dfc9cf;line-height:1.45}
 
 .footer{margin-top:46px;border-top:1px solid var(--line-soft);background:#0b0708}
