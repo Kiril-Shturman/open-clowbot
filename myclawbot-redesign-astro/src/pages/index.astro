@@ -83,8 +83,12 @@ import "../styles/main.css";
       </div>
       <div class="token-custom-row">
         <label for="tokenAmount">Своя сумма (минимум 1000 ₽)</label>
-        <input id="tokenAmount" type="number" min="1000" step="500" value="1000" />
+        <div class="token-input-wrap">
+          <input id="tokenAmount" type="number" min="1000" step="500" value="1000" />
+          <button class="token-select-btn" id="tokenSelectBtn" type="button">Выбрать</button>
+        </div>
       </div>
+      <p class="token-note">Токены можно пополнить позже в личном кабинете.</p>
 
       <a class="btn btn-google full" href="#">Войти через Google</a>
       <p class="form-note">Вход нужен для запуска бота.</p>
@@ -395,6 +399,7 @@ import "../styles/main.css";
     // token amount selector (button presets + custom input)
     const tokenPills = document.querySelectorAll('.token-pill');
     const tokenAmount = document.getElementById('tokenAmount');
+    const tokenSelectBtn = document.getElementById('tokenSelectBtn');
     tokenPills.forEach(pill => {
       pill.addEventListener('click', () => {
         tokenPills.forEach(p => p.classList.remove('active'));
@@ -409,6 +414,14 @@ import "../styles/main.css";
         tokenPills.forEach(p => p.classList.toggle('active', !Number.isNaN(v) && p.dataset.value === String(v)));
       });
       tokenAmount.addEventListener('blur', () => {
+        let v = parseInt(tokenAmount.value || '0', 10);
+        if (Number.isNaN(v) || v < 1000) v = 1000;
+        tokenAmount.value = String(v);
+        tokenPills.forEach(p => p.classList.toggle('active', p.dataset.value === String(v)));
+      });
+    }
+    if (tokenSelectBtn && tokenAmount) {
+      tokenSelectBtn.addEventListener('click', () => {
         let v = parseInt(tokenAmount.value || '0', 10);
         if (Number.isNaN(v) || v < 1000) v = 1000;
         tokenAmount.value = String(v);
