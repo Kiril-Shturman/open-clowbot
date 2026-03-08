@@ -21,6 +21,9 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 .balance-main h1{margin:6px 0 0}
 .balance-line{display:flex;align-items:flex-end;gap:10px}
 .balance-usd{font-size:18px;line-height:1.2;color:#cdb6bd;font-weight:600;margin-bottom:5px}
+.balance-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.balance-actions .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.balance-actions .btn .btn-icon{width:14px;height:14px;display:block;filter:brightness(0) invert(1)}
 .ok{color:var(--brand-soft)}
 .bots{margin-top:12px}
 .bots-head{margin-bottom:10px;justify-content:space-between;gap:14px}
