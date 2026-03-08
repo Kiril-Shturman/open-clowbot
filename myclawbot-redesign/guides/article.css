@@ -8,7 +8,7 @@
 .kicker{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:14px}.tag{padding:5px 9px;border-radius:999px;background:#ff4f7922;color:#ff89a5;border:1px solid #ff5d8633;font-weight:700}
 h1{font-size:clamp(34px,6vw,64px);line-height:.95;margin:10px 0 12px}
 .lead{font-size:20px;color:#e7d5da;line-height:1.45}
-.panel{background:linear-gradient(180deg,var(--panel),#12090d);border:1px solid var(--line);border-radius:16px;padding:18px;margin:16px 0}
+.panel{background:transparent;border:0;border-radius:0;padding:0;margin:14px 0}
 .toc h3{margin:0 0 12px;font-size:14px;letter-spacing:.08em;color:#b9a5ab}
 .toc ol{margin:0;padding-left:20px}
 .toc a{color:#ff6f8f;text-decoration:none}
