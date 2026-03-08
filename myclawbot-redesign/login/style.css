@@ -7,7 +7,7 @@ h1{margin:0 0 8px;font-size:34px;line-height:1}.muted{color:var(--muted);margin:
 /* If Safari still paints autofill, make whole row uniform instead of patchy */
 .input-wrap:has(input:-webkit-autofill),.input-wrap:has(input:-webkit-autofill:hover),.input-wrap:has(input:-webkit-autofill:focus){background:rgba(255,255,255,.10)}
 .eye{border:0;background:transparent;cursor:pointer;padding:0 2px;display:inline-flex;align-items:center;justify-content:center}.eye img{width:16px;height:16px;display:block;filter:brightness(0) invert(1)}
-.login-btn{width:100%;height:46px;border:0;border-radius:12px;background:linear-gradient(135deg,#ff4d4f 0%,#e53935 45%,#b71c1c 100%);color:#fff;font-weight:800;cursor:pointer;margin-top:10px}
+.login-btn{width:100%;height:46px;border:0;border-radius:12px;background:linear-gradient(180deg,#ff5b62 0%,#e53935 58%,#d62f4f 100%);color:#fff;font-weight:800;cursor:pointer;margin-top:10px}
 .divider{display:flex;align-items:center;gap:8px;margin:16px 0;color:#bca2a8;font-size:12px}.divider:before,.divider:after{content:"";height:1px;flex:1;background:#ffffff22}
 .google-btn{width:100%;height:46px;border-radius:12px;border:1px solid #ffffff2a;background:#fff;color:#1b1b1b;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}
 .google-btn img{width:18px;height:18px;display:block}
