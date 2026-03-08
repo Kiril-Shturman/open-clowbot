@@ -166,7 +166,7 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 }
 /* 3 visual types: filled / outlined / dashed */
 .chip:nth-child(3n+1), .chip-grad{
-  border-color:rgba(255,122,156,.28);
+  border-color:transparent;
   background:linear-gradient(180deg,rgba(255,115,156,.20),rgba(255,90,128,.08));
 }
 .chip:nth-child(3n+2), .chip-plain{
