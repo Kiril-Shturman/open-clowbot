@@ -279,7 +279,7 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
   .marquee-row.right .marquee-track{animation:marqueeRight 24s linear infinite}
   .chip{min-width:270px;font-size:13px;padding:9px 10px}
 
-  .kb-link{margin-top:12px}
+  .kb-link{margin-top:56px}
   .board-note{font-size:12px}
 
   .cta-row{display:grid;grid-template-columns:1fr;gap:8px}
