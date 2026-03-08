@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Личный кабинет — open-clawbot.ru</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="wrap row">
+      <a class="brand" href="/">open-clawbot.ru</a>
+      <div class="row gap8">
+        <a class="btn ghost" href="/guides/">База знаний</a>
+        <a class="btn solid" href="#">Выйти</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap main">
+    <section class="hero panel">
+      <div>
+        <p class="muted">Личный кабинет</p>
+        <h1>Баланс и лимиты AI</h1>
+        <p class="muted">Здесь пользователь пополняет баланс, видит расходы и управляет лимитами.</p>
+      </div>
+      <button class="btn solid" id="topupOpen">Пополнить баланс</button>
+    </section>
+
+    <section class="stats">
+      <article class="panel stat"><p class="muted">Текущий баланс</p><h2 id="balance">1 250 ₽</h2></article>
+      <article class="panel stat"><p class="muted">Потрачено сегодня</p><h2>143 ₽</h2></article>
+      <article class="panel stat"><p class="muted">Лимит в день</p><h2>500 ₽</h2></article>
+      <article class="panel stat"><p class="muted">Статус</p><h2 class="ok">Активен</h2></article>
+    </section>
+
+    <section class="grid2">
+      <article class="panel">
+        <h3>Настройки ограничений</h3>
+        <div class="field"><label>Дневной лимит, ₽</label><input value="500" /></div>
+        <div class="field"><label>Месячный лимит, ₽</label><input value="3890" /></div>
+        <div class="field"><label>Разрешённые модели</label>
+          <div class="chips"><span>GPT-4.1-mini</span><span>Claude Sonnet</span><span>Gemini Flash</span></div>
+        </div>
+        <button class="btn solid">Сохранить лимиты</button>
+      </article>
+
+      <article class="panel">
+        <h3>История списаний</h3>
+        <table>
+          <thead><tr><th>Время</th><th>Модель</th><th>Сумма</th></tr></thead>
+          <tbody>
+            <tr><td>17:01</td><td>Claude Sonnet</td><td>-18 ₽</td></tr>
+            <tr><td>16:42</td><td>GPT-4.1-mini</td><td>-6 ₽</td></tr>
+            <tr><td>16:12</td><td>Gemini Flash</td><td>-3 ₽</td></tr>
+            <tr><td>15:50</td><td>Claude Sonnet</td><td>-22 ₽</td></tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+  </main>
+
+  <div class="modal-bg" id="topupModal">
+    <div class="modal panel">
+      <button class="close" id="topupClose">×</button>
+      <h3>Пополнение баланса</h3>
+      <p class="muted">MVP-форма: привяжем к реальной оплате (YooKassa/Stripe) следующим шагом.</p>
+      <div class="topup-grid">
+        <button class="amount">500 ₽</button>
+        <button class="amount">1 000 ₽</button>
+        <button class="amount">2 000 ₽</button>
+        <button class="amount">5 000 ₽</button>
+      </div>
+      <div class="field"><label>Своя сумма</label><input placeholder="Введите сумму" /></div>
+      <button class="btn solid full">Перейти к оплате</button>
+    </div>
+  </div>
+
+  <script>
+    const m = document.getElementById('topupModal');
+    document.getElementById('topupOpen').onclick = ()=>m.classList.add('show');
+    document.getElementById('topupClose').onclick = ()=>m.classList.remove('show');
+    m.onclick = (e)=>{ if(e.target===m) m.classList.remove('show'); };
+  </script>
+</body>
+</html>
