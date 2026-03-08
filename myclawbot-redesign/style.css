@@ -88,7 +88,7 @@ h1{
   padding:18px;
   box-shadow:0 16px 36px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.05);
 }
-.setup{margin-top:18px}
+.setup{margin-top:18px;background:linear-gradient(180deg,rgba(255,107,107,.14),rgba(230,63,63,.08) 52%,rgba(255,255,255,.02) 100%);border:1px solid rgba(255,107,107,.24)}
 h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spacing:-.2px}
 
 .model-tabs{display:grid;gap:10px}
@@ -104,17 +104,17 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
   font-size:15px;
 }
 .model-tab img{width:20px;height:20px;object-fit:contain}
-.model-tab.active{border-color:#ff8ea7;background:#2a1119;box-shadow:0 0 0 1px rgba(255,120,150,.16) inset}
-.more-ai-btn{margin-top:10px;border:1px dashed rgba(255,255,255,.26);background:rgba(255,255,255,.02);color:#ffd5de;padding:10px 12px;border-radius:12px;text-align:left;font-weight:600;cursor:pointer}
+.model-tab.active{border-color:#ff6b6b;background:linear-gradient(180deg,rgba(255,107,107,.18),rgba(255,77,77,.08));box-shadow:0 0 0 1px rgba(255,77,77,.18) inset}
+.more-ai-btn{margin-top:10px;border:1px dashed rgba(255,107,107,.42);background:rgba(255,77,77,.06);color:#ffd9de;padding:10px 12px;border-radius:12px;text-align:left;font-weight:600;cursor:pointer}
 .more-ai-panel{display:none;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 .more-ai-panel.open{display:grid}
-.ai-option{border:1px solid rgba(255,255,255,.15);background:#150b10;color:var(--text);border-radius:12px;padding:10px 11px;display:flex;align-items:center;gap:8px;cursor:pointer;text-align:left}
+.ai-option{border:1px solid rgba(255,107,107,.30);background:#150b10;color:var(--text);border-radius:12px;padding:10px 11px;display:flex;align-items:center;gap:8px;cursor:pointer;text-align:left}
 .ai-option img{width:17px;height:17px;object-fit:contain}
 
 .model-info{
   margin-top:12px;
-  background:linear-gradient(180deg,#2b111b,#32121e);
-  border:1px solid rgba(255,145,170,.28);
+  background:linear-gradient(180deg,rgba(255,107,107,.18),rgba(255,77,77,.10) 55%,rgba(230,63,63,.12));
+  border:1px solid rgba(255,107,107,.36);
   border-radius:14px;
   padding:14px;
 }
