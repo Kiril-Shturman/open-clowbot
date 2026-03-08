@@ -137,6 +137,9 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 }
 .model-info h3{margin:0 0 5px;font-size:30px;line-height:1;letter-spacing:-.2px}
 .model-info p{margin:0;color:#e0c7ce;font-size:16px;line-height:1.4}
+.model-pills{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+.model-pill{border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.06);color:#fff;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:600;cursor:pointer}
+.model-pill.active{border-color:var(--brand-2);background:linear-gradient(180deg,var(--brand-fill),var(--brand-fill-soft));box-shadow:0 0 0 1px rgba(255,77,77,.18) inset}
 
 .channel-row{margin-top:14px}
 .channel{

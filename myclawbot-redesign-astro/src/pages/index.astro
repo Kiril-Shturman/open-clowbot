@@ -68,6 +68,12 @@ import "../styles/main.css";
       <div class="model-info" id="modelInfo">
         <h3>Anthropic Claude</h3>
         <p>Максимум качества для сложных задач, кода и анализа.</p>
+        <div class="model-pills" id="modelPills">
+          <button class="model-pill active" data-model="claude" type="button">Claude 3.7 Sonnet</button>
+          <button class="model-pill" data-model="gpt" type="button">GPT-4.1</button>
+          <button class="model-pill" data-model="gemini" type="button">Gemini 2.0 Flash</button>
+          <button class="model-pill" data-model="deepseek" type="button">DeepSeek V3</button>
+        </div>
       </div>
       <div class="channel-row">
         <button class="channel active" id="tgOpen"><img src="./assets/icons/telegram.png" alt="Telegram"> Telegram</button>
@@ -248,6 +254,7 @@ import "../styles/main.css";
     const moreAiBtn = document.getElementById('moreAiBtn');
     const moreAiPanel = document.getElementById('moreAiPanel');
     const aiOptions = document.querySelectorAll('.ai-option');
+    const modelPills = document.querySelectorAll('.model-pill');
 
     // PixelBlast-style animated background for first screen
     const ditherCanvas = document.getElementById('heroDither');
@@ -323,7 +330,11 @@ import "../styles/main.css";
     function renderModel(key) {
       const m = info[key];
       if (!m) return;
-      box.innerHTML = `<h3>${m.title}</h3><p>${m.text}</p>`;
+      const h = box.querySelector('h3');
+      const p = box.querySelector('p');
+      if (h) h.textContent = m.title;
+      if (p) p.textContent = m.text;
+      modelPills.forEach(mp => mp.classList.toggle('active', mp.dataset.model === key));
     }
 
     tabs.forEach(tab => {
@@ -348,6 +359,19 @@ import "../styles/main.css";
         aiOptions.forEach(a => a.classList.remove('active'));
         btn.classList.add('active');
         renderModel(btn.dataset.model);
+      });
+    });
+
+    modelPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        const key = pill.dataset.model;
+        tabs.forEach(t => {
+          const on = t.dataset.model === key;
+          t.classList.toggle('active', on);
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        aiOptions.forEach(a => a.classList.toggle('active', a.dataset.model === key));
+        renderModel(key);
       });
     });
 
