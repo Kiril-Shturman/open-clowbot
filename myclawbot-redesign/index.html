@@ -47,18 +47,31 @@
         <h3>Claude Opus 4.5</h3>
         <p>Максимум качества для сложных задач, кода и анализа.</p>
       </div>
-      <div class="channel"><img src="./assets/icons/telegram.png" alt="Telegram"> Telegram</div>
-
-      <div class="tg-guide">
-        <h4>Как подключить Telegram</h4>
-        <ol>
-          <li>Открой @BotFather</li>
-          <li>Нажми <b>/newbot</b> и создай бота</li>
-          <li>Вставь токен на сайте</li>
-          <li>Оплати тариф — бот готов через минуту</li>
-        </ol>
+      <div class="channel-row">
+        <button class="channel active" id="tgOpen"><img src="./assets/icons/telegram.png" alt="Telegram"> Telegram</button>
       </div>
+
+      <a class="btn btn-google full" href="#">Войти через Google</a>
+      <p class="form-note">Войдите, чтобы развернуть AI-ассистента и подключить каналы.</p>
     </section>
+
+    <div class="modal-backdrop" id="tgModal" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tgTitle">
+        <button class="modal-close" id="tgClose" aria-label="Закрыть">×</button>
+        <h3 id="tgTitle">Подключить Telegram</h3>
+        <p class="modal-sub">Как получить токен бота?</p>
+        <ol>
+          <li>Откройте Telegram и перейдите к <b>@BotFather</b>.</li>
+          <li>Начните чат и введите <code>/newbot</code>.</li>
+          <li>Следуйте подсказкам, чтобы назвать бота и выбрать юзернейм.</li>
+          <li>Скопируйте токен целиком (длинная строка из цифр и букв).</li>
+          <li>Вставьте токен в поле ниже и нажмите «Сохранить».</li>
+        </ol>
+        <label for="botToken">Введите токен бота</label>
+        <input id="botToken" type="text" placeholder="1234567890:ABCdefGHI_jklMNOpqrSTUVwx" />
+        <button class="btn btn-primary full" id="saveToken">Сохранить ✓</button>
+      </div>
+    </div>
 
     <section id="capabilities" class="section">
       <h2>Что умеет OpenClaw?</h2>
@@ -125,6 +138,39 @@
         box.innerHTML = `<h3>${m.title}</h3><p>${m.text}</p>`;
       });
     });
+
+    const tgModal = document.getElementById('tgModal');
+    const tgOpen = document.getElementById('tgOpen');
+    const tgClose = document.getElementById('tgClose');
+    const tokenInput = document.getElementById('botToken');
+    const saveToken = document.getElementById('saveToken');
+
+    tgOpen.addEventListener('click', () => {
+      tgModal.classList.add('open');
+      tgModal.setAttribute('aria-hidden', 'false');
+      setTimeout(() => tokenInput.focus(), 60);
+    });
+
+    function closeModal() {
+      tgModal.classList.remove('open');
+      tgModal.setAttribute('aria-hidden', 'true');
+    }
+
+    tgClose.addEventListener('click', closeModal);
+    tgModal.addEventListener('click', (e) => {
+      if (e.target === tgModal) closeModal();
+    });
+
+    saveToken.addEventListener('click', () => {
+      const value = tokenInput.value.trim();
+      if (!value) return;
+      localStorage.setItem('myclawbot_tg_token', value);
+      saveToken.textContent = 'Сохранено ✓';
+      setTimeout(closeModal, 500);
+    });
+
+    const saved = localStorage.getItem('myclawbot_tg_token');
+    if (saved) tokenInput.value = saved;
   </script>
 </body>
 </html>

@@ -25,6 +25,7 @@ h1{font-family:"Playfair Display",serif;font-size:clamp(38px,6.2vw,72px);line-he
 .btn:hover{transform:translateY(-1px);opacity:.95}
 .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary2));border:0;color:#2a050d}
 .btn-ghost{background:#ffffff0a}
+.btn-google{background:#fff;color:#151515;border:0}
 .full{width:100%}
 
 .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px}
@@ -40,10 +41,23 @@ h2{font-size:clamp(26px,4vw,40px);margin:0 0 14px}
 .model-tab.active{border-color:#ff97ad66;background:#2d1119}
 .model-info{margin-top:10px;background:#2a1018;border:1px solid #ffb8c433;border-radius:12px;padding:11px 12px}
 .model-info h3{margin:0 0 4px;font-size:16px}.model-info p{margin:0;color:var(--muted);font-size:14px}
-.channel{margin-top:12px;display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#0f090c;font-weight:700}
+.channel-row{margin-top:12px}
+.channel{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#0f090c;font-weight:700;color:var(--text);cursor:pointer}
+.channel.active{border-color:#ff97ad66}
 .channel img{width:14px;height:14px}
-.tg-guide{margin-top:12px;border:1px dashed #ffb5c044;border-radius:12px;padding:12px;background:#12090c}
-.tg-guide h4{margin:0 0 8px}.tg-guide ol{margin:0;padding-left:18px;color:var(--muted)}.tg-guide li{margin:5px 0}
+.form-note{margin:10px 2px 0;color:var(--muted);font-size:14px}
+
+.modal-backdrop{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
+.modal-backdrop.open{display:flex}
+.modal{width:min(560px,100%);max-height:90vh;overflow:auto;background:#09090ce8;border:1px solid #ffffff2a;border-radius:22px;padding:18px;position:relative;backdrop-filter:blur(10px)}
+.modal h3{margin:0 0 6px;font-size:32px}
+.modal-sub{margin:0 0 10px;color:#e5d4d8;font-size:22px}
+.modal ol{margin:0 0 12px;padding-left:20px;color:#d7c6ca}
+.modal li{margin:8px 0}
+.modal code{background:#ffffff1a;padding:2px 7px;border-radius:8px}
+.modal label{display:block;font-size:14px;margin-bottom:6px;color:#d7c7cb}
+.modal input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #ffffff26;background:#ffffff12;color:#fff;margin-bottom:12px}
+.modal-close{position:absolute;right:12px;top:10px;border:0;background:transparent;color:#fff;font-size:32px;cursor:pointer}
 
 .section{padding-top:36px}
 .subhead{margin:-6px 0 14px;color:var(--muted)}
