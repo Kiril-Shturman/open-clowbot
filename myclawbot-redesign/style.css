@@ -43,11 +43,12 @@ body{
   font-weight:700;
 }
 h1{
-  font-family:"Playfair Display",serif;
+  font-family:Onest,system-ui,sans-serif;
   font-size:clamp(40px,7vw,80px);
   line-height:.92;
   margin:14px 0 12px;
   letter-spacing:-.3px;
+  font-weight:800;
 }
 .lead{max-width:690px;color:var(--muted);font-size:20px;line-height:1.45;margin:0}
 .cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
