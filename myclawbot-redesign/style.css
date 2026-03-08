@@ -26,12 +26,12 @@ body{
   position:sticky;top:0;z-index:20;
   backdrop-filter:blur(8px);
   background:rgba(10,6,8,.78);
-  border-bottom:1px solid var(--line-soft);
+  border-bottom:0;
 }
 .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
 .brand{font-weight:800;color:#fff;text-decoration:none;font-size:34px;letter-spacing:.2px}
 
-.hero{padding:44px 0 24px}
+.hero{padding:44px 0 24px;border-bottom:0}
 .kicker{
   display:inline-block;
   padding:8px 12px;
@@ -178,9 +178,19 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
   .model-info h3{font-size:26px}
   .cards h3{font-size:24px}
   .cards p{font-size:15px}
-  .stats,.cards,.footer-grid{grid-template-columns:1fr}
+
+  .stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .stats>div{padding:10px}
+  .stats strong{font-size:18px}
+  .stats span{font-size:11px}
+
+  .cards,.footer-grid{grid-template-columns:1fr}
   .lead,.subhead{font-size:16px;line-height:1.35}
-  .btn{font-size:15px;padding:11px 13px}
+
+  .cta-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .cta-row .btn{width:100%;white-space:nowrap}
+  .btn{font-size:14px;padding:11px 10px}
+
   .kicker{font-size:12px}
   .model-tab{font-size:15px;padding:11px}
   .model-tab img{width:18px;height:18px}
