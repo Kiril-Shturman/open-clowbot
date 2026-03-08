@@ -3,10 +3,10 @@
 .container{width:min(980px,92%);margin:0 auto}
 .header{position:sticky;top:0;background:#0c0609db;backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,.09);z-index:10}
 .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0}.brand{font-size:28px;font-weight:800;color:#fff;text-decoration:none}.btn{text-decoration:none;border:1px solid var(--line);padding:10px 14px;border-radius:12px;color:#fff;font-weight:700}
-.main{padding:20px 0 30px}.crumbs{display:flex;gap:8px;color:#bca4ab;font-size:14px}.crumbs a{color:#d6bec4;text-decoration:none}
-.article{margin-top:10px}
-.kicker{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:14px}.tag{padding:5px 9px;border-radius:999px;background:#ff4f7922;color:#ff89a5;border:1px solid #ff5d8633;font-weight:700}
-h1{font-size:clamp(34px,6vw,64px);line-height:.95;margin:10px 0 12px}
+.main{padding:28px 0 34px}.crumbs{display:flex;gap:8px;color:#bca4ab;font-size:14px;margin-bottom:10px}.crumbs a{color:#d6bec4;text-decoration:none}
+.article{margin-top:6px;padding-top:4px}
+.kicker{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:14px;margin-bottom:8px}.tag{padding:5px 9px;border-radius:999px;background:#ff4f7922;color:#ff89a5;border:1px solid #ff5d8633;font-weight:700}
+h1{font-size:clamp(34px,6vw,64px);line-height:1.02;margin:8px 0 16px}
 .lead{font-size:20px;color:#e7d5da;line-height:1.45}
 .panel{background:transparent;border:0;border-radius:0;padding:0;margin:14px 0}
 .toc h3{margin:0 0 12px;font-size:14px;letter-spacing:.08em;color:#b9a5ab}
@@ -18,4 +18,14 @@ h2{font-size:32px;margin:0 0 10px}p{line-height:1.7;color:#e8dce0}ul,ol{line-hei
 .read-next{padding-left:18px}
 .read-next a{color:var(--red);text-decoration:none}
 .footer{margin-top:28px;border-top:1px solid rgba(255,255,255,.1);padding:18px 0 24px;color:#b89fa6}
-@media(max-width:900px){.brand{font-size:24px}.lead{font-size:18px}.panel{padding:14px}.intro-quote{font-size:17px}}
+@media(max-width:900px){
+  .brand{font-size:24px}
+  .main{padding-top:20px}
+  .lead{font-size:18px}
+  h1{font-size:36px;line-height:1.05;margin-top:6px}
+  h2{font-size:28px;margin-top:22px}
+  p,ul,ol{font-size:18px;line-height:1.65}
+  .kicker{font-size:13px;gap:8px;flex-wrap:wrap}
+  .panel{padding:14px}
+  .intro-quote{font-size:17px;margin:16px 0}
+}
