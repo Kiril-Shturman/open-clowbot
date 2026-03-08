@@ -25,3 +25,6 @@ body{background-color:#000;padding-bottom:env(safe-area-inset-bottom)}
 html,body{background:#000 !important;overscroll-behavior-y:none}
 body::before{content:"";position:fixed;inset:0;background:#000;z-index:-1;pointer-events:none}
 body::after{content:"";position:fixed;left:0;top:0;width:100%;height:calc(env(safe-area-inset-top) + 4px);background:#000;z-index:2147483647;pointer-events:none}
+
+/* Professional iOS top safe-area paint */
+html::before{content:"";position:fixed;top:0;left:0;right:0;height:calc(env(safe-area-inset-top) + 6px);background:#000;z-index:2147483647;pointer-events:none}
