@@ -23,8 +23,9 @@ import "../styles/main.css";
   <header class="header">
     <div class="container nav">
       <a class="brand" href="/"><img class="brand-logo" src="/assets/logo-bot.png" alt="logo"></a>
-      <div class="row small-gap">
-        <a class="btn header-btn header-btn--primary" href="/login/"><img class="header-btn__icon" src="/assets/icons/login/user-filled.svg" alt="">Войти</a>
+      <div class="row small-gap" id="headerAuthArea">
+        <span class="header-balance" id="headerBalance" style="display:none">Баланс: —</span>
+        <a class="btn header-btn header-btn--primary" id="headerAuthBtn" href="/login/"><img class="header-btn__icon" src="/assets/icons/login/user-filled.svg" alt="">Войти</a>
       </div>
     </div>
   </header>
@@ -459,10 +460,26 @@ import "../styles/main.css";
     }
 
     // If user is already logged in: stay on homepage and show payment CTA (or cabinet CTA if subscribed)
+    const headerAuthBtn = document.getElementById('headerAuthBtn');
+    const headerBalance = document.getElementById('headerBalance');
+
     fetch('/api/auth/me').then(async r => {
       const data = await r.json();
-      if (!data || !data.ok || !authRow) return;
+      if (!data || !data.ok) return;
 
+      // Header switch: Войти -> Профиль + баланс
+      if (headerAuthBtn) {
+        headerAuthBtn.href = '/account/';
+        headerAuthBtn.innerHTML = `<img class="header-btn__icon" src="/assets/icons/login/user-filled.svg" alt="">Профиль`;
+      }
+      if (headerBalance) {
+        const balance = data.balance ?? data.wallet_balance ?? data.credits ?? data.tokens_balance;
+        const balanceText = (typeof balance === 'number') ? `${balance.toLocaleString('ru-RU')} ₽` : '—';
+        headerBalance.textContent = `Баланс: ${balanceText}`;
+        headerBalance.style.display = 'inline-flex';
+      }
+
+      if (!authRow) return;
       const hasSubscription = !!(data.subscription_active || data.has_subscription || data.plan_active || data.active_subscription);
       const tokenInput = document.getElementById('tokenAmount');
       let tokenAmount = parseInt((tokenInput && tokenInput.value) || '1000', 10);
