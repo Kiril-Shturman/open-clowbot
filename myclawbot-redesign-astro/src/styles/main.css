@@ -151,7 +151,7 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 .section{padding-top:44px}
 #capabilities{min-height:100vh;min-height:100svh;display:flex;align-items:center}
 #capabilities .skills-board{width:100%}
-.subhead{margin:-4px 0 16px;color:var(--muted);font-size:20px;text-align:center}
+.subhead{margin:-4px 0 34px;color:var(--muted);font-size:20px;text-align:center}
 
 .skills-board{
   padding:38px 0 24px;
