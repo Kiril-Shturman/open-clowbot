@@ -7,10 +7,20 @@
 .main{padding:22px 0 30px}.panel{background:linear-gradient(180deg,var(--panel),#12090d);border:1px solid var(--line);border-radius:16px;padding:16px}
 .hero{display:flex;align-items:flex-end;justify-content:space-between;gap:14px}h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}h3{font-size:28px;margin:0 0 12px}.muted{color:var(--muted);margin:0}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.ok{color:#82f0b2}
+.bots{margin-top:12px}
+.bots-head{margin-bottom:10px}
+.bots-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bot-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff1}
+.bot-card.active{border-color:#ff89a580;background:#ff56761a}
+.bot-name{margin:0 0 4px;font-weight:700;font-size:16px}
+.status{display:inline-block;margin:6px 0 10px;padding:5px 9px;border-radius:999px;border:1px solid var(--line);font-size:12px;color:var(--muted)}
+.bot-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn.small{padding:7px 10px;font-size:12px;border-radius:10px}
+
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
 .field{margin:10px 0}.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}.field input{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:#fff1;color:#fff}
 .chips{display:flex;flex-wrap:wrap;gap:8px}.chips span{padding:7px 10px;border-radius:999px;background:#fff1;border:1px solid var(--line);font-size:13px}
 table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid #ffffff1f;text-align:left}th{color:var(--muted);font-size:12px}
 .modal-bg{display:none;position:fixed;inset:0;background:#000a;align-items:center;justify-content:center;padding:14px}.modal-bg.show{display:flex}.modal{width:min(520px,100%);position:relative}.close{position:absolute;right:8px;top:4px;border:0;background:transparent;color:#fff;font-size:30px;cursor:pointer}
 .topup-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.amount{border:1px solid var(--line);background:#fff1;color:#fff;border-radius:10px;padding:10px;cursor:pointer}
-@media(max-width:900px){.stats{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}h1{font-size:34px}.hero{flex-direction:column;align-items:flex-start}}
+@media(max-width:900px){.stats{grid-template-columns:1fr 1fr}.bots-grid,.grid2{grid-template-columns:1fr}h1{font-size:34px}.hero{flex-direction:column;align-items:flex-start}}

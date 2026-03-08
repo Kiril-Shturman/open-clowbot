@@ -37,9 +37,43 @@
       <article class="panel stat"><p class="muted">Статус</p><h2 class="ok">Активен</h2></article>
     </section>
 
+    <section class="panel bots">
+      <div class="row bots-head">
+        <h3>Мои боты</h3>
+        <button class="btn solid">+ Добавить бота</button>
+      </div>
+      <div class="bots-grid">
+        <article class="bot-card active">
+          <div>
+            <p class="bot-name">sales_assistant_bot</p>
+            <p class="muted">@sales_assistant_bot · Telegram</p>
+          </div>
+          <span class="status ok">Активен</span>
+          <div class="bot-actions">
+            <button class="btn ghost small">Настройки</button>
+            <button class="btn ghost small">Лимиты</button>
+            <button class="btn ghost small">Остановить</button>
+          </div>
+        </article>
+
+        <article class="bot-card">
+          <div>
+            <p class="bot-name">support_helper_bot</p>
+            <p class="muted">@support_helper_bot · Telegram</p>
+          </div>
+          <span class="status">Пауза</span>
+          <div class="bot-actions">
+            <button class="btn ghost small">Настройки</button>
+            <button class="btn ghost small">Лимиты</button>
+            <button class="btn ghost small">Запустить</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <section class="grid2">
       <article class="panel">
-        <h3>Настройки ограничений</h3>
+        <h3>Лимиты выбранного бота</h3>
         <div class="field"><label>Дневной лимит, ₽</label><input value="500" /></div>
         <div class="field"><label>Месячный лимит, ₽</label><input value="3890" /></div>
         <div class="field"><label>Разрешённые модели</label>
@@ -49,7 +83,7 @@
       </article>
 
       <article class="panel">
-        <h3>История списаний</h3>
+        <h3>История списаний (по боту)</h3>
         <table>
           <thead><tr><th>Время</th><th>Модель</th><th>Сумма</th></tr></thead>
           <tbody>
