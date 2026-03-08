@@ -90,8 +90,8 @@ import "../styles/main.css";
       </div>
       <p class="token-note">Токены можно пополнить позже в личном кабинете.</p>
 
-      <div class="auth-row">
-        <a class="btn btn-primary full" href="/login/">Войти</a>
+      <div class="auth-row" id="authRow">
+        <a class="btn btn-primary full" href="/login/?return_to=%2F">Войти</a>
         <button class="btn btn-google full" id="heroGoogleBtn" type="button"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"> Войти через Google</button>
       </div>
       <p class="form-note">Вход нужен для запуска бота.</p>
@@ -437,11 +437,13 @@ import "../styles/main.css";
     renderModel('claude');
 
     // Google OAuth from homepage setup block
+    const authRow = document.getElementById('authRow');
     const heroGoogleBtn = document.getElementById('heroGoogleBtn');
+
     if (heroGoogleBtn) {
       heroGoogleBtn.addEventListener('click', () => {
         const CLIENT_ID = '884284199336-h238f68r3kthrj59adokma1f9612ud0o.apps.googleusercontent.com';
-        const REDIRECT_URI = 'https://open-clawbot.ru/login/';
+        const REDIRECT_URI = 'https://open-clawbot.ru/login/?return_to=%2F';
         const nonce = (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now());
         const url = new URL('https://accounts.google.com/o/oauth2/v2/auth');
         url.searchParams.set('client_id', CLIENT_ID);
@@ -453,6 +455,24 @@ import "../styles/main.css";
         location.href = url.toString();
       });
     }
+
+    // If user is already logged in: stay on homepage and show payment CTA (or cabinet CTA if subscribed)
+    fetch('/api/auth/me').then(async r => {
+      const data = await r.json();
+      if (!data || !data.ok || !authRow) return;
+
+      const hasSubscription = !!(data.subscription_active || data.has_subscription || data.plan_active || data.active_subscription);
+      const tokenInput = document.getElementById('tokenAmount');
+      let tokenAmount = parseInt((tokenInput && tokenInput.value) || '1000', 10);
+      if (Number.isNaN(tokenAmount) || tokenAmount < 1000) tokenAmount = 1000;
+
+      if (hasSubscription) {
+        authRow.innerHTML = `<a class="btn btn-primary full" href="/account/">Открыть личный кабинет</a>`;
+      } else {
+        const total = 3890 + tokenAmount;
+        authRow.innerHTML = `<a class="btn btn-primary full" href="#price">Оплатить ${total} ₽</a><a class="btn btn-ghost full" href="/account/">Личный кабинет</a>`;
+      }
+    }).catch(() => {});
 
     const tgModal = document.getElementById('tgModal');
     const tgOpen = document.getElementById('tgOpen');
