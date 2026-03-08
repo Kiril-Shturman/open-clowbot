@@ -22,7 +22,7 @@ body{
 }
 .bg-noise{display:none}
 .container{width:min(1080px,92%);margin:0 auto;max-width:100%}
-main,.header,.footer{max-width:100%;overflow-x:clip}
+.header,.footer{max-width:100%;overflow-x:clip}
 .row{display:flex;align-items:center}
 .small-gap{gap:8px}
 
