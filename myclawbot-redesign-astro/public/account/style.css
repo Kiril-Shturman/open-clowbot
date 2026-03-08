@@ -46,8 +46,8 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 .quick-setup .token-custom-row input{height:40px;border-radius:10px;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.06);color:#fff;padding:0 12px;font-size:14px}
 .quick-setup .token-select-btn{height:40px;padding:0 14px;border:0;border-radius:10px;background:var(--brand-gradient-main);color:#fff;font-weight:700;cursor:pointer}
 .quick-setup .token-note{margin:10px 2px 0;color:#d2bbc2;font-size:13px;line-height:1.45}
-.quick-setup .auth-row{display:grid;grid-template-columns:1fr;gap:8px;margin-top:12px}
-.quick-setup .auth-row .btn{height:40px}
+.quick-setup-footer{margin-top:14px;display:flex;justify-content:flex-start}
+.quick-setup-footer .btn{height:40px;padding:10px 16px}
 .bot-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff1}
 .bot-card.active{border-color:var(--brand-2)80;background:var(--brand-tint-soft)}
 .bot-name{margin:0 0 4px;font-weight:700;font-size:16px}
