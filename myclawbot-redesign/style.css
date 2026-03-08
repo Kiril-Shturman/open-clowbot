@@ -16,7 +16,7 @@ body{
   font-family:Onest,system-ui,sans-serif;
   color:var(--text);
   background:
-    radial-gradient(900px 440px at 50% -120px, #5e1830 0%, transparent 62%),
+    radial-gradient(1200px 620px at 50% -180px, #a52b4a 0%, #6f1936 38%, transparent 70%),
     linear-gradient(180deg,var(--bg),var(--bg2));
 }
 .bg-noise{display:none}
@@ -291,5 +291,5 @@ html,body{background:#0b0709 !important;overscroll-behavior-y:none}
 body::before{content:"";position:fixed;inset:0;background:#0b0709;z-index:-1;pointer-events:none}
 
 /* Safari top safe-area black strip fix */
-.header,.top{background:rgba(12,6,9,.78) !important;border-bottom:1px solid rgba(255,255,255,.14) !important}
-body::after{content:"";position:fixed;left:0;top:0;width:100%;height:calc(env(safe-area-inset-top) + 2px);background:linear-gradient(180deg,#3a0f1f,#0b0709);z-index:9999;pointer-events:none}
+.header,.top{background:rgba(18,7,12,.38) !important;border-bottom:1px solid rgba(255,255,255,.14) !important}
+body::after{content:"";position:fixed;left:0;top:0;width:100%;height:calc(env(safe-area-inset-top) + 2px);background:linear-gradient(180deg,#8a2340,#3a0f1f);z-index:9999;pointer-events:none}
