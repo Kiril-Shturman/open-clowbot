@@ -40,7 +40,7 @@
     <section class="panel balance-main">
       <div>
         <p class="muted">Текущий баланс</p>
-        <h1 id="balance">1 250 ₽</h1>
+        <h1 class="balance-line"><span id="balance">1 250 ₽</span><span id="balanceUsd" class="balance-usd">$13.9</span></h1>
       </div>
       <button class="btn solid" id="topupOpen">Пополнить баланс</button>
     </section>
@@ -133,12 +133,17 @@
       const profileNameEl = document.getElementById('profileName');
       const profileEmailEl = document.getElementById('profileEmail');
       const balanceEl = document.getElementById('balance');
+      const balanceUsdEl = document.getElementById('balanceUsd');
 
       if (profileNameEl) profileNameEl.textContent = name;
       if (profileEmailEl) profileEmailEl.textContent = email;
       if (balanceEl) {
-        const balanceText = (typeof balance === 'number') ? `${balance.toLocaleString('ru-RU')} ₽` : '0.0₽';
-        balanceEl.textContent = balanceText;
+        const rub = (typeof balance === 'number') ? balance : 0;
+        balanceEl.textContent = `${rub.toLocaleString('ru-RU')} ₽`;
+        if (balanceUsdEl) {
+          const usd = rub / 90; // display-only approximate conversion
+          balanceUsdEl.textContent = `$${usd.toFixed(1)}`;
+        }
       }
 
       loadBots();
