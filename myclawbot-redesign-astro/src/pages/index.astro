@@ -329,6 +329,7 @@ import "../styles/main.css";
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
         tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+        aiOptions.forEach(a => a.classList.remove('active'));
         tab.classList.add('active');
         tab.setAttribute('aria-selected','true');
         renderModel(tab.dataset.model);
@@ -344,6 +345,8 @@ import "../styles/main.css";
     aiOptions.forEach(btn => {
       btn.addEventListener('click', () => {
         tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+        aiOptions.forEach(a => a.classList.remove('active'));
+        btn.classList.add('active');
         renderModel(btn.dataset.model);
       });
     });
