@@ -37,3 +37,7 @@ body{background-color:#0b0709;padding-bottom:env(safe-area-inset-bottom)}
 @supports (-webkit-touch-callout: none){
   html,body{min-height:-webkit-fill-available}
 }
+
+/* Safari overscroll hard-fix (prevent white flash) */
+html,body{background:#0b0709 !important;overscroll-behavior-y:none}
+body::before{content:"";position:fixed;inset:0;background:#0b0709;z-index:-1;pointer-events:none}
