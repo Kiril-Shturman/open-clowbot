@@ -184,7 +184,9 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
   padding:14px;
   background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));
 }
-.include-card h3{margin:0 0 8px;font-size:24px;line-height:1.05}
+.include-card h3{margin:0 0 8px;font-size:24px;line-height:1.05;display:flex;align-items:center;gap:8px}
+.include-icon{width:24px;height:24px;border:1px solid rgba(255,255,255,.18);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06)}
+.include-icon img{width:14px;height:14px;filter:brightness(0) invert(1)}
 .include-card p{margin:0;color:#dfc9cf;line-height:1.45}
 
 .footer{margin-top:46px;border-top:1px solid var(--line-soft);background:#0b0708}
