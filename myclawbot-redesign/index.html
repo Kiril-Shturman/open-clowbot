@@ -42,7 +42,21 @@
         </div>
 
         <div class="hero-shot">
-          <img src="./preview.svg" alt="Превью интерфейса MyClawBot" />
+          <div class="setup-card">
+            <h3>Какую модель выбрать по умолчанию?</h3>
+            <button class="pick active"><span class="icon claude">✷</span> Claude Opus 4.5 <span class="check">✓</span></button>
+            <button class="pick"><span class="icon gpt">◎</span> GPT-5.2</button>
+            <button class="pick"><span class="icon gemini">✦</span> Gemini 3 Flash</button>
+
+            <h4>Канал для отправки сообщений</h4>
+            <div class="channels">
+              <button class="channel active">✈️ Telegram</button>
+              <button class="channel disabled">🟢 WhatsApp <small>скоро</small></button>
+            </div>
+
+            <a class="btn btn-google full" href="#">G Войти через Google</a>
+            <p class="warn">Войдите, чтобы развернуть ассистента и подключить каналы.</p>
+          </div>
         </div>
       </div>
     </section>

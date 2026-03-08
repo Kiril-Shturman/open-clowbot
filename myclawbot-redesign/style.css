@@ -31,7 +31,35 @@ body {
 .badge { display: inline-block; margin: 0 0 16px; padding: 8px 12px; font-size: 13px; border-radius: 999px; background: rgba(109,125,255,.16); border: 1px solid rgba(109,125,255,.35); }
 h1 { font-size: clamp(30px, 6vw, 54px); line-height: 1.08; margin: 0 0 14px; }
 .sub { color: var(--muted); max-width: 700px; margin: 0; font-size: clamp(16px, 2.2vw, 20px); }
-.hero-shot img { width: 100%; border-radius: 16px; border: 1px solid var(--line); box-shadow: 0 14px 40px rgba(0,0,0,.35); }
+.hero-shot { width: 100%; }
+.setup-card {
+  background: #0d1328;
+  border: 1px solid #2b3768;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 14px 40px rgba(0,0,0,.35);
+}
+.setup-card h3 { margin: 0 0 12px; font-size: 22px; }
+.setup-card h4 { margin: 18px 0 10px; font-size: 18px; }
+.pick {
+  width: 100%; text-align: left; margin: 0 0 10px; padding: 12px 14px;
+  border-radius: 12px; border: 1px solid var(--line); background: #0a0f20; color: var(--text);
+  display: flex; align-items: center; gap: 10px; font-size: 17px;
+}
+.pick.active { border-color: rgba(255,255,255,.35); background: #1a223f; }
+.icon { width: 24px; height: 24px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; }
+.icon.claude { background: #4b2d2a; color: #ff9d7b; }
+.icon.gpt { background: #1f2a2a; color: #95e3c6; }
+.icon.gemini { background: #2a2340; color: #a9c0ff; }
+.check { margin-left: auto; opacity: .9; }
+.channels { display: flex; gap: 8px; margin-bottom: 14px; }
+.channel {
+  border: 1px solid var(--line); background: #101832; color: var(--text); border-radius: 12px;
+  padding: 10px 12px; font-size: 15px;
+}
+.channel.active { border-color: rgba(109,125,255,.6); }
+.channel.disabled { opacity: .6; }
+.warn { color: #f2b763; margin: 12px 0 0; font-size: 14px; }
 
 .hero-cta { margin-top: 26px; display: flex; gap: 12px; flex-wrap: wrap; }
 .btn { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border-radius: 12px; padding: 12px 16px; font-weight: 600; border: 1px solid var(--line); color: var(--text); }
