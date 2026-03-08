@@ -40,7 +40,7 @@
         <div class="input-wrap">
           <img class="icon" src="/assets/icons/login/lock.svg" alt="">
           <input id="pwd" class="input" type="password" placeholder="••••••••">
-          <button class="eye" id="togglePwd" type="button" aria-label="Показать пароль"><img src="/assets/icons/login/eye.svg" alt=""></button>
+          <button class="eye" id="togglePwd" type="button" aria-label="Показать пароль"><img id="togglePwdIcon" src="/assets/icons/login/eye.svg" alt=""></button>
         </div>
       </div>
 
@@ -101,7 +101,12 @@
 
     document.getElementById('togglePwd').onclick = () => {
       const p = document.getElementById('pwd');
-      p.type = p.type === 'password' ? 'text' : 'password';
+      const icon = document.getElementById('togglePwdIcon');
+      const btn = document.getElementById('togglePwd');
+      const show = p.type === 'password';
+      p.type = show ? 'text' : 'password';
+      icon.src = show ? '/assets/icons/login/eye-off.svg' : '/assets/icons/login/eye.svg';
+      btn.setAttribute('aria-label', show ? 'Скрыть пароль' : 'Показать пароль');
     };
 
     document.getElementById('googleCustomBtn').onclick = () => {
