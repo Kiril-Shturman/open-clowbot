@@ -313,13 +313,14 @@ import "../styles/main.css";
         gl.uniform1f(gl.getUniformLocation(prog,'uAngle'), 0.0);
         gl.uniform1f(gl.getUniformLocation(prog,'uNoise'), 0.3);
         gl.uniform1f(gl.getUniformLocation(prog,'uBlindCount'), 12.0);
-        gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightRadius'), 0.5);
+        gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightRadius'), 0.58);
         gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightSoftness'), 1.0);
-        gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightOpacity'), 1.0);
+        gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightOpacity'), 0.95);
         gl.uniform1f(gl.getUniformLocation(prog,'uDistort'), 0.0);
-        gl.uniform3f(gl.getUniformLocation(prog,'uColor0'), 1.0, 0.623, 0.988); // #FF9FFC
-        gl.uniform3f(gl.getUniformLocation(prog,'uColor1'), 0.322, 0.153, 1.0); // #5227FF
+        gl.uniform3f(gl.getUniformLocation(prog,'uColor0'), 1.0, 0.42, 0.42);  // #ff6b6b
+        gl.uniform3f(gl.getUniformLocation(prog,'uColor1'), 0.70, 0.10, 0.00); // #b51a00
 
+        // keep spotlight centered (no mouse drift to bottom on mobile)
         let mouseX=0.5, mouseY=0.5;
         const resize=()=>{
           const r=ditherCanvas.getBoundingClientRect();
@@ -330,13 +331,6 @@ import "../styles/main.css";
           gl.uniform2f(uRes,ditherCanvas.width,ditherCanvas.height);
           gl.uniform2f(uMouse,ditherCanvas.width*0.5,ditherCanvas.height*0.5);
         };
-
-        ditherCanvas.addEventListener('pointermove',(e)=>{
-          const r=ditherCanvas.getBoundingClientRect();
-          const dpr=Math.min(window.devicePixelRatio||1,2);
-          mouseX=(e.clientX-r.left)*dpr;
-          mouseY=(r.height-(e.clientY-r.top))*dpr;
-        });
 
         resize();
         window.addEventListener('resize',resize);
