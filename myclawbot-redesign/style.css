@@ -66,7 +66,7 @@ h1{
   transition:.2s transform,.2s opacity,.2s border-color;
 }
 .btn:hover{transform:translateY(-1px);opacity:.96;border-color:rgba(255,255,255,.24)}
-.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-2));border:0;color:#2a0610}
+.btn-primary{background:linear-gradient(180deg,#ff6b6b 0%,#ff4d4d 58%,#e63f3f 100%);border:0;color:#fff}
 .btn-ghost{background:rgba(255,255,255,.03)}
 .btn-google{background:#fff;color:#151515;border:0;font-weight:800}
 .full{width:100%}
