@@ -1,0 +1,160 @@
+:root {
+  --bg: #0b1020;
+  --card: #121a33;
+  --text: #edf1ff;
+  --muted: #aeb8d9;
+  --primary: #6d7dff;
+  --primary-2: #8a55ff;
+  --line: rgba(255,255,255,.12);
+  --ok: #35d1a6;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: radial-gradient(1200px 600px at 50% -200px, #263268 0%, var(--bg) 60%);
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.container { width: min(1040px, 92%); margin: 0 auto; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(10px);
+  background: rgba(11,16,32,.7);
+  border-bottom: 1px solid var(--line);
+}
+.topbar .container { padding: 14px 0; }
+.logo { font-weight: 800; letter-spacing: .2px; }
+
+.hero { text-align: center; padding: 70px 0 42px; }
+.badge {
+  display: inline-block;
+  margin: 0 0 16px;
+  padding: 8px 12px;
+  font-size: 13px;
+  border-radius: 999px;
+  background: rgba(109,125,255,.16);
+  border: 1px solid rgba(109,125,255,.35);
+}
+h1 {
+  font-size: clamp(30px, 6vw, 56px);
+  line-height: 1.08;
+  margin: 0 0 14px;
+}
+.sub {
+  color: var(--muted);
+  max-width: 760px;
+  margin: 0 auto;
+  font-size: clamp(16px, 2.3vw, 20px);
+}
+
+.hero-cta { margin-top: 28px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  text-decoration: none; border-radius: 12px; padding: 12px 18px;
+  font-weight: 600; border: 1px solid var(--line); color: var(--text);
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  border: 0;
+}
+.btn-ghost { background: rgba(255,255,255,.04); }
+.btn.full { width: 100%; }
+
+.proof {
+  margin-top: 34px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 10px;
+}
+.proof > div {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+}
+.proof strong { display: block; font-size: 24px; }
+.proof span { color: var(--muted); font-size: 14px; }
+
+.cards {
+  padding: 18px 0 8px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 14px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px;
+}
+.card h3 { margin: 0 0 8px; }
+.card p { margin: 0; color: var(--muted); }
+
+.pricing, .how, .faq { padding: 54px 0 6px; }
+h2 { font-size: clamp(24px, 4vw, 36px); margin: 0 0 18px; text-align: center; }
+.price-card {
+  width: min(560px, 100%);
+  margin: 0 auto;
+  background: linear-gradient(180deg, rgba(109,125,255,.14), rgba(109,125,255,.06));
+  border: 1px solid rgba(109,125,255,.4);
+  border-radius: 20px;
+  padding: 22px;
+}
+.price-card .name { margin: 0; color: var(--muted); }
+.price {
+  margin: 6px 0 14px;
+  font-size: clamp(34px, 6vw, 52px);
+  font-weight: 800;
+  line-height: 1;
+}
+.price span { font-size: 20px; color: var(--muted); font-weight: 500; }
+.price-card ul { margin: 0 0 16px; padding: 0; list-style: none; }
+.price-card li { padding: 9px 0 9px 28px; position: relative; border-bottom: 1px dashed rgba(255,255,255,.08); }
+.price-card li::before { content: "✓"; position: absolute; left: 0; color: var(--ok); font-weight: 700; }
+.note { margin: 12px 0 0; color: var(--muted); font-size: 14px; text-align: center; }
+
+.how ol {
+  width: min(740px, 100%);
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+.how li {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.faq { padding-bottom: 60px; }
+.faq details {
+  width: min(760px, 100%);
+  margin: 0 auto 10px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+}
+.faq summary { cursor: pointer; font-weight: 600; }
+.faq p { color: var(--muted); margin: 8px 0 0; }
+
+.footer {
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  padding: 22px 0 34px;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .proof { grid-template-columns: 1fr; }
+  .cards { grid-template-columns: 1fr; }
+}
