@@ -248,103 +248,79 @@ import "../styles/main.css";
     const moreAiPanel = document.getElementById('moreAiPanel');
     const aiOptions = document.querySelectorAll('.ai-option');
 
-    // GradientBlinds-style WebGL background for first screen
+    // Threads-style animated background for first screen (canvas 2D)
     const ditherCanvas = document.getElementById('heroDither');
     if (ditherCanvas) {
-      const gl = ditherCanvas.getContext('webgl', { antialias: true, alpha: true });
-      if (gl) {
-        const vs = `attribute vec2 position; varying vec2 vUv; void main(){ vUv=(position+1.0)*0.5; gl_Position=vec4(position,0.0,1.0);} `;
-        const fs = `precision mediump float;
-          varying vec2 vUv;
-          uniform vec2 iResolution;
-          uniform vec2 iMouse;
-          uniform float iTime;
-          uniform float uAngle;
-          uniform float uNoise;
-          uniform float uBlindCount;
-          uniform float uSpotlightRadius;
-          uniform float uSpotlightSoftness;
-          uniform float uSpotlightOpacity;
-          uniform float uDistort;
-          uniform vec3 uColor0;
-          uniform vec3 uColor1;
-          float rand(vec2 p){ return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453); }
-          vec2 rot(vec2 p,float a){ float c=cos(a), s=sin(a); return mat2(c,-s,s,c)*p; }
-          vec3 grad(float t){ return mix(uColor0,uColor1,clamp(t,0.0,1.0)); }
-          void main(){
-            vec2 uv0=vUv;
-            vec2 p=uv0*2.0-1.0;
-            p.x*=iResolution.x/max(iResolution.y,1.0);
-            vec2 pr=rot(p,uAngle);
-            pr.x/=iResolution.x/max(iResolution.y,1.0);
-            vec2 uv=pr*0.5+0.5;
-            if(uDistort>0.0){
-              uv.x += sin(uv.y*8.0 + iTime*0.6) * 0.01 * uDistort;
-              uv.y += cos(uv.x*7.0 - iTime*0.5) * 0.008 * uDistort;
+      const ctx = ditherCanvas.getContext('2d', { alpha: true });
+      if (ctx) {
+        let w = 0, h = 0;
+        const lines = [];
+        const LINE_COUNT = 90;
+
+        function resizeThreads() {
+          const rect = ditherCanvas.getBoundingClientRect();
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          w = Math.max(1, Math.floor(rect.width * dpr));
+          h = Math.max(1, Math.floor(rect.height * dpr));
+          ditherCanvas.width = w;
+          ditherCanvas.height = h;
+          lines.length = 0;
+          for (let i = 0; i < LINE_COUNT; i++) {
+            const y = (i / LINE_COUNT) * h;
+            lines.push({ y, phase: Math.random() * Math.PI * 2, speed: 0.25 + Math.random() * 0.55, amp: 8 + Math.random() * 28 });
+          }
+        }
+
+        function draw(t) {
+          const time = t * 0.001;
+          ctx.clearRect(0, 0, w, h);
+
+          // dark red base gradient
+          const bg = ctx.createLinearGradient(0, 0, w, h);
+          bg.addColorStop(0, '#2a0708');
+          bg.addColorStop(0.45, '#5d120f');
+          bg.addColorStop(1, '#120507');
+          ctx.fillStyle = bg;
+          ctx.fillRect(0, 0, w, h);
+
+          ctx.globalCompositeOperation = 'lighter';
+          for (let i = 0; i < lines.length; i++) {
+            const l = lines[i];
+            const yy = l.y + Math.sin(time * l.speed + l.phase) * l.amp;
+            const g = ctx.createLinearGradient(0, yy - 8, w, yy + 8);
+            g.addColorStop(0, 'rgba(255,70,70,0.00)');
+            g.addColorStop(0.25, 'rgba(255,85,85,0.18)');
+            g.addColorStop(0.5, 'rgba(255,120,120,0.40)');
+            g.addColorStop(0.75, 'rgba(255,85,85,0.18)');
+            g.addColorStop(1, 'rgba(255,70,70,0.00)');
+            ctx.strokeStyle = g;
+            ctx.lineWidth = 1 + (i % 3 === 0 ? 0.6 : 0.2);
+            ctx.beginPath();
+            for (let x = 0; x <= w; x += 14) {
+              const wave = Math.sin((x / w) * 9.0 + time * 1.4 + l.phase) * (2.0 + (i % 5) * 0.25);
+              const y2 = yy + wave;
+              if (x === 0) ctx.moveTo(x, y2);
+              else ctx.lineTo(x, y2);
             }
-            float stripe=fract(uv.x*max(uBlindCount,1.0));
-            vec3 base=grad(uv.x);
-            vec2 m=iMouse/iResolution;
-            float d=distance(uv0,m);
-            float spot=(1.0-smoothstep(0.0,max(uSpotlightRadius,1e-4),d))*uSpotlightOpacity;
-            float bars = 0.82 + 0.18 * smoothstep(0.15,0.95,1.0-stripe); // softer blinds
-            vec3 col = base * bars;
-            col *= (0.82 + 0.55*spot); // center emphasis
-            col += (rand(gl_FragCoord.xy + iTime)-0.5)*uNoise;
-            gl_FragColor=vec4(col,1.0);
-          }`;
+            ctx.stroke();
+          }
+          ctx.globalCompositeOperation = 'source-over';
 
-        const compile=(type,src)=>{const sh=gl.createShader(type);gl.shaderSource(sh,src);gl.compileShader(sh);return sh;};
-        const prog=gl.createProgram();
-        gl.attachShader(prog,compile(gl.VERTEX_SHADER,vs));
-        gl.attachShader(prog,compile(gl.FRAGMENT_SHADER,fs));
-        gl.linkProgram(prog);
-        gl.useProgram(prog);
+          // subtle grain
+          for (let i = 0; i < 450; i++) {
+            const x = Math.random() * w;
+            const y = Math.random() * h;
+            const a = Math.random() * 0.06;
+            ctx.fillStyle = `rgba(255,120,120,${a})`;
+            ctx.fillRect(x, y, 1, 1);
+          }
 
-        const buf=gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER,buf);
-        gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
-        const aPos=gl.getAttribLocation(prog,'position');
-        gl.enableVertexAttribArray(aPos);
-        gl.vertexAttribPointer(aPos,2,gl.FLOAT,false,0,0);
+          requestAnimationFrame(draw);
+        }
 
-        const uRes=gl.getUniformLocation(prog,'iResolution');
-        const uMouse=gl.getUniformLocation(prog,'iMouse');
-        const uTime=gl.getUniformLocation(prog,'iTime');
-
-        gl.uniform1f(gl.getUniformLocation(prog,'uAngle'), -0.35); // ~20deg, left direction
-        gl.uniform1f(gl.getUniformLocation(prog,'uNoise'), 0.5);
-        gl.uniform1f(gl.getUniformLocation(prog,'uBlindCount'), 16.0);
-        gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightRadius'), 0.5);
-        gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightSoftness'), 1.0);
-        gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightOpacity'), 1.0);
-        gl.uniform1f(gl.getUniformLocation(prog,'uDistort'), 0.0);
-        gl.uniform3f(gl.getUniformLocation(prog,'uColor0'), 0.80, 0.13, 0.00); // #cc2200
-        gl.uniform3f(gl.getUniformLocation(prog,'uColor1'), 1.00, 0.24, 0.10); // #ff3d1a
-
-        // keep spotlight centered (no mouse drift to bottom on mobile)
-        let mouseX=0.5, mouseY=0.5;
-        const resize=()=>{
-          const r=ditherCanvas.getBoundingClientRect();
-          const dpr=Math.min(window.devicePixelRatio||1,2);
-          ditherCanvas.width=Math.max(1,Math.floor(r.width*dpr));
-          ditherCanvas.height=Math.max(1,Math.floor(r.height*dpr));
-          gl.viewport(0,0,ditherCanvas.width,ditherCanvas.height);
-          gl.uniform2f(uRes,ditherCanvas.width,ditherCanvas.height);
-          gl.uniform2f(uMouse,ditherCanvas.width*0.5,ditherCanvas.height*0.5);
-        };
-
-        resize();
-        window.addEventListener('resize',resize);
-        const start=performance.now();
-        const render=()=>{
-          const t=(performance.now()-start)*0.001;
-          gl.uniform1f(uTime,t);
-          gl.uniform2f(uMouse,mouseX,mouseY);
-          gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
-          requestAnimationFrame(render);
-        };
-        render();
+        resizeThreads();
+        window.addEventListener('resize', resizeThreads);
+        requestAnimationFrame(draw);
       }
     }
 
