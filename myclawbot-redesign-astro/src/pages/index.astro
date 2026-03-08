@@ -312,15 +312,15 @@ import "../styles/main.css";
         const uMouse=gl.getUniformLocation(prog,'iMouse');
         const uTime=gl.getUniformLocation(prog,'iTime');
 
-        gl.uniform1f(gl.getUniformLocation(prog,'uAngle'), -0.32);
-        gl.uniform1f(gl.getUniformLocation(prog,'uNoise'), 0.16);
-        gl.uniform1f(gl.getUniformLocation(prog,'uBlindCount'), 9.0);
-        gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightRadius'), 0.88);
-        gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightSoftness'), 1.15);
+        gl.uniform1f(gl.getUniformLocation(prog,'uAngle'), -0.35); // ~20deg, left direction
+        gl.uniform1f(gl.getUniformLocation(prog,'uNoise'), 0.5);
+        gl.uniform1f(gl.getUniformLocation(prog,'uBlindCount'), 16.0);
+        gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightRadius'), 0.5);
+        gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightSoftness'), 1.0);
         gl.uniform1f(gl.getUniformLocation(prog,'uSpotlightOpacity'), 1.0);
         gl.uniform1f(gl.getUniformLocation(prog,'uDistort'), 0.0);
-        gl.uniform3f(gl.getUniformLocation(prog,'uColor0'), 1.0, 0.42, 0.42);  // #ff6b6b
-        gl.uniform3f(gl.getUniformLocation(prog,'uColor1'), 0.70, 0.10, 0.00); // #b51a00
+        gl.uniform3f(gl.getUniformLocation(prog,'uColor0'), 0.80, 0.13, 0.00); // #cc2200
+        gl.uniform3f(gl.getUniformLocation(prog,'uColor1'), 1.00, 0.24, 0.10); // #ff3d1a
 
         // keep spotlight centered (no mouse drift to bottom on mobile)
         let mouseX=0.5, mouseY=0.5;
