@@ -338,6 +338,7 @@ import "../styles/main.css";
     moreAiBtn.addEventListener('click', () => {
       const open = moreAiPanel.classList.toggle('open');
       moreAiPanel.setAttribute('aria-hidden', open ? 'false' : 'true');
+      if (open) moreAiBtn.style.display = 'none';
     });
 
     aiOptions.forEach(btn => {
