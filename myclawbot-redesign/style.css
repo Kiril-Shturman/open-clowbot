@@ -133,11 +133,11 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 .section{padding-top:44px}
 .subhead{margin:-4px 0 16px;color:var(--muted);font-size:20px;text-align:center}
 .skills-board{
-  padding:20px;
-  border:1px solid rgba(255,255,255,.14);
-  border-radius:24px;
-  background:radial-gradient(900px 360px at 50% -40px,rgba(255,88,130,.22),rgba(18,8,12,.95) 60%),linear-gradient(180deg,#12080c,#0b0608);
-  box-shadow:0 18px 42px rgba(0,0,0,.32);
+  padding:22px 0 8px;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
 }
 .skills-board h2{text-align:center}
 
