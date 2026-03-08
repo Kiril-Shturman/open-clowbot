@@ -279,7 +279,7 @@ import "../styles/main.css";
           const cx = w * 0.54;
           const cy = h * 0.56;
           const sigma = w * 0.17;
-          const baseAmp = Math.min(h * 0.075, 56);
+          const baseAmp = Math.min(h * 0.115, 88);
           const freq = 0.014;
 
           ctx.save();
@@ -305,8 +305,10 @@ import "../styles/main.css";
             for (let x = 0; x <= w; x += 8) {
               const dx = x - cx;
               const envelope = Math.exp(-(dx * dx) / (2.0 * sigma * sigma));
-              const wave = Math.sin(x * freq + t * 1.9 + i * 0.33) * baseAmp * envelope;
-              const y = cy + lineOffset + wave;
+              const split = Math.pow(Math.min(1, Math.max(0, (x / w - 0.10) / 0.78)), 1.15);
+              const spread = lineOffset * split; // left: single line, right: braided spread
+              const wave = Math.sin(x * freq + t * 0.72 + i * 0.33) * baseAmp * envelope;
+              const y = cy + spread + wave;
               if (x === 0) ctx.moveTo(x, y);
               else ctx.lineTo(x, y);
             }
