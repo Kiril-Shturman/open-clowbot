@@ -131,18 +131,35 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 
 .section{padding-top:44px}
 .subhead{margin:-4px 0 16px;color:var(--muted);font-size:20px;text-align:center}
-.skills-board{background:radial-gradient(900px 380px at 50% 0%,rgba(36,37,120,.22),rgba(20,10,16,.9) 50%),linear-gradient(180deg,#110913,#0b0709)}
+.skills-board{padding:6px 0 2px}
 .skills-board h2{text-align:center}
-.chips-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-.chip{
-  display:flex;align-items:center;gap:8px;
-  min-height:44px;padding:10px 12px;
-  border:1px dashed rgba(255,255,255,.25);
-  border-radius:14px;
-  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
-  color:#ece3e7;font-size:14px
+
+.chips-scroller{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+  padding-bottom:4px;
 }
-.kb-link{display:block;text-align:center;color:#7aa3ff;text-decoration:none;font-weight:700;margin:16px 0 8px;font-size:22px}
+.chips-track{
+  display:flex;
+  gap:10px;
+  min-width:max-content;
+  padding:4px 2px;
+}
+.chip{
+  display:flex;align-items:center;gap:10px;
+  min-height:50px;
+  min-width:280px;
+  max-width:320px;
+  padding:10px 12px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));
+  color:#f1e6ea;
+  font-size:14px;
+}
+.chip img{width:18px;height:18px;flex:0 0 auto;color:#ff9db4}
+.kb-link{display:block;text-align:center;color:#91b2ff;text-decoration:none;font-weight:700;margin:16px 0 8px;font-size:22px}
 .board-note{margin:0;text-align:center;color:#b7a5ab;font-style:italic;line-height:1.45}
 
 .price-card{max-width:640px;margin:0 auto}
@@ -192,8 +209,10 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
   .stats strong{font-size:18px}
   .stats span{font-size:11px}
 
-  .chips-grid,.footer-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
   .lead,.subhead{font-size:16px;line-height:1.35}
+  .chips-track{gap:8px}
+  .chip{min-width:245px;max-width:245px;font-size:13px;padding:9px 10px}
 
   .cta-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .cta-row .btn{width:100%;white-space:nowrap}
