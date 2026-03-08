@@ -68,12 +68,7 @@ import "../styles/main.css";
       <div class="model-info" id="modelInfo">
         <h3>Anthropic Claude</h3>
         <p>Максимум качества для сложных задач, кода и анализа.</p>
-        <div class="model-pills" id="modelPills">
-          <button class="model-pill active" data-model="claude" type="button">Claude 3.7 Sonnet</button>
-          <button class="model-pill" data-model="gpt" type="button">GPT-4.1</button>
-          <button class="model-pill" data-model="gemini" type="button">Gemini 2.0 Flash</button>
-          <button class="model-pill" data-model="deepseek" type="button">DeepSeek V3</button>
-        </div>
+        <div class="model-pills" id="modelPills"></div>
       </div>
       <div class="channel-row">
         <button class="channel active" id="tgOpen"><img src="./assets/icons/telegram.png" alt="Telegram"> Telegram</button>
@@ -249,12 +244,24 @@ import "../styles/main.css";
       grok: {title: 'xAI Grok', text: 'Модель xAI для живых диалогов и быстрого поиска инсайтов.'}
     };
 
+    const providerModels = {
+      claude: ['Claude 3.7 Sonnet', 'Claude 3.5 Sonnet', 'Claude 3.5 Haiku'],
+      gpt: ['GPT-4.1', 'GPT-4o', 'GPT-4o mini'],
+      gemini: ['Gemini 2.0 Flash', 'Gemini 1.5 Pro', 'Gemini 1.5 Flash'],
+      deepseek: ['DeepSeek V3', 'DeepSeek R1', 'DeepSeek Coder'],
+      mistral: ['Mistral Large', 'Mistral Small', 'Codestral'],
+      llama: ['Llama 3.3 70B', 'Llama 3.1 70B', 'Llama 3.1 8B'],
+      cohere: ['Command R+', 'Command R', 'Command Light'],
+      qwen: ['Qwen2.5 72B', 'Qwen2.5 Coder', 'Qwen2.5 14B'],
+      grok: ['Grok-2', 'Grok-2 Mini', 'Grok Vision']
+    };
+
     const tabs = document.querySelectorAll('.model-tab');
     const box = document.getElementById('modelInfo');
     const moreAiBtn = document.getElementById('moreAiBtn');
     const moreAiPanel = document.getElementById('moreAiPanel');
     const aiOptions = document.querySelectorAll('.ai-option');
-    const modelPills = document.querySelectorAll('.model-pill');
+    const modelPillsEl = document.getElementById('modelPills');
 
     // PixelBlast-style animated background for first screen
     const ditherCanvas = document.getElementById('heroDither');
@@ -334,7 +341,18 @@ import "../styles/main.css";
       const p = box.querySelector('p');
       if (h) h.textContent = m.title;
       if (p) p.textContent = m.text;
-      modelPills.forEach(mp => mp.classList.toggle('active', mp.dataset.model === key));
+
+      const models = providerModels[key] || [];
+      modelPillsEl.innerHTML = models.map((name, i) =>
+        `<button class="model-pill ${i === 0 ? 'active' : ''}" data-model="${key}" type="button">${name}</button>`
+      ).join('');
+
+      modelPillsEl.querySelectorAll('.model-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          modelPillsEl.querySelectorAll('.model-pill').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
     }
 
     tabs.forEach(tab => {
@@ -362,18 +380,7 @@ import "../styles/main.css";
       });
     });
 
-    modelPills.forEach(pill => {
-      pill.addEventListener('click', () => {
-        const key = pill.dataset.model;
-        tabs.forEach(t => {
-          const on = t.dataset.model === key;
-          t.classList.toggle('active', on);
-          t.setAttribute('aria-selected', on ? 'true' : 'false');
-        });
-        aiOptions.forEach(a => a.classList.toggle('active', a.dataset.model === key));
-        renderModel(key);
-      });
-    });
+    renderModel('claude');
 
     const tgModal = document.getElementById('tgModal');
     const tgOpen = document.getElementById('tgOpen');
