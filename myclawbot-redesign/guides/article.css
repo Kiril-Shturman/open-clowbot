@@ -46,3 +46,7 @@ body{background-color:#0b0709;padding-bottom:env(safe-area-inset-bottom)}
 /* Safari overscroll hard-fix (prevent white flash) */
 html,body{background:#0b0709 !important;overscroll-behavior-y:none}
 body::before{content:"";position:fixed;inset:0;background:#0b0709;z-index:-1;pointer-events:none}
+
+/* Safari top safe-area black strip fix */
+.header,.top{background:#0b0709 !important}
+body::after{content:"";position:fixed;left:0;top:0;width:100%;height:calc(env(safe-area-inset-top) + 2px);background:#0b0709;z-index:9999;pointer-events:none}
