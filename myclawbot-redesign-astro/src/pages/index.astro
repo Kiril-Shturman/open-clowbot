@@ -31,6 +31,8 @@ import "../styles/main.css";
 
   <main class="container">
     <section class="hero">
+      <canvas id="heroDither" class="hero-dither" aria-hidden="true"></canvas>
+      <div class="hero-content">
       <p class="kicker">OpenClaw в Telegram · без SSH и Docker</p>
       <h1>Твой личный AI-ассистент<br>за 1 минуту</h1>
       <p class="lead">Один тариф <b>3 890 ₽/мес</b>. Включены VPS, установка, обновления и поддержка на русском.</p>
@@ -42,6 +44,7 @@ import "../styles/main.css";
       <div class="cta-row">
         <a class="btn btn-primary" href="#price">Запустить за 3 890 ₽</a>
         <a class="btn btn-ghost" href="#capabilities">Что умеет OpenClaw</a>
+      </div>
       </div>
     </section>
 
@@ -244,6 +247,79 @@ import "../styles/main.css";
     const moreAiBtn = document.getElementById('moreAiBtn');
     const moreAiPanel = document.getElementById('moreAiPanel');
     const aiOptions = document.querySelectorAll('.ai-option');
+
+    // Red dither/wave background for first screen (canvas, lightweight)
+    const ditherCanvas = document.getElementById('heroDither');
+    if (ditherCanvas) {
+      const ctx = ditherCanvas.getContext('2d', { alpha: true });
+      let w = 0, h = 0, t = 0;
+      let mouse = { x: 0.5, y: 0.5, active: false };
+      const palette = [
+        [40, 8, 14],
+        [92, 24, 38],
+        [170, 45, 66],
+        [255, 106, 118]
+      ];
+
+      function resizeDither() {
+        const rect = ditherCanvas.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        w = Math.max(1, Math.floor(rect.width * dpr));
+        h = Math.max(1, Math.floor(rect.height * dpr));
+        ditherCanvas.width = w;
+        ditherCanvas.height = h;
+      }
+
+      function drawDither() {
+        if (!ctx || !w || !h) return;
+        const img = ctx.createImageData(w, h);
+        const data = img.data;
+        const mx = mouse.x * w;
+        const my = mouse.y * h;
+        for (let y = 0; y < h; y += 2) {
+          for (let x = 0; x < w; x += 2) {
+            const nx = x / w - 0.5;
+            const ny = y / h - 0.5;
+            const wave = Math.sin((nx * 7.0 + t * 0.8)) * 0.5 + Math.cos((ny * 6.5 - t * 0.65)) * 0.5;
+            const swirl = Math.sin((nx * nx + ny * ny) * 28.0 - t * 1.2) * 0.35;
+            let v = 0.5 + 0.35 * wave + 0.25 * swirl;
+            if (mouse.active) {
+              const dx = x - mx, dy = y - my;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              const r = Math.min(w, h) * 0.22;
+              const m = Math.max(0, 1 - dist / r);
+              v += m * 0.22;
+            }
+            const idx = Math.max(0, Math.min(3, Math.round(v * 3)));
+            const c = palette[idx];
+            for (let oy = 0; oy < 2; oy++) {
+              for (let ox = 0; ox < 2; ox++) {
+                const px = x + ox, py = y + oy;
+                if (px >= w || py >= h) continue;
+                const i = (py * w + px) * 4;
+                data[i] = c[0];
+                data[i + 1] = c[1];
+                data[i + 2] = c[2];
+                data[i + 3] = 255;
+              }
+            }
+          }
+        }
+        ctx.putImageData(img, 0, 0);
+        t += 0.018;
+        requestAnimationFrame(drawDither);
+      }
+
+      resizeDither();
+      drawDither();
+      window.addEventListener('resize', resizeDither);
+      window.addEventListener('pointermove', (e) => {
+        const r = ditherCanvas.getBoundingClientRect();
+        mouse.x = (e.clientX - r.left) / r.width;
+        mouse.y = (e.clientY - r.top) / r.height;
+        mouse.active = mouse.x >= 0 && mouse.x <= 1 && mouse.y >= 0 && mouse.y <= 1;
+      });
+    }
 
     function renderModel(key) {
       const m = info[key];
