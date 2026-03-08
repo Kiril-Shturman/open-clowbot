@@ -27,12 +27,19 @@
 
       <div class="field">
         <label class="label">Email</label>
-        <div class="input-wrap"><span class="icon">person_outline</span><input class="input" type="email" placeholder="you@example.com"></div>
+        <div class="input-wrap">
+          <span class="icon" aria-hidden="true">👤</span>
+          <input id="email" class="input" type="email" placeholder="you@example.com">
+        </div>
       </div>
 
       <div class="field">
         <label class="label">Пароль</label>
-        <div class="input-wrap"><span class="icon">lock_outline</span><input id="pwd" class="input" type="password" placeholder="••••••••"><span class="password-actions">visibility_off</span></div>
+        <div class="input-wrap">
+          <span class="icon" aria-hidden="true">🔒</span>
+          <input id="pwd" class="input" type="password" placeholder="••••••••">
+          <button class="eye" id="togglePwd" type="button" aria-label="Показать пароль">👁️</button>
+        </div>
       </div>
 
       <button class="login-btn" type="button" id="emailLoginBtn">Войти</button>
@@ -51,7 +58,7 @@
     const CLIENT_ID = '884284199336-h238f68r3kthrj59adokma1f9612ud0o.apps.googleusercontent.com';
 
     document.getElementById('emailLoginBtn').onclick = async () => {
-      const email = document.querySelector('input[type="email"]').value.trim();
+      const email = document.getElementById('email').value.trim();
       const password = document.getElementById('pwd').value;
       const r = await fetch('/api/auth/login', {
         method: 'POST',
@@ -64,6 +71,11 @@
         return;
       }
       location.href = '/account/';
+    };
+
+    document.getElementById('togglePwd').onclick = () => {
+      const p = document.getElementById('pwd');
+      p.type = p.type === 'password' ? 'text' : 'password';
     };
 
     function handleCredentialResponse(response) {
