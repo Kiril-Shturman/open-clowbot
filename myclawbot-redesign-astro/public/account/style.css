@@ -4,7 +4,8 @@
 .top{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(10,6,8,.78);backdrop-filter:blur(8px);border-bottom:0}.top .wrap{padding:14px 0}
 .brand{font-size:28px;font-weight:800;color:#fff;text-decoration:none}
 .btn{border:1px solid var(--line);border-radius:12px;padding:10px 14px;text-decoration:none;color:#fff;background:#fff1;cursor:pointer}.header-btn{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:12px 16px;gap:8px;font-size:16px;font-weight:700;border-radius:14px;text-decoration:none}
-.top .btn{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:12px 16px;border-radius:14px;font-size:16px;font-weight:700}
+.top .btn{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:12px 16px;border-radius:14px;font-size:16px;font-weight:700;gap:8px}
+.top .btn .btn-icon{width:14px;height:14px;display:block;filter:brightness(0) invert(1)}
 .header-btn--primary{background:var(--brand-gradient-main);border:0;color:#fff}
 .header-btn__icon{width:14px;height:14px;filter:brightness(0) invert(1);display:block}
 .btn.solid{background:var(--brand-gradient-main);border:0;color:#fff;font-weight:700}.btn.ghost{background:#ffffff0a}.btn.full{width:100%}
