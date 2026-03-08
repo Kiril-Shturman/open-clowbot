@@ -81,6 +81,8 @@ h1{
 .header-btn__icon{width:14px;height:14px;filter:brightness(0) invert(1);display:block}
 .btn-google{background:#fff;color:#151515;border:0;font-weight:800}
 .full{width:100%}
+.auth-row{display:grid;grid-template-columns:1fr;gap:8px;margin-top:6px}
+.auth-row .btn{height:40px;padding:10px 16px}
 
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
 .stats>div{
@@ -167,7 +169,7 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 .token-select-btn{height:40px;padding:0 14px;border:0;border-radius:10px;background:var(--brand-gradient-main);color:#fff;font-weight:700;cursor:pointer}
 .token-note{margin:10px 2px 0;color:#d2bbc2;font-size:13px;line-height:1.45}
 
-.btn-google.full{margin-top:6px}
+.btn-google.full{margin-top:0}
 .form-note{margin:12px 2px 0;color:#d2bbc2;font-size:13px;line-height:1.45}
 
 .section{padding-top:44px}
