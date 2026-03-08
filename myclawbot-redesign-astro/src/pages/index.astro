@@ -288,10 +288,12 @@ import "../styles/main.css";
               const dx = x - cx;
               const dy = y - cy;
               const dist = Math.sqrt(dx * dx + dy * dy);
-              const blast = Math.sin(dist * 0.62 - t * 3.2) * 0.5 + 0.5;
-              const fade = Math.exp(-dist * 0.065);
-              const n = Math.sin((x * 0.21 + y * 0.17 + t * 0.8)) * 0.5 + 0.5;
-              const v = (blast * 0.72 + n * 0.28) * fade;
+              const ang = Math.atan2(dy, dx);
+              const spiral = Math.sin(ang * 7.0 + dist * 0.42 - t * 2.6) * 0.5 + 0.5;
+              const core = Math.sin(dist * 0.25 - t * 1.6) * 0.5 + 0.5;
+              const fade = Math.exp(-dist * 0.06);
+              const n = Math.sin((x * 0.18 + y * 0.16 + t * 0.7)) * 0.5 + 0.5;
+              const v = (spiral * 0.62 + core * 0.2 + n * 0.18) * fade;
 
               if (v < 0.045) continue;
 
