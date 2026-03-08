@@ -160,9 +160,6 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 .token-pills{display:flex;gap:8px;flex-wrap:wrap}
 .token-pill{border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.05);color:#fff;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:700;cursor:pointer}
 .token-pill.active{border-color:var(--brand-2);background:linear-gradient(180deg,var(--brand-fill),var(--brand-fill-soft));box-shadow:0 0 0 1px rgba(255,77,77,.18) inset}
-.token-custom-row{margin-top:10px;display:grid;gap:6px}
-.token-custom-row label{font-size:12px;color:var(--muted)}
-.token-custom-row input{height:40px;border-radius:10px;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.06);color:#fff;padding:0 12px;font-size:14px}
 
 .btn-google.full{margin-top:6px}
 .form-note{margin:12px 2px 0;color:#d2bbc2;font-size:13px;line-height:1.45}
