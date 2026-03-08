@@ -37,14 +37,29 @@
     <section class="container setup">
       <div class="card">
         <h2>Выбор модели на старте</h2>
-        <div class="choices">
-          <button class="choice active"><img src="./assets/icons/claude.svg" alt="Claude"> Claude Opus 4.5</button>
-          <button class="choice"><img src="./assets/icons/chatgpt.png" alt="ChatGPT"> GPT-5.2</button>
-          <button class="choice"><img src="./assets/icons/gemini.png" alt="Gemini"> Gemini 3 Flash</button>
+        <div class="choices" role="tablist" aria-label="Выбор модели">
+          <button class="choice active" data-model="claude" aria-selected="true"><img src="./assets/icons/claude.svg" alt="Claude"> Claude Opus 4.5</button>
+          <button class="choice" data-model="gpt" aria-selected="false"><img src="./assets/icons/chatgpt.png" alt="ChatGPT"> GPT-5.2</button>
+          <button class="choice" data-model="gemini" aria-selected="false"><img src="./assets/icons/gemini.png" alt="Gemini"> Gemini 3 Flash</button>
         </div>
+
+        <div class="model-panel" id="modelPanel">
+          <h3>Claude Opus 4.5</h3>
+          <p>Лучше для сложных задач, анализа и кода.</p>
+        </div>
+
         <div class="channels">
-          <span><img src="./assets/icons/telegram.png" alt="Telegram"> Telegram</span>
-          <span><img src="./assets/icons/whatsapp.png" alt="WhatsApp"> WhatsApp</span>
+          <button class="channel active"><img src="./assets/icons/telegram.png" alt="Telegram"> Telegram</button>
+        </div>
+
+        <div class="tg-help">
+          <p><strong>Как подключить Telegram:</strong></p>
+          <ol>
+            <li>Откройте <strong>@BotFather</strong> в Telegram.</li>
+            <li>Нажмите <strong>/newbot</strong> и создайте бота.</li>
+            <li>Скопируйте <strong>токен</strong> и вставьте его на сайте.</li>
+            <li>Нажмите «Оплатить и запустить» — бот будет готов через минуту.</li>
+          </ol>
         </div>
       </div>
     </section>
@@ -118,5 +133,40 @@
     </div>
     <div class="container footer-bottom">© 2026 MyClawBot. Все права защищены.</div>
   </footer>
+
+  <script>
+    const modelInfo = {
+      claude: {
+        title: 'Claude Opus 4.5',
+        text: 'Лучше для сложных задач, анализа и кода.'
+      },
+      gpt: {
+        title: 'GPT-5.2',
+        text: 'Быстрый универсальный режим на каждый день.'
+      },
+      gemini: {
+        title: 'Gemini 3 Flash',
+        text: 'Удобен для мультимодальных задач: текст + изображения.'
+      }
+    };
+
+    const choiceButtons = document.querySelectorAll('.choice');
+    const panel = document.getElementById('modelPanel');
+
+    choiceButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        choiceButtons.forEach((b) => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+
+        const key = btn.dataset.model;
+        panel.innerHTML = `<h3>${modelInfo[key].title}</h3><p>${modelInfo[key].text}</p>`;
+      });
+    });
+  </script>
 </body>
 </html>
