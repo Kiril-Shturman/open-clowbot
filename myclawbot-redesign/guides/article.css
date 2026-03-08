@@ -9,9 +9,13 @@
 h1{font-size:clamp(34px,6vw,64px);line-height:.95;margin:10px 0 12px}
 .lead{font-size:20px;color:#e7d5da;line-height:1.45}
 .panel{background:linear-gradient(180deg,var(--panel),#12090d);border:1px solid var(--line);border-radius:16px;padding:18px;margin:16px 0}
+.toc h3{margin:0 0 12px;font-size:14px;letter-spacing:.08em;color:#b9a5ab}
+.toc ol{margin:0;padding-left:20px}
+.toc a{color:#9aa6ff;text-decoration:none}
+.intro-quote{margin:20px 0;padding:0 0 0 14px;border-left:4px solid #6f78ff;color:#efe2e6;font-style:italic;font-size:22px;line-height:1.5}
 h2{font-size:32px;margin:0 0 10px}p{line-height:1.7;color:#e8dce0}ul,ol{line-height:1.7;color:#e8dce0}
 .note{color:var(--muted)}
 .read-next{padding-left:18px}
 .read-next a{color:var(--red);text-decoration:none}
 .footer{margin-top:28px;border-top:1px solid rgba(255,255,255,.1);padding:18px 0 24px;color:#b89fa6}
-@media(max-width:900px){.brand{font-size:24px}.lead{font-size:18px}.panel{padding:14px}}
+@media(max-width:900px){.brand{font-size:24px}.lead{font-size:18px}.panel{padding:14px}.intro-quote{font-size:17px}}
