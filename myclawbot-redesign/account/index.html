@@ -45,35 +45,9 @@
     <section class="panel bots">
       <div class="row bots-head">
         <h3>Мои боты</h3>
-        <button class="btn solid">+ Добавить бота</button>
+        <button class="btn solid" id="addBotBtn">+ Добавить бота</button>
       </div>
-      <div class="bots-grid">
-        <article class="bot-card active">
-          <div>
-            <p class="bot-name">sales_assistant_bot</p>
-            <p class="muted">@sales_assistant_bot · Telegram</p>
-          </div>
-          <span class="status ok">Активен</span>
-          <div class="bot-actions">
-            <button class="btn ghost small">Настройки</button>
-            <button class="btn ghost small">Лимиты</button>
-            <button class="btn ghost small">Остановить</button>
-          </div>
-        </article>
-
-        <article class="bot-card">
-          <div>
-            <p class="bot-name">support_helper_bot</p>
-            <p class="muted">@support_helper_bot · Telegram</p>
-          </div>
-          <span class="status">Пауза</span>
-          <div class="bot-actions">
-            <button class="btn ghost small">Настройки</button>
-            <button class="btn ghost small">Лимиты</button>
-            <button class="btn ghost small">Запустить</button>
-          </div>
-        </article>
-      </div>
+      <div class="bots-grid" id="botsGrid"></div>
     </section>
 
     <section class="grid2">
@@ -119,9 +93,47 @@
   </div>
 
   <script>
-    fetch('/api/auth/me').then(r => r.json()).then((data) => {
-      if (!data.ok) location.href = '/login/';
+    const botsGrid = document.getElementById('botsGrid');
+
+    function botCard(bot){
+      const active = bot.status === 'active';
+      return `<article class="bot-card ${active ? 'active' : ''}">
+        <div>
+          <p class="bot-name">${bot.name}</p>
+          <p class="muted">${bot.telegram_username || 'без username'} · ${bot.channel}</p>
+        </div>
+        <span class="status ${active ? 'ok':''}">${active ? 'Активен' : 'Пауза'}</span>
+        <div class="bot-actions">
+          <button class="btn ghost small">Настройки</button>
+          <button class="btn ghost small">Лимиты</button>
+          <button class="btn ghost small">${active ? 'Остановить' : 'Запустить'}</button>
+        </div>
+      </article>`;
+    }
+
+    async function loadBots(){
+      const r = await fetch('/api/account/bots');
+      const j = await r.json();
+      if (!r.ok) return;
+      botsGrid.innerHTML = (j.bots || []).map(botCard).join('');
+    }
+
+    fetch('/api/auth/me').then(async r => {
+      const data = await r.json();
+      if (!data.ok) return location.href = '/login/';
+      loadBots();
     }).catch(() => location.href = '/login/');
+
+    document.getElementById('addBotBtn').onclick = async () => {
+      const name = prompt('Название бота (латиницей), например sales_assistant_bot');
+      if (!name) return;
+      const username = prompt('Telegram username (например @my_bot), можно пусто') || '';
+      await fetch('/api/account/bots', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ name, telegram_username: username })
+      });
+      loadBots();
+    };
 
     document.getElementById('logoutBtn').onclick = async (e) => {
       e.preventDefault();
