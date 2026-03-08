@@ -105,6 +105,11 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 }
 .model-tab img{width:20px;height:20px;object-fit:contain}
 .model-tab.active{border-color:#ff8ea7;background:#2a1119;box-shadow:0 0 0 1px rgba(255,120,150,.16) inset}
+.more-ai-btn{margin-top:10px;border:1px dashed rgba(255,255,255,.26);background:rgba(255,255,255,.02);color:#ffd5de;padding:10px 12px;border-radius:12px;text-align:left;font-weight:600;cursor:pointer}
+.more-ai-panel{display:none;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.more-ai-panel.open{display:grid}
+.ai-option{border:1px solid rgba(255,255,255,.15);background:#150b10;color:var(--text);border-radius:12px;padding:10px 11px;display:flex;align-items:center;gap:8px;cursor:pointer;text-align:left}
+.ai-option img{width:17px;height:17px;object-fit:contain}
 
 .model-info{
   margin-top:12px;
@@ -258,6 +263,8 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
   .kicker{font-size:12px}
   .model-tab{font-size:15px;padding:11px}
   .model-tab img{width:18px;height:18px}
+  .more-ai-panel{grid-template-columns:1fr}
+  .ai-option{font-size:14px}
   .channel{font-size:14px;padding:8px 11px}
   .channel img{width:14px;height:14px}
   .form-note{font-size:13px;line-height:1.45}

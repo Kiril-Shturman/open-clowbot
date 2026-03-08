@@ -45,6 +45,15 @@
         <button class="model-tab active" data-model="claude" aria-selected="true"><img src="./assets/icons/claude.svg" alt="Claude"> Claude Opus 4.5</button>
         <button class="model-tab" data-model="gpt" aria-selected="false"><img src="./assets/icons/chatgpt.png" alt="GPT"> GPT-5.2</button>
         <button class="model-tab" data-model="gemini" aria-selected="false"><img src="./assets/icons/gemini.png" alt="Gemini"> Gemini 3 Flash</button>
+        <button class="model-tab" data-model="deepseek" aria-selected="false"><img src="https://cdn.simpleicons.org/deepseek/6ea8ff" alt="DeepSeek"> DeepSeek V3</button>
+      </div>
+      <button class="more-ai-btn" id="moreAiBtn" type="button">Больше ИИ / другие нейросети</button>
+      <div class="more-ai-panel" id="moreAiPanel" aria-hidden="true">
+        <button class="ai-option" data-model="mistral"><img src="https://cdn.simpleicons.org/mistral/feb36f" alt="Mistral"> Mistral</button>
+        <button class="ai-option" data-model="llama"><img src="https://cdn.simpleicons.org/meta/7ec6ff" alt="Llama"> Llama</button>
+        <button class="ai-option" data-model="cohere"><img src="https://cdn.simpleicons.org/cohere/b08cff" alt="Cohere"> Cohere</button>
+        <button class="ai-option" data-model="qwen"><img src="https://cdn.simpleicons.org/alibabacloud/ffb66f" alt="Qwen"> Qwen</button>
+        <button class="ai-option" data-model="grok"><img src="https://cdn.simpleicons.org/x/f8f8f8" alt="Grok"> Grok (xAI)</button>
       </div>
       <div class="model-info" id="modelInfo">
         <h3>Claude Opus 4.5</h3>
@@ -215,18 +224,45 @@
     const info = {
       claude: {title: 'Claude Opus 4.5', text: 'Максимум качества для сложных задач, кода и анализа.'},
       gpt: {title: 'GPT-5.2', text: 'Универсальный быстрый режим для ежедневной работы.'},
-      gemini: {title: 'Gemini 3 Flash', text: 'Отлично подходит для мультимодальных сценариев.'}
+      gemini: {title: 'Gemini 3 Flash', text: 'Отлично подходит для мультимодальных сценариев.'},
+      deepseek: {title: 'DeepSeek V3', text: 'Сильная модель для кода и рабочих задач по цене ниже топовых.'},
+      mistral: {title: 'Mistral', text: 'Быстрая и стабильная модель для повседневных задач и чатов.'},
+      llama: {title: 'Llama', text: 'Сбалансированная open-weight модель для широкого спектра задач.'},
+      cohere: {title: 'Cohere', text: 'Хороша для корпоративных сценариев и структурированных ответов.'},
+      qwen: {title: 'Qwen', text: 'Мощная универсальная линейка моделей от Alibaba Cloud.'},
+      grok: {title: 'Grok (xAI)', text: 'Модель xAI для живых диалогов и быстрого поиска инсайтов.'}
     };
 
     const tabs = document.querySelectorAll('.model-tab');
     const box = document.getElementById('modelInfo');
+    const moreAiBtn = document.getElementById('moreAiBtn');
+    const moreAiPanel = document.getElementById('moreAiPanel');
+    const aiOptions = document.querySelectorAll('.ai-option');
+
+    function renderModel(key) {
+      const m = info[key];
+      if (!m) return;
+      box.innerHTML = `<h3>${m.title}</h3><p>${m.text}</p>`;
+    }
+
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
         tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
         tab.classList.add('active');
         tab.setAttribute('aria-selected','true');
-        const m = info[tab.dataset.model];
-        box.innerHTML = `<h3>${m.title}</h3><p>${m.text}</p>`;
+        renderModel(tab.dataset.model);
+      });
+    });
+
+    moreAiBtn.addEventListener('click', () => {
+      const open = moreAiPanel.classList.toggle('open');
+      moreAiPanel.setAttribute('aria-hidden', open ? 'false' : 'true');
+    });
+
+    aiOptions.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+        renderModel(btn.dataset.model);
       });
     });
 
