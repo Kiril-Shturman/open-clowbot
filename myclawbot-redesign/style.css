@@ -17,9 +17,10 @@ h1{font-size:clamp(32px,6vw,58px);line-height:1.05;margin:14px 0 10px}.lead{max-
 .metrics div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px}
 .metrics b{display:block;font-size:22px}.metrics span{color:var(--muted);font-size:13px}
 
-.setup,.features,.how{padding-top:34px}
+.setup,.features,.capabilities,.how{padding-top:34px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px}
 h2{font-size:clamp(24px,4vw,36px);margin:0 0 14px}
+.section-sub{margin:-4px 0 14px;color:var(--muted);font-weight:600}
 .choices{display:grid;gap:8px}.choice{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;text-align:left;display:flex;align-items:center;gap:10px;font-weight:600}
 .choice img{width:18px;height:18px;object-fit:contain}.choice.active{border-color:#f3a6b7;background:#fff6f8}
 .channels{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.channels span{display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#fff}.channels img{width:14px;height:14px}
@@ -30,6 +31,11 @@ h2{font-size:clamp(24px,4vw,36px);margin:0 0 14px}
 .price-card{max-width:560px;margin:34px auto 0;background:#fff;border:1px solid #f2c4cf;border-radius:18px;padding:18px}.small{margin:0;color:var(--muted)}
 .price{font-size:54px;line-height:1;margin:8px 0 12px;font-weight:800}.price span{font-size:21px;color:var(--muted);font-weight:600}
 .price-card ul{list-style:none;padding:0;margin:0 0 14px}.price-card li{position:relative;padding:8px 0 8px 22px;border-bottom:1px dashed #f3d4dc}.price-card li::before{content:'✓';position:absolute;left:0;color:var(--primary);font-weight:800}
-.footer{padding:28px 0 40px;color:var(--muted);text-align:center}
+.footer-wrap{margin-top:42px;border-top:1px solid var(--line);background:#fff}
+.footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:18px;padding:26px 0}
+.footer-grid h4{margin:0 0 8px}
+.footer-grid p{margin:8px 0 0;color:var(--muted)}
+.footer-grid a{display:block;color:#7b4f58;text-decoration:none;margin:6px 0}
+.footer-bottom{padding:14px 0 24px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
 
-@media (max-width:760px){.metrics,.grid{grid-template-columns:1fr} h1{font-size:36px}}
+@media (max-width:760px){.metrics,.grid,.footer-grid{grid-template-columns:1fr} h1{font-size:36px}}
