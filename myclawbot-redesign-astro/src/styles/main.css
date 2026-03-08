@@ -117,7 +117,7 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 }
 .model-tab img{width:20px;height:20px;object-fit:contain}
 .model-tab.active{border-color:var(--brand-2);background:linear-gradient(180deg,var(--brand-fill),var(--brand-fill-soft));box-shadow:0 0 0 1px rgba(255,77,77,.18) inset}
-.more-ai-btn{margin-top:10px;border:1px dashed var(--brand-stroke-dash);background:rgba(255,77,77,.06);color:#ffd9de;padding:10px 12px;border-radius:12px;text-align:left;font-weight:600;cursor:pointer}
+.more-ai-btn{margin-top:10px;width:100%;border:1px dashed var(--brand-stroke-dash);background:rgba(255,77,77,.06);color:#ffd9de;padding:10px 12px;border-radius:12px;text-align:left;font-weight:600;cursor:pointer}
 .more-ai-panel{display:none;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 .more-ai-panel.open{display:grid}
 .ai-option{border:1px solid rgba(255,107,107,.30);background:#150b10;color:var(--text);border-radius:12px;padding:10px 11px;display:flex;align-items:center;gap:8px;cursor:pointer;text-align:left}
