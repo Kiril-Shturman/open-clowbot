@@ -23,7 +23,7 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 .balance-usd{font-size:18px;line-height:1.2;color:#cdb6bd;font-weight:600;margin-bottom:5px}
 .ok{color:var(--brand-soft)}
 .bots{margin-top:12px}
-.bots-head{margin-bottom:10px;justify-content:center;gap:14px}
+.bots-head{margin-bottom:10px;justify-content:space-between;gap:14px}
 .bots-head h3{margin:0}
 .link-red{border:0;background:transparent;color:var(--brand-2);font-weight:700;cursor:pointer;padding:0}
 .bots-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
