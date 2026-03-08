@@ -71,8 +71,9 @@ h1{
 .btn:hover{transform:translateY(-1px);opacity:.96;border-color:rgba(255,255,255,.24)}
 .btn-primary{background:var(--brand-gradient-main);border:0;color:#fff}
 .btn-ghost{background:rgba(255,255,255,.03)}
-.btn-login{background:var(--brand-gradient-main);border:0;color:#fff;display:inline-flex;align-items:center;gap:8px}
-.btn-login .btn-icon{width:14px;height:14px;filter:brightness(0) invert(1);display:block}
+.header-btn{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:12px 16px;gap:8px;font-size:16px;font-weight:700;border-radius:14px;text-decoration:none}
+.header-btn--primary{background:var(--brand-gradient-main);border:0;color:#fff}
+.header-btn__icon{width:14px;height:14px;filter:brightness(0) invert(1);display:block}
 .btn-google{background:#fff;color:#151515;border:0;font-weight:800}
 .full{width:100%}
 
