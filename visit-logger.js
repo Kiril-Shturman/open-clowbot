@@ -15,6 +15,30 @@ function nowStr() {
   return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
 }
 
+function looksPublicIp(ip='') {
+  const s = String(ip || '').trim().replace(/^::ffff:/,'');
+  if (!s) return false;
+  if (s === '127.0.0.1' || s === '::1') return false;
+  if (/^10\./.test(s) || /^192\.168\./.test(s) || /^172\.(1[6-9]|2\d|3[0-1])\./.test(s)) return false;
+  return true;
+}
+
+function pickIp(req) {
+  const xff = String(req.headers['x-forwarded-for'] || '');
+  const chain = xff.split(',').map(v => v.trim()).filter(Boolean);
+  const candidates = [
+    ...chain,
+    req.headers['x-real-ip'],
+    req.headers['cf-connecting-ip'],
+    req.headers['true-client-ip'],
+    req.headers['x-client-ip'],
+    req.socket.remoteAddress
+  ].map(v => String(v || '').trim()).filter(Boolean);
+
+  const publicIp = candidates.find(looksPublicIp);
+  return { publicIp: publicIp || '', raw: [...new Set(candidates)].join(', ') };
+}
+
 function sendTelegram(text) {
   if (!BOT_TOKEN) {
     console.log('[visit-logger] TELEGRAM_BOT_TOKEN missing; skip send');
@@ -75,16 +99,14 @@ const server = http.createServer((req, res) => {
     let data = {};
     try { data = JSON.parse(buf || '{}'); } catch {}
 
-    const xff = req.headers['x-forwarded-for'] || '';
-    const remote = req.socket.remoteAddress || '';
-    const ips = [String(xff).split(',')[0].trim(), remote].filter(Boolean).join(', ');
+    const ipInfo = pickIp(req);
     const ua = data.ua || req.headers['user-agent'] || 'unknown';
     const type = isDesktop(ua) ? '🖥 desktop браузер' : '📱 mobile браузер';
 
     const msg = [
       `🌍 Новый визит (${type})`,
       `⏰ Время: ${nowStr()}`,
-      `🌐 IP: ${ips}`,
+      `🌐 IP: ${ipInfo.publicIp || ipInfo.raw || 'unknown'}`,
       `📄 Страница: ${data.path || '/'}`,
       `📱 UserAgent: ${ua}`
     ].join('\n');
