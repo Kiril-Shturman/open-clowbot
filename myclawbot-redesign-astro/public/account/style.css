@@ -24,6 +24,7 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 .ok{color:var(--brand-soft)}
 .bots{margin-top:12px}
 .bots-head{margin-bottom:10px}
+.link-red{border:0;background:transparent;color:var(--brand-2);font-weight:700;cursor:pointer;padding:0}
 .bots-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .bot-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff1}
 .bot-card.active{border-color:var(--brand-2)80;background:var(--brand-tint-soft)}
