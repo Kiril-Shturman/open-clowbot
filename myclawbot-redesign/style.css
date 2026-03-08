@@ -291,5 +291,5 @@ html,body{background:#0b0709 !important;overscroll-behavior-y:none}
 body::before{content:"";position:fixed;inset:0;background:#0b0709;z-index:-1;pointer-events:none}
 
 /* Safari top safe-area black strip fix */
-.header,.top{background:#0b0709 !important}
+.header,.top{background:#0b0709 !important;border-bottom:1px solid rgba(255,255,255,.14) !important}
 body::after{content:"";position:fixed;left:0;top:0;width:100%;height:calc(env(safe-area-inset-top) + 2px);background:#0b0709;z-index:9999;pointer-events:none}
