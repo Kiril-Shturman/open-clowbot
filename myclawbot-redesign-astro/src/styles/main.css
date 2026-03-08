@@ -36,7 +36,7 @@ body{
 .brand{font-weight:800;color:#fff;text-decoration:none;font-size:34px;letter-spacing:.2px}
 
 main{padding-top:78px}
-.hero{position:relative;isolation:isolate;padding:44px 0 24px;border-bottom:0;min-height:calc(100vh - 78px);min-height:calc(100svh - 78px);width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);display:flex;align-items:center}
+.hero{position:relative;isolation:isolate;padding:44px 0 24px;border-bottom:0;min-height:calc(100vh - 78px);min-height:calc(100svh - 78px);width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);display:flex;align-items:center;justify-content:center}
 .hero-content{position:relative;z-index:2;width:min(1080px,92%);margin:0 auto}
 .hero-content > *{max-width:760px}
 .hero-content .stats{max-width:720px}
