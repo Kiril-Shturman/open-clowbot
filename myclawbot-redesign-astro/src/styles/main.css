@@ -59,7 +59,7 @@ h1{
 }
 .lead{max-width:690px;color:var(--muted);font-size:20px;line-height:1.45;margin:0}
 .cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-.cta-row .btn{height:40px;padding:10px 16px}
+.cta-row .btn{height:40px;padding:10px 16px;min-width:0}
 
 .btn{
   display:inline-flex;align-items:center;justify-content:center;
@@ -278,8 +278,8 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
   .kb-link{margin-top:12px}
   .board-note{font-size:12px}
 
-  .cta-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-  .cta-row .btn{width:100%;white-space:nowrap}
+  .cta-row{display:grid;grid-template-columns:1fr;gap:8px}
+  .cta-row .btn{width:100%;white-space:normal}
   .btn{font-size:14px;padding:11px 10px}
 
   .kicker{font-size:12px}
