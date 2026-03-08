@@ -134,6 +134,20 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 
 .section{padding-top:44px}
 .subhead{margin:-4px 0 16px;color:var(--muted);font-size:20px;text-align:center}
+
+.what-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.what-card{
+  text-decoration:none;color:var(--text);
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:16px;
+  padding:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));
+  transition:.2s transform,.2s border-color;
+}
+.what-card:hover{transform:translateY(-2px);border-color:#ff8ba4}
+.what-card h3{margin:0 0 8px;font-size:24px;line-height:1.05}
+.what-card p{margin:0;color:#dec8ce;line-height:1.45}
+
 .skills-board{
   padding:38px 0 24px;
   border:0;
@@ -217,8 +231,10 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
   .stats strong{font-size:18px}
   .stats span{font-size:11px}
 
-  .footer-grid{grid-template-columns:1fr}
+  .footer-grid,.what-grid{grid-template-columns:1fr}
   .lead,.subhead{font-size:16px;line-height:1.35}
+  .what-card h3{font-size:20px}
+  .what-card p{font-size:14px}
 
   .marquee-rows{gap:8px}
   .marquee-row{overflow:hidden}
