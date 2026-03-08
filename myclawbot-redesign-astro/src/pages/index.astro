@@ -404,14 +404,15 @@ import "../styles/main.css";
     });
     if (tokenAmount) {
       tokenAmount.addEventListener('input', () => {
-        let v = parseInt(tokenAmount.value || '1000', 10);
-        if (Number.isNaN(v)) v = 1000;
-        if (v < 1000) v = 1000;
-        tokenAmount.value = String(v);
-        tokenPills.forEach(p => p.classList.toggle('active', p.dataset.value === String(v)));
+        const raw = tokenAmount.value.trim();
+        const v = parseInt(raw, 10);
+        tokenPills.forEach(p => p.classList.toggle('active', !Number.isNaN(v) && p.dataset.value === String(v)));
       });
       tokenAmount.addEventListener('blur', () => {
-        if (parseInt(tokenAmount.value || '0', 10) < 1000) tokenAmount.value = '1000';
+        let v = parseInt(tokenAmount.value || '0', 10);
+        if (Number.isNaN(v) || v < 1000) v = 1000;
+        tokenAmount.value = String(v);
+        tokenPills.forEach(p => p.classList.toggle('active', p.dataset.value === String(v)));
       });
     }
 
