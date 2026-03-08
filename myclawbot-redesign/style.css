@@ -176,6 +176,17 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 .price-card li{padding:9px 0 9px 24px;position:relative;border-bottom:1px dashed rgba(255,255,255,.15)}
 .price-card li::before{content:'✓';position:absolute;left:0;color:#ffb2c1;font-weight:800}
 
+.subscription-includes{padding-top:34px}
+.includes-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.include-card{
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:16px;
+  padding:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));
+}
+.include-card h3{margin:0 0 8px;font-size:24px;line-height:1.05}
+.include-card p{margin:0;color:#dfc9cf;line-height:1.45}
+
 .footer{margin-top:46px;border-top:1px solid var(--line-soft);background:#0b0708}
 .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:16px;padding:24px 0}
 .footer h4{margin:0 0 8px;font-size:16px}
@@ -218,8 +229,10 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
   .stats strong{font-size:18px}
   .stats span{font-size:11px}
 
-  .footer-grid{grid-template-columns:1fr}
+  .footer-grid,.includes-grid{grid-template-columns:1fr}
   .lead,.subhead{font-size:16px;line-height:1.35}
+  .include-card h3{font-size:20px}
+  .include-card p{font-size:14px}
 
   .marquee-rows{gap:8px}
   .marquee-row{overflow:hidden}
