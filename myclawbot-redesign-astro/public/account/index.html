@@ -58,10 +58,10 @@
 
     <section class="panel quick-setup" id="quickSetupBlock" hidden>
       <div class="row bots-head">
-        <h3>Быстрая установка</h3>
+        <h2>Быстрая установка</h2>
         <button class="btn ghost" id="quickSetupClose" type="button">Закрыть</button>
       </div>
-      <p class="muted">Выбор модели на старте</p>
+      <p class="setup-subhead">Выбор модели на старте</p>
       <div class="model-tabs" id="setupTabs">
         <button class="model-tab active" data-model="claude" type="button">Anthropic Claude</button>
         <button class="model-tab" data-model="gpt" type="button">OpenAI ChatGPT</button>
@@ -69,7 +69,7 @@
         <button class="model-tab" data-model="deepseek" type="button">DeepSeek</button>
       </div>
       <div class="model-info" id="setupModelInfo">
-        <h4>Anthropic Claude</h4>
+        <h3>Anthropic Claude</h3>
         <p>Максимум качества для сложных задач, кода и анализа.</p>
       </div>
       <p class="muted" style="margin-top:12px">Настроить способ связи</p>
@@ -206,7 +206,7 @@
         setupTabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         const m = setupModels[tab.dataset.model];
-        if (m && setupInfo) setupInfo.innerHTML = `<h4>${m.title}</h4><p>${m.text}</p>`;
+        if (m && setupInfo) setupInfo.innerHTML = `<h3>${m.title}</h3><p>${m.text}</p>`;
       };
     });
 
