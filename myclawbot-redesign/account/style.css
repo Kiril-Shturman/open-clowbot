@@ -1,4 +1,4 @@
-:root{--brand-1:#ff4d4d;--brand-2:#ff6b6b;--brand-3:#e63f3f;--brand-soft:#ffb2c1;--brand-text:#ffd6df;--brand-text-strong:#fff3f6;--brand-tint:#ff4d4d22;--brand-line:#ff6b6b33;--brand-line-strong:#ff6b6b66;--brand-fill-soft:rgba(255,77,77,.08);--brand-fill:rgba(255,107,107,.18);--brand-stroke:rgba(255,107,107,.24);--brand-stroke-strong:rgba(255,107,107,.36);--brand-stroke-dash:rgba(255,107,107,.42);--brand-gradient-main:linear-gradient(180deg,var(--brand-2) 0%,var(--brand-1) 58%,var(--brand-3) 100%);--bg:#0b0709;--bg2:#14090e;--panel:#1b0e13;--line:rgba(255,255,255,.14);--text:var(--brand-text-strong);--muted:#cdb6bd;--red:var(--brand-1)}
+:root{--brand-1:#ff4d4d;--brand-2:#ff6b6b;--brand-3:#e63f3f;--brand-soft:#ffb2c1;--brand-text:#ffd6df;--brand-text-strong:#fff3f6;--brand-tint:#ff4d4d22;--brand-tint-soft:rgba(255,77,77,.10);--brand-line:#ff6b6b33;--brand-line-strong:#ff6b6b66;--brand-fill-soft:rgba(255,77,77,.08);--brand-fill:rgba(255,107,107,.18);--brand-stroke:rgba(255,107,107,.24);--brand-stroke-strong:rgba(255,107,107,.36);--brand-stroke-dash:rgba(255,107,107,.42);--brand-gradient-main:linear-gradient(180deg,var(--brand-2) 0%,var(--brand-1) 58%,var(--brand-3) 100%);--bg:#0b0709;--bg2:#14090e;--panel:#1b0e13;--line:rgba(255,255,255,.14);--text:var(--brand-text-strong);--muted:#cdb6bd;--red:var(--brand-1)}
 *{box-sizing:border-box}html,body{margin:0}body{font-family:Onest,sans-serif;color:var(--text);background:radial-gradient(1000px 480px at 50% -120px,#5f1730 0%,transparent 62%),linear-gradient(180deg,var(--bg),var(--bg2))}
 .wrap{width:min(1100px,92%);margin:0 auto}.row{display:flex;align-items:center;justify-content:space-between}.gap8{gap:8px}
 .top{position:sticky;top:0;background:#0c0609db;backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,.09)}.top .wrap{padding:12px 0}
@@ -11,7 +11,7 @@
 .bots-head{margin-bottom:10px}
 .bots-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .bot-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff1}
-.bot-card.active{border-color:var(--brand-2)80;background:#ff56761a}
+.bot-card.active{border-color:var(--brand-2)80;background:var(--brand-tint-soft)}
 .bot-name{margin:0 0 4px;font-weight:700;font-size:16px}
 .status{display:inline-block;margin:6px 0 10px;padding:5px 9px;border-radius:999px;border:1px solid var(--line);font-size:12px;color:var(--muted)}
 .bot-actions{display:flex;gap:8px;flex-wrap:wrap}
