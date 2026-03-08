@@ -29,3 +29,6 @@ h2{font-size:32px;margin:0 0 10px}p{line-height:1.7;color:#e8dce0}ul,ol{line-hei
   .panel{padding:14px}
   .intro-quote{font-size:17px;margin:16px 0}
 }
+
+.brand{display:inline-flex;align-items:center;gap:8px}
+.brand-logo{width:28px;height:28px;object-fit:contain;display:block}

@@ -14,3 +14,6 @@
 .card h3{font-size:24px;line-height:1.04;margin:10px 0 8px}.card p{color:var(--muted);margin:0 0 14px}.read{margin-top:auto;color:var(--red);font-weight:700}
 .footer{margin-top:28px;border-top:1px solid rgba(255,255,255,.1);padding:18px 0 24px}.footer-grid{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:end}.ft-title{margin:0 0 8px;font-weight:700}.footer a{display:block;color:#d7bec4;text-decoration:none;margin:4px 0}.legal{color:#b89fa6;text-align:right}.legal a{display:inline;color:#d7bec4;margin:0}
 @media(max-width:900px){.cards,.cards.two,.footer-grid{grid-template-columns:1fr}.brand{font-size:24px}.hero p{font-size:17px}.nav-right .btn{padding:9px 12px}.nav-right{gap:6px}}
+
+.brand{display:inline-flex;align-items:center;gap:8px}
+.brand-logo{width:28px;height:28px;object-fit:contain;display:block}

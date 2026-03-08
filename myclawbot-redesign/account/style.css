@@ -24,3 +24,6 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px s
 .modal-bg{display:none;position:fixed;inset:0;background:#000a;align-items:center;justify-content:center;padding:14px}.modal-bg.show{display:flex}.modal{width:min(520px,100%);position:relative}.close{position:absolute;right:8px;top:4px;border:0;background:transparent;color:#fff;font-size:30px;cursor:pointer}
 .topup-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.amount{border:1px solid var(--line);background:#fff1;color:#fff;border-radius:10px;padding:10px;cursor:pointer}
 @media(max-width:900px){.stats{grid-template-columns:1fr 1fr}.bots-grid,.grid2{grid-template-columns:1fr}h1{font-size:34px}.hero{flex-direction:column;align-items:flex-start}}
+
+.brand{display:inline-flex;align-items:center;gap:8px}
+.brand-logo{width:28px;height:28px;object-fit:contain;display:block}
