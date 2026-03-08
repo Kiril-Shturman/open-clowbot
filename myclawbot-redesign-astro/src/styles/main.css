@@ -11,7 +11,7 @@
   --primary-2:var(--brand-2);
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0}
+html,body{margin:0;padding:0;width:100%;max-width:100%;overflow-x:hidden}
 body{
   font-family:Onest,system-ui,sans-serif;
   color:var(--text);
@@ -25,7 +25,7 @@ body{
 .small-gap{gap:8px}
 
 .header{
-  position:sticky;top:0;z-index:20;
+  position:fixed;top:0;left:0;right:0;z-index:50;
   backdrop-filter:blur(8px);
   background:rgba(10,6,8,.78);
   border-bottom:0;
@@ -33,6 +33,7 @@ body{
 .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
 .brand{font-weight:800;color:#fff;text-decoration:none;font-size:34px;letter-spacing:.2px}
 
+main{padding-top:78px}
 .hero{padding:44px 0 24px;border-bottom:0}
 .kicker{
   display:inline-block;
@@ -149,7 +150,7 @@ h2{font-size:clamp(30px,4.3vw,48px);line-height:1.02;margin:0 0 14px;letter-spac
 }
 .skills-board h2{text-align:center}
 
-.marquee-rows{margin-top:12px;display:grid;gap:10px}
+.marquee-rows{margin-top:12px;display:grid;gap:10px;overflow:hidden}
 .marquee-row{overflow:hidden;position:relative}
 .marquee-track{display:flex;gap:10px;width:max-content;animation:marqueeLeft 28s linear infinite}
 .marquee-row.right .marquee-track{animation-name:marqueeRight}
