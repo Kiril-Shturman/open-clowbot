@@ -248,15 +248,14 @@ import "../styles/main.css";
     const moreAiPanel = document.getElementById('moreAiPanel');
     const aiOptions = document.querySelectorAll('.ai-option');
 
-    // Threads-like centered wave bundle (closer to reactbits reference)
+    // ColorBends-style animated background for first screen (canvas 2D)
     const ditherCanvas = document.getElementById('heroDither');
     if (ditherCanvas) {
       const ctx = ditherCanvas.getContext('2d', { alpha: true });
       if (ctx) {
         let w = 0, h = 0;
-        const LINE_COUNT = 22;
 
-        function resizeThreads() {
+        function resizeBends() {
           const rect = ditherCanvas.getBoundingClientRect();
           const dpr = Math.min(window.devicePixelRatio || 1, 2);
           w = Math.max(1, Math.floor(rect.width * dpr));
@@ -269,65 +268,54 @@ import "../styles/main.css";
           const t = ts * 0.001;
           ctx.clearRect(0, 0, w, h);
 
-          // dark almost-black base
-          const bg = ctx.createLinearGradient(0, 0, 0, h);
-          bg.addColorStop(0, '#060205');
-          bg.addColorStop(1, '#090204');
-          ctx.fillStyle = bg;
+          // deep base
+          const base = ctx.createLinearGradient(0, 0, w, h);
+          base.addColorStop(0, '#0a0204');
+          base.addColorStop(0.45, '#140306');
+          base.addColorStop(1, '#090203');
+          ctx.fillStyle = base;
           ctx.fillRect(0, 0, w, h);
 
-          const cx = w * 0.54;
-          const cy = h * 0.56;
-          const sigma = w * 0.17;
-          const baseAmp = Math.min(h * 0.115, 88);
-          const freq = 0.014;
+          const bends = [
+            { r: Math.max(w, h) * 0.72, c1: 'rgba(255,80,80,0.42)', c2: 'rgba(255,80,80,0.00)', ox: -0.25, oy: -0.08, sp: 0.35 },
+            { r: Math.max(w, h) * 0.66, c1: 'rgba(255,45,45,0.38)', c2: 'rgba(255,45,45,0.00)', ox: 0.12, oy: 0.08, sp: 0.28 },
+            { r: Math.max(w, h) * 0.62, c1: 'rgba(190,25,25,0.33)', c2: 'rgba(190,25,25,0.00)', ox: 0.34, oy: -0.12, sp: 0.22 },
+            { r: Math.max(w, h) * 0.58, c1: 'rgba(255,120,120,0.22)', c2: 'rgba(255,120,120,0.00)', ox: -0.05, oy: 0.2, sp: 0.31 }
+          ];
 
-          ctx.save();
           ctx.globalCompositeOperation = 'screen';
+          bends.forEach((b, i) => {
+            const x = w * (0.5 + b.ox + Math.sin(t * b.sp + i) * 0.09);
+            const y = h * (0.5 + b.oy + Math.cos(t * (b.sp * 0.9) + i * 0.7) * 0.11);
+            const g = ctx.createRadialGradient(x, y, 0, x, y, b.r);
+            g.addColorStop(0, b.c1);
+            g.addColorStop(1, b.c2);
+            ctx.fillStyle = g;
+            ctx.fillRect(0, 0, w, h);
+          });
+          ctx.globalCompositeOperation = 'source-over';
 
-          for (let i = 0; i < LINE_COUNT; i++) {
-            const k = (i / (LINE_COUNT - 1)) - 0.5;
-            const lineOffset = k * 66.0;
-            const alpha = 0.11 + (1.0 - Math.abs(k) * 1.2) * 0.36;
-            const width = 1.15 + (1.0 - Math.abs(k)) * 1.3;
-
-            const grad = ctx.createLinearGradient(0, 0, w, 0);
-            grad.addColorStop(0, `rgba(255,120,120,0.00)`);
-            grad.addColorStop(0.35, `rgba(255,205,205,${alpha * 0.45})`);
-            grad.addColorStop(0.5, `rgba(255,245,245,${alpha})`);
-            grad.addColorStop(0.65, `rgba(255,205,205,${alpha * 0.5})`);
-            grad.addColorStop(1, `rgba(255,120,120,0.00)`);
-
+          // subtle flowing bands
+          ctx.globalAlpha = 0.14;
+          for (let i = 0; i < 7; i++) {
             ctx.beginPath();
-            ctx.strokeStyle = grad;
-            ctx.lineWidth = width;
-
-            for (let x = 0; x <= w; x += 8) {
-              const dx = x - cx;
-              const envelope = Math.exp(-(dx * dx) / (2.0 * sigma * sigma));
-              const split = Math.pow(Math.min(1, Math.max(0, (x / w - 0.10) / 0.78)), 1.15);
-              const spread = lineOffset * split; // left: single line, right: braided spread
-              const wave = Math.sin(x * freq + t * 0.72 + i * 0.33) * baseAmp * envelope;
-              const y = cy + spread + wave;
+            const y0 = h * (0.15 + i * 0.12);
+            for (let x = 0; x <= w; x += 18) {
+              const y = y0 + Math.sin(x * 0.006 + t * (0.35 + i * 0.04)) * (18 + i * 2);
               if (x === 0) ctx.moveTo(x, y);
               else ctx.lineTo(x, y);
             }
+            ctx.strokeStyle = i % 2 ? 'rgba(255,80,80,0.32)' : 'rgba(255,130,130,0.28)';
+            ctx.lineWidth = 1.2;
             ctx.stroke();
           }
+          ctx.globalAlpha = 1;
 
-          // soft glow around center bundle
-          const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, sigma * 1.35);
-          glow.addColorStop(0, 'rgba(255,200,200,0.16)');
-          glow.addColorStop(1, 'rgba(255,200,200,0.00)');
-          ctx.fillStyle = glow;
-          ctx.fillRect(0, 0, w, h);
-
-          ctx.restore();
           requestAnimationFrame(draw);
         }
 
-        resizeThreads();
-        window.addEventListener('resize', resizeThreads);
+        resizeBends();
+        window.addEventListener('resize', resizeBends);
         requestAnimationFrame(draw);
       }
     }
