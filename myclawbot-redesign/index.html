@@ -4,140 +4,104 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MyClawBot — OpenClaw в Telegram за 1 минуту</title>
-  <meta name="description" content="OpenClaw в Telegram за 1 минуту. Один тариф — 3 890 ₽/мес. Включены VPS, установка, обновления и поддержка." />
+  <meta name="description" content="Один тариф 3 890 ₽/мес. Быстрый запуск OpenClaw в Telegram без SSH и Docker." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
   <header class="topbar">
-    <div class="container row">
-      <div class="logo">MyClawBot</div>
-      <div class="row small-gap">
-        <a class="btn btn-google" href="#">Войти через Google</a>
-        <a class="btn btn-ghost" href="#cta">Запустить за 1 минуту</a>
-      </div>
+    <div class="wrap topbar-row">
+      <a class="logo" href="#">MyClawBot</a>
+      <nav class="nav">
+        <a href="#benefits">Что внутри</a>
+        <a href="#compare">Сравнение</a>
+        <a href="#price">Тариф</a>
+      </nav>
+      <a class="btn btn-google" href="#">G Войти через Google</a>
     </div>
   </header>
 
   <main>
-    <section class="hero container">
-      <div class="hero-grid">
-        <div>
-          <p class="badge">OpenClaw в Telegram без SSH и Docker</p>
-          <h1>Ваш AI-ассистент в Telegram за 1 минуту</h1>
-          <p class="sub">Один понятный тариф: <strong>3 890 ₽/мес</strong>. Подключаете токен бота — и получаете готового OpenClaw на выделенном сервере.</p>
-
-          <div class="hero-cta" id="cta">
-            <a class="btn btn-primary" href="#start">Подключить бота</a>
-            <a class="btn btn-ghost" href="#how">Как это работает</a>
-          </div>
-
-          <div class="proof">
-            <div><strong>1 минута</strong><span>до запуска</span></div>
-            <div><strong>1 тариф</strong><span>без скрытых опций</span></div>
-            <div><strong>24/7</strong><span>ваш бот в онлайне</span></div>
-          </div>
+    <section class="hero wrap">
+      <div class="hero-left">
+        <p class="badge">OpenClaw в Telegram без SSH и Docker</p>
+        <h1>Личный AI-ассистент за 1 минуту</h1>
+        <p class="sub">Подключаете токен, выбираете модель, оплачиваете — и бот уже работает. Один тариф: <b>3 890 ₽/мес</b>.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#price">Запустить за 3 890 ₽</a>
+          <a class="btn btn-ghost" href="#how">Как это работает</a>
         </div>
-
-        <div class="hero-shot">
-          <div class="setup-card">
-            <h3>Какую модель выбрать по умолчанию?</h3>
-            <button class="pick active"><img class="icon-img" src="./assets/icons/claude.svg" alt="Claude" /> Claude Opus 4.5 <span class="check">✓</span></button>
-            <button class="pick"><img class="icon-img" src="./assets/icons/chatgpt.png" alt="ChatGPT" /> GPT-5.2</button>
-            <button class="pick"><img class="icon-img" src="./assets/icons/gemini.png" alt="Gemini" /> Gemini 3 Flash</button>
-
-            <h4>Канал для отправки сообщений</h4>
-            <div class="channels">
-              <button class="channel active"><img class="channel-icon" src="./assets/icons/telegram.png" alt="Telegram" /> Telegram</button>
-              <button class="channel disabled"><img class="channel-icon" src="./assets/icons/whatsapp.png" alt="WhatsApp" /> WhatsApp <small>скоро</small></button>
-            </div>
-
-            <a class="btn btn-google full" href="#">G Войти через Google</a>
-            <p class="warn">Войдите, чтобы развернуть ассистента и подключить каналы.</p>
-          </div>
+        <div class="proof">
+          <div><strong>1 мин</strong><span>до запуска</span></div>
+          <div><strong>1 тариф</strong><span>без путаницы</span></div>
+          <div><strong>24/7</strong><span>бот онлайн</span></div>
         </div>
       </div>
+      <aside class="setup-card">
+        <h3>Быстрая настройка</h3>
+        <button class="pick active"><img src="./assets/icons/claude.svg" alt="Claude"> Claude Opus 4.5 <span>✓</span></button>
+        <button class="pick"><img src="./assets/icons/chatgpt.png" alt="ChatGPT"> GPT-5.2</button>
+        <button class="pick"><img src="./assets/icons/gemini.png" alt="Gemini"> Gemini 3 Flash</button>
+        <div class="channels">
+          <span><img src="./assets/icons/telegram.png" alt="Telegram"> Telegram</span>
+          <span><img src="./assets/icons/whatsapp.png" alt="WhatsApp"> WhatsApp</span>
+        </div>
+        <a class="btn btn-google full" href="#">Войти через Google</a>
+      </aside>
     </section>
 
-    <section class="container models" aria-label="Выбор модели">
-      <h2>Выбор модели при запуске</h2>
-      <p class="muted center">На старте можно выбрать модель и поменять её позже в боте.</p>
-      <div class="model-grid">
-        <article class="model-card active"><h3>Claude</h3><p>Для сложных задач и кода</p></article>
-        <article class="model-card"><h3>ChatGPT</h3><p>Быстрый универсальный режим</p></article>
-        <article class="model-card"><h3>Gemini</h3><p>Текст + изображения</p></article>
-        <article class="model-card"><h3>DeepSeek</h3><p>Экономичный вариант</p></article>
+    <section id="benefits" class="wrap section">
+      <h2>Что входит в подписку</h2>
+      <div class="grid-2">
+        <article class="card"><h4>Выделенный VPS</h4><p>Отдельный сервер, уже в цене.</p></article>
+        <article class="card"><h4>Установленный OpenClaw</h4><p>Готовый к работе после оплаты.</p></article>
+        <article class="card"><h4>1 000 ₽ бонуса на AI</h4><p>Стартовый запас на запросы к моделям.</p></article>
+        <article class="card"><h4>Обновления + поддержка</h4><p>Без ручных апдейтов и возни.</p></article>
       </div>
     </section>
 
-    <section class="container cards" aria-label="Что входит">
-      <article class="card">
-        <h3>Выделенный VPS</h3>
-        <p>Персональный сервер уже в цене. Ничего отдельно покупать не нужно.</p>
-      </article>
-      <article class="card">
-        <h3>OpenClaw установлен</h3>
-        <p>Свежая версия, базовая настройка и готовность к работе сразу после оплаты.</p>
-      </article>
-      <article class="card">
-        <h3>1 000 ₽ на AI-запросы</h3>
-        <p>Стартовый бонус на обращения к моделям: Claude, ChatGPT, Gemini и другим.</p>
-      </article>
-      <article class="card">
-        <h3>Автообновления и поддержка</h3>
-        <p>Сервис поддерживается и обновляется без вашего участия.</p>
-      </article>
-    </section>
-
-    <section class="container pricing" id="start">
-      <h2>Один тариф. Всё включено.</h2>
-      <div class="price-card">
-        <p class="name">MyClawBot</p>
-        <p class="price">3 890 ₽ <span>/ месяц</span></p>
-        <ul>
-          <li>Выделенный VPS-сервер</li>
-          <li>Установленный OpenClaw</li>
-          <li>Вход через Google</li>
-          <li>Выбор AI-модели при запуске</li>
-          <li>Бонус 1 000 ₽ на AI-запросы</li>
-          <li>Автоматические обновления</li>
-          <li>Поддержка на русском</li>
-        </ul>
-        <a class="btn btn-primary full" href="#">Оплатить и запустить</a>
-        <p class="note">Без сложной настройки. Без терминала. Без потери времени.</p>
+    <section id="compare" class="wrap section">
+      <h2>Обычный путь vs MyClawBot</h2>
+      <div class="table-card">
+        <table>
+          <thead><tr><th>Критерий</th><th>Самостоятельно</th><th>MyClawBot</th></tr></thead>
+          <tbody>
+            <tr><td>Время</td><td>30–60 минут</td><td>1 минута</td></tr>
+            <tr><td>SSH / Docker</td><td>Нужно</td><td>Не нужно</td></tr>
+            <tr><td>Обновления</td><td>Вручную</td><td>Автоматически</td></tr>
+            <tr><td>Поддержка</td><td>Форумы/доки</td><td>На русском</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
-    <section class="container how" id="how">
+    <section id="how" class="wrap section">
       <h2>Как начать</h2>
-      <ol>
-        <li><strong>Войдите через Google</strong> и создайте проект.</li>
-        <li><strong>Создайте бота</strong> в Telegram через @BotFather и вставьте токен.</li>
-        <li><strong>Выберите модель и оплатите</strong> — через минуту бот уже работает.</li>
+      <ol class="steps">
+        <li><b>Войти через Google</b> и создать проект.</li>
+        <li><b>Создать бота в @BotFather</b> и вставить токен.</li>
+        <li><b>Выбрать модель и оплатить</b> — через минуту бот онлайн.</li>
       </ol>
     </section>
 
-    <section class="container faq">
-      <h2>Частые вопросы</h2>
-      <details>
-        <summary>Это для новичков?</summary>
-        <p>Да. Никаких SSH, Docker и команд в терминале.</p>
-      </details>
-      <details>
-        <summary>Можно поменять модель после запуска?</summary>
-        <p>Да, модель можно переключать в любой момент.</p>
-      </details>
-      <details>
-        <summary>Можно отменить в любой момент?</summary>
-        <p>Да, подписка помесячная.</p>
-      </details>
+    <section id="price" class="wrap section">
+      <div class="price-card">
+        <p class="muted">Один тариф</p>
+        <p class="price">3 890 ₽ <span>/ месяц</span></p>
+        <ul>
+          <li>Выделенный VPS</li>
+          <li>OpenClaw под ключ</li>
+          <li>Выбор AI-модели</li>
+          <li>1 000 ₽ на AI-запросы</li>
+          <li>Автообновления и поддержка</li>
+        </ul>
+        <a class="btn btn-primary full" href="#">Оплатить и запустить</a>
+      </div>
     </section>
   </main>
 
-  <footer class="container footer">
-    <p>© MyClawBot — OpenClaw в Telegram за 1 минуту</p>
-  </footer>
+  <footer class="wrap footer">© MyClawBot</footer>
 </body>
 </html>
