@@ -57,11 +57,42 @@
     </section>
 
     <section class="panel quick-setup" id="quickSetupBlock" hidden>
-      <h3>Быстрая установка</h3>
-      <p class="muted">Запусти нового бота за пару минут: выбери модель, подключи Telegram и задай стартовый бюджет.</p>
-      <div class="row gap8 quick-setup-actions">
-        <a class="btn solid" href="/#price">Открыть быструю установку</a>
+      <div class="row bots-head">
+        <h3>Быстрая установка</h3>
         <button class="btn ghost" id="quickSetupClose" type="button">Закрыть</button>
+      </div>
+      <p class="muted">Выбор модели на старте</p>
+      <div class="model-tabs" id="setupTabs">
+        <button class="model-tab active" data-model="claude" type="button">Anthropic Claude</button>
+        <button class="model-tab" data-model="gpt" type="button">OpenAI ChatGPT</button>
+        <button class="model-tab" data-model="gemini" type="button">Google Gemini</button>
+        <button class="model-tab" data-model="deepseek" type="button">DeepSeek</button>
+      </div>
+      <div class="model-info" id="setupModelInfo">
+        <h4>Anthropic Claude</h4>
+        <p>Максимум качества для сложных задач, кода и анализа.</p>
+      </div>
+      <p class="muted" style="margin-top:12px">Настроить способ связи</p>
+      <div class="channel-row">
+        <button class="channel active" type="button"><img src="/assets/icons/telegram.png" alt="Telegram"> Telegram</button>
+      </div>
+      <p class="muted" style="margin-top:12px">Выбрать количество токенов на старте</p>
+      <div class="token-pills" id="setupTokenPills">
+        <button class="token-pill active" type="button" data-value="1000">1000 ₽</button>
+        <button class="token-pill" type="button" data-value="3000">3000 ₽</button>
+        <button class="token-pill" type="button" data-value="5000">5000 ₽</button>
+      </div>
+      <div class="token-custom-row">
+        <label for="setupTokenAmount">Своя сумма (минимум 1000 ₽)</label>
+        <div class="token-input-wrap">
+          <input id="setupTokenAmount" type="number" min="1000" step="500" value="1000" />
+          <button class="token-select-btn" id="setupTokenSelectBtn" type="button">Выбрать</button>
+        </div>
+      </div>
+      <p class="token-note">Токены можно пополнить позже в личном кабинете.</p>
+      <div class="auth-row">
+        <a class="btn solid full" href="/login/">Войти</a>
+        <a class="btn ghost full" href="/login/">Войти через Google</a>
       </div>
     </section>
 
@@ -162,6 +193,40 @@
     quickSetupClose.onclick = () => {
       quickSetupBlock.hidden = true;
     };
+
+    const setupTabs = document.querySelectorAll('#setupTabs .model-tab');
+    const setupInfo = document.getElementById('setupModelInfo');
+    const setupModels = {
+      claude: { title: 'Anthropic Claude', text: 'Максимум качества для сложных задач, кода и анализа.' },
+      gpt: { title: 'OpenAI ChatGPT', text: 'Универсальный быстрый режим для ежедневной работы.' },
+      gemini: { title: 'Google Gemini', text: 'Отлично подходит для мультимодальных сценариев.' },
+      deepseek: { title: 'DeepSeek', text: 'Сильная модель для кода и рабочих задач по цене ниже топовых.' }
+    };
+    setupTabs.forEach(tab => {
+      tab.onclick = () => {
+        setupTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const m = setupModels[tab.dataset.model];
+        if (m && setupInfo) setupInfo.innerHTML = `<h4>${m.title}</h4><p>${m.text}</p>`;
+      };
+    });
+
+    const setupTokenPills = document.querySelectorAll('#setupTokenPills .token-pill');
+    const setupTokenAmount = document.getElementById('setupTokenAmount');
+    const setupTokenSelectBtn = document.getElementById('setupTokenSelectBtn');
+    setupTokenPills.forEach(p => p.onclick = () => {
+      setupTokenPills.forEach(x => x.classList.remove('active'));
+      p.classList.add('active');
+      if (setupTokenAmount) setupTokenAmount.value = p.dataset.value;
+    });
+    if (setupTokenSelectBtn && setupTokenAmount) {
+      setupTokenSelectBtn.onclick = () => {
+        let v = parseInt(setupTokenAmount.value || '0', 10);
+        if (Number.isNaN(v) || v < 1000) v = 1000;
+        setupTokenAmount.value = String(v);
+        setupTokenPills.forEach(x => x.classList.toggle('active', x.dataset.value === String(v)));
+      };
+    }
 
     document.getElementById('logoutBtn').onclick = async (e) => {
       e.preventDefault();

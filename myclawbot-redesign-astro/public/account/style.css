@@ -31,7 +31,23 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 .link-red{border:0;background:transparent;color:var(--brand-2);font-weight:700;cursor:pointer;padding:0}
 .bots-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .quick-setup{margin-top:12px}
-.quick-setup-actions{justify-content:flex-start;margin-top:8px}
+.quick-setup .model-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.quick-setup .model-tab{border:1px solid rgba(255,255,255,.16);background:#130a0f;color:#fff;border-radius:12px;padding:10px 12px;font-weight:600;text-align:left;cursor:pointer}
+.quick-setup .model-tab.active{border-color:var(--brand-2);background:linear-gradient(180deg,var(--brand-fill),var(--brand-fill-soft))}
+.quick-setup .model-info{margin-top:10px;border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:12px;background:linear-gradient(180deg,var(--brand-fill),rgba(255,77,77,.10) 55%,rgba(230,63,63,.12))}
+.quick-setup .model-info h4{margin:0 0 6px;font-size:20px}
+.quick-setup .model-info p{margin:0;color:#e0c7ce}
+.quick-setup .token-pills{display:flex;gap:8px;flex-wrap:wrap}
+.quick-setup .token-pill{border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.05);color:#fff;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:700;cursor:pointer}
+.quick-setup .token-pill.active{border-color:var(--brand-2);background:linear-gradient(180deg,var(--brand-fill),var(--brand-fill-soft))}
+.quick-setup .token-custom-row{margin-top:10px;display:grid;gap:6px}
+.quick-setup .token-custom-row label{font-size:12px;color:var(--muted)}
+.quick-setup .token-input-wrap{display:grid;grid-template-columns:1fr auto;gap:8px}
+.quick-setup .token-custom-row input{height:40px;border-radius:10px;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.06);color:#fff;padding:0 12px;font-size:14px}
+.quick-setup .token-select-btn{height:40px;padding:0 14px;border:0;border-radius:10px;background:var(--brand-gradient-main);color:#fff;font-weight:700;cursor:pointer}
+.quick-setup .token-note{margin:10px 2px 0;color:#d2bbc2;font-size:13px;line-height:1.45}
+.quick-setup .auth-row{display:grid;grid-template-columns:1fr;gap:8px;margin-top:12px}
+.quick-setup .auth-row .btn{height:40px}
 .bot-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff1}
 .bot-card.active{border-color:var(--brand-2)80;background:var(--brand-tint-soft)}
 .bot-name{margin:0 0 4px;font-weight:700;font-size:16px}
