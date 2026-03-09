@@ -67,9 +67,7 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 .quick-setup-footer .btn{height:40px;padding:10px 16px}
 .bot-card{position:relative;border:1px solid var(--line);border-radius:14px;padding:12px;background:linear-gradient(180deg,var(--panel),#12090d)}
 .bot-card.active{border-color:var(--line);background:linear-gradient(180deg,var(--panel),#12090d)}
-.bot-name-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .bot-name{margin:0 0 4px;font-weight:700;font-size:16px}
-.bot-expiry{margin:0;color:#bfa9b0;font-size:12px;white-space:nowrap}
 .bot-state{position:absolute;right:12px;top:12px;padding:3px 7px;border-radius:999px;font-size:11px;font-weight:700}
 .bot-state.is-active{background:rgba(130,240,178,.14);color:#82f0b2;border:1px solid rgba(130,240,178,.35)}
 .bot-state.is-paused{background:rgba(255,77,77,.12);color:#ff6b6b;border:1px solid rgba(255,107,107,.35)}

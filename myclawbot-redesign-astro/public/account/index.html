@@ -151,6 +151,7 @@
       <button class="close" id="botSettingsClose">×</button>
       <h3>Настройки бота</h3>
       <p class="muted" id="botSettingsName">—</p>
+      <p class="muted" id="botSettingsExpiry">Подписка до: —</p>
 
       <div class="field"><label>Telegram токен</label>
         <div class="token-input-wrap">
@@ -183,13 +184,10 @@
       const dateText = Number.isNaN(d.getTime()) ? '—' : d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
       const exp = new Date(bot.subscription_expires_at || bot.plan_until || bot.subscription_until || updated);
       const expText = Number.isNaN(exp.getTime()) ? '—' : exp.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
-      return `<article class="bot-card ${active ? 'active' : ''}" data-bot-id="${bot.id || ''}" data-bot-name="${(bot.name || '').replace(/"/g,'&quot;')}" data-bot-token="${(bot.telegram_token || '').replace(/"/g,'&quot;')}" data-bot-config='${JSON.stringify(bot.config || {}).replace(/'/g, '&apos;')}'>
+      return `<article class="bot-card ${active ? 'active' : ''}" data-bot-id="${bot.id || ''}" data-bot-name="${(bot.name || '').replace(/"/g,'&quot;')}" data-bot-token="${(bot.telegram_token || '').replace(/"/g,'&quot;')}" data-bot-expiry="${expText}" data-bot-config='${JSON.stringify(bot.config || {}).replace(/'/g, '&apos;')}'>
         <span class="bot-state ${active ? 'is-active' : 'is-paused'}">${active ? 'Активен' : 'Неактивен'}</span>
         <div>
-          <div class="bot-name-row">
-            <p class="bot-name">${bot.name}</p>
-            <p class="bot-expiry">до ${expText}</p>
-          </div>
+          <p class="bot-name">${bot.name}</p>
           <p class="muted">${bot.telegram_username || 'без username'} · ${bot.channel}</p>
           <p class="bot-date">${dateText}</p>
         </div>
@@ -361,6 +359,7 @@
     const botSettingsModal = document.getElementById('botSettingsModal');
     const botSettingsClose = document.getElementById('botSettingsClose');
     const botSettingsName = document.getElementById('botSettingsName');
+    const botSettingsExpiry = document.getElementById('botSettingsExpiry');
     const botTokenInput = document.getElementById('botTokenInput');
     const pasteBotTokenBtn = document.getElementById('pasteBotTokenBtn');
     const configFilesList = document.getElementById('configFilesList');
@@ -435,6 +434,7 @@
       if (!card) return;
       currentBotId = card.dataset.botId || null;
       if (botSettingsName) botSettingsName.textContent = card.dataset.botName || 'Бот';
+      if (botSettingsExpiry) botSettingsExpiry.textContent = `Подписка до: ${card.dataset.botExpiry || '—'}`;
       if (botTokenInput) botTokenInput.value = card.dataset.botToken || '';
       renderConfigFiles(currentBotId);
       openModal(botSettingsModal);
