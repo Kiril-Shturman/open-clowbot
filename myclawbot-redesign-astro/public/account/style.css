@@ -78,8 +78,14 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
 .field{margin:10px 0}.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}.field input,.field textarea{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:#fff1;color:#fff}
 .settings-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.config-files{display:grid;gap:8px}
-.config-file{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:#fff1}
+.config-files{display:grid;gap:8px;max-height:280px;overflow:auto;padding-right:2px}
+.cfg-folder{border:1px solid var(--line);border-radius:10px;background:#fff1}
+.cfg-folder-head{width:100%;display:flex;align-items:center;gap:8px;border:0;background:transparent;color:#fff;padding:8px 10px;cursor:pointer}
+.cfg-folder-arrow{font-size:12px;opacity:.85}
+.cfg-folder.collapsed .cfg-folder-arrow{transform:rotate(-90deg)}
+.cfg-folder-body{padding:0 8px 8px;display:grid;gap:6px}
+.cfg-folder.collapsed .cfg-folder-body{display:none}
+.config-file{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:10px;padding:7px 8px;background:#fff1}
 .config-file-left{display:flex;align-items:center;gap:8px;min-width:0}
 .config-file-icon{width:14px;height:14px;display:block;filter:brightness(0) invert(1)}
 .config-file-name{font-size:13px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

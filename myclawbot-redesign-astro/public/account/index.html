@@ -353,31 +353,47 @@
     const botTokenInput = document.getElementById('botTokenInput');
     const botConfigInput = document.getElementById('botConfigInput');
     const configFilesList = document.getElementById('configFilesList');
-    const CONFIG_FILES = [
-      'SOUL.md',
-      'USER.md',
-      'AGENTS.md',
-      'TOOLS.md',
-      'MEMORY.md',
-      'openclaw.config.json'
+    const CONFIG_TREE = [
+      { type: 'folder', name: 'prompts', children: ['SOUL.md', 'USER.md', 'AGENTS.md'] },
+      { type: 'folder', name: 'system', children: ['TOOLS.md', 'openclaw.config.json'] },
+      { type: 'folder', name: 'memory', children: ['MEMORY.md'] }
     ];
     let currentBotId = null;
 
     function renderConfigFiles(botId){
       if (!configFilesList) return;
-      configFilesList.innerHTML = CONFIG_FILES.map((name, i) => `
-        <div class="config-file" data-file="${name}">
-          <div class="config-file-left">
-            <img class="config-file-icon" src="/assets/icons/caps/note.svg" alt="file" />
-            <span class="config-file-name">${name}</span>
-          </div>
-          <div class="config-file-actions">
-            <button class="config-btn cfg-download" type="button">Скачать</button>
-            <button class="config-btn cfg-upload" type="button">Загрузить свой</button>
-            <input class="cfg-input" type="file" accept=".json,.yaml,.yml,.env,.txt" hidden />
+
+      configFilesList.innerHTML = CONFIG_TREE.map(folder => `
+        <div class="cfg-folder">
+          <button class="cfg-folder-head" type="button">
+            <span class="cfg-folder-arrow">▾</span>
+            <img class="config-file-icon" src="/assets/icons/caps/box.svg" alt="folder" />
+            <span>${folder.name}</span>
+          </button>
+          <div class="cfg-folder-body">
+            ${folder.children.map(name => `
+              <div class="config-file" data-file="${folder.name}/${name}">
+                <div class="config-file-left">
+                  <img class="config-file-icon" src="/assets/icons/caps/note.svg" alt="file" />
+                  <span class="config-file-name">${name}</span>
+                </div>
+                <div class="config-file-actions">
+                  <button class="config-btn cfg-download" type="button">Скачать</button>
+                  <button class="config-btn cfg-upload" type="button">Загрузить свой</button>
+                  <input class="cfg-input" type="file" accept=".json,.yaml,.yml,.env,.txt,.md" hidden />
+                </div>
+              </div>
+            `).join('')}
           </div>
         </div>
       `).join('');
+
+      configFilesList.querySelectorAll('.cfg-folder-head').forEach(head => {
+        head.onclick = () => {
+          const folder = head.closest('.cfg-folder');
+          folder.classList.toggle('collapsed');
+        };
+      });
 
       configFilesList.querySelectorAll('.config-file').forEach(row => {
         const file = row.dataset.file;
