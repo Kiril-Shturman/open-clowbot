@@ -7,7 +7,8 @@
     "start": "node src/server.js",
     "worker:deploy": "node src/workers/deploy-worker.js",
     "worker:subscriptions": "node src/workers/subscription-renewal-worker.js",
-    "worker:hostkey-sync": "node src/workers/hostkey-sync-worker.js"
+    "worker:hostkey-sync": "node src/workers/hostkey-sync-worker.js",
+    "preflight:prod": "bash scripts/prod-preflight.sh"
   },
   "dependencies": {
     "cors": "^2.8.5",

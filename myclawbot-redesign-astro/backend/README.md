@@ -32,11 +32,20 @@ psql "$DATABASE_URL" -f sql/004_deploy_hardening.sql
 - Deploy jobs queue table + endpoints + deploy worker (`npm run worker:deploy`)
 - Secrets storage (encrypted at rest)
 
-## Важно (доделать в первую очередь)
+## Preflight перед продом
 
-1. Реальные SDK/API вызовы YooKassa/Hostkey
-2. Проверка подписи webhook
-3. Реальный auth middleware (JWT/session)
-4. Воркер для deploy_jobs
-5. Точный прайсинг по моделям OpenRouter
-6. Миграции/ORM + тесты
+```bash
+npm run preflight:prod
+```
+
+Проверяет:
+- обязательные ENV
+- применение SQL миграций (001..004)
+- синтаксис backend + workers
+
+## Что осталось перед финальным go-live
+
+1. Реальный auth middleware (JWT/session)
+2. E2E тесты critical flows (payment webhook, renewals, deploy)
+3. Monitoring/alerts (ошибки worker'ов, 5xx, stuck jobs)
+4. Rate-limit store в Redis (вместо memory) для multi-instance
