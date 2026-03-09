@@ -153,7 +153,11 @@
       <p class="muted" id="botSettingsName">—</p>
 
       <div class="field"><label>Telegram токен</label><input id="botTokenInput" placeholder="1234567890:ABCdef..." /></div>
-      <div class="field"><label>Файлы конфигурации (JSON)</label><textarea id="botConfigInput" rows="6" placeholder='{"model":"claude","daily_limit":500}'></textarea></div>
+      <div class="field"><label>Файлы конфигурации</label>
+        <div class="config-files" id="configFilesList"></div>
+      </div>
+
+      <div class="field"><label>Быстрое редактирование JSON</label><textarea id="botConfigInput" rows="6" placeholder='{"model":"claude","daily_limit":500}'></textarea></div>
 
       <div class="settings-actions">
         <button class="btn solid" id="saveBotSettings">Сохранить настройки</button>
@@ -348,7 +352,47 @@
     const botSettingsName = document.getElementById('botSettingsName');
     const botTokenInput = document.getElementById('botTokenInput');
     const botConfigInput = document.getElementById('botConfigInput');
+    const configFilesList = document.getElementById('configFilesList');
+    const CONFIG_FILES = ['openclaw.json', 'limits.json', 'channels.json', 'models.json', 'webhooks.json'];
     let currentBotId = null;
+
+    function renderConfigFiles(botId){
+      if (!configFilesList) return;
+      configFilesList.innerHTML = CONFIG_FILES.map((name, i) => `
+        <div class="config-file" data-file="${name}">
+          <div class="config-file-left">
+            <img class="config-file-icon" src="/assets/icons/caps/note.svg" alt="file" />
+            <span class="config-file-name">${name}</span>
+          </div>
+          <div class="config-file-actions">
+            <button class="config-btn cfg-download" type="button">Скачать</button>
+            <button class="config-btn cfg-upload" type="button">Загрузить свой</button>
+            <input class="cfg-input" type="file" accept=".json,.yaml,.yml,.env,.txt" hidden />
+          </div>
+        </div>
+      `).join('');
+
+      configFilesList.querySelectorAll('.config-file').forEach(row => {
+        const file = row.dataset.file;
+        const downloadBtn = row.querySelector('.cfg-download');
+        const uploadBtn = row.querySelector('.cfg-upload');
+        const fileInput = row.querySelector('.cfg-input');
+
+        downloadBtn.onclick = () => {
+          if (!botId) return;
+          location.href = `/api/account/bots/${botId}/files/${encodeURIComponent(file)}/download`;
+        };
+
+        uploadBtn.onclick = () => fileInput.click();
+        fileInput.onchange = async () => {
+          if (!botId || !fileInput.files || !fileInput.files[0]) return;
+          const fd = new FormData();
+          fd.append('file', fileInput.files[0]);
+          await fetch(`/api/account/bots/${botId}/files/${encodeURIComponent(file)}/upload`, { method: 'POST', body: fd });
+          alert(`Файл ${file} загружен`);
+        };
+      });
+    }
 
     botsGrid.addEventListener('click', (e) => {
       const btn = e.target.closest('.open-settings');
@@ -366,6 +410,7 @@
           botConfigInput.value = '{}';
         }
       }
+      renderConfigFiles(currentBotId);
       botSettingsModal.classList.add('show');
     });
 

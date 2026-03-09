@@ -78,6 +78,13 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
 .field{margin:10px 0}.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}.field input,.field textarea{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:#fff1;color:#fff}
 .settings-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.config-files{display:grid;gap:8px}
+.config-file{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:#fff1}
+.config-file-left{display:flex;align-items:center;gap:8px;min-width:0}
+.config-file-icon{width:14px;height:14px;display:block;filter:brightness(0) invert(1)}
+.config-file-name{font-size:13px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.config-file-actions{display:flex;gap:6px;flex-wrap:wrap}
+.config-btn{border:1px solid var(--line);background:#ffffff0a;color:#fff;border-radius:8px;padding:5px 8px;font-size:12px;cursor:pointer}
 .btn.danger{border-color:rgba(255,107,107,.45);color:#ffb2c1}
 .chips{display:flex;flex-wrap:wrap;gap:8px}.chips span{padding:7px 10px;border-radius:999px;background:#fff1;border:1px solid var(--line);font-size:13px}
 table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid #ffffff1f;text-align:left}th{color:var(--muted);font-size:12px}
