@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import crypto from 'crypto';
-import { query } from '../db.js';
+import { pool, query } from '../db.js';
 import { createYooKassaPayment, verifyYooKassaWebhookSecret } from '../services/yookassa.js';
 
 export const paymentsRouter = Router();
@@ -15,6 +15,56 @@ const createPaymentSchema = z.object({
 });
 
 const ALLOWED_STATUSES = new Set(['pending', 'waiting_for_capture', 'succeeded', 'canceled']);
+const TERMINAL_STATUSES = new Set(['succeeded', 'canceled', 'refunded', 'charged_back', 'failed']);
+
+function mapIncomingStatus(eventType, object) {
+  const type = String(eventType || '').toLowerCase();
+  const status = String(object?.status || '').toLowerCase();
+
+  if (type.includes('refund') || type.includes('payment.refunded')) return 'refunded';
+  if (type.includes('chargeback') || type.includes('dispute')) return 'charged_back';
+  if (type.includes('failed')) return 'failed';
+
+  if (ALLOWED_STATUSES.has(status)) return status;
+  if (!status && type.includes('canceled')) return 'canceled';
+
+  return null;
+}
+
+function canTransition(prev, next) {
+  if (!prev || prev === next) return true;
+
+  const transitions = {
+    pending: new Set(['waiting_for_capture', 'succeeded', 'canceled', 'failed']),
+    waiting_for_capture: new Set(['succeeded', 'canceled', 'failed']),
+    succeeded: new Set(['refunded', 'charged_back']),
+    canceled: new Set(),
+    failed: new Set(),
+    refunded: new Set(),
+    charged_back: new Set(),
+  };
+
+  if (TERMINAL_STATUSES.has(prev) && prev !== next) {
+    return transitions[prev]?.has(next) || false;
+  }
+
+  return transitions[prev]?.has(next) || false;
+}
+
+async function withTx(fn) {
+  const client = await pool.connect();
+  try {
+    await client.query('begin');
+    const result = await fn(client);
+    await client.query('commit');
+    return result;
+  } catch (error) {
+    await client.query('rollback');
+    throw error;
+  } finally {
+    client.release();
+  }
+}
 
 paymentsRouter.post('/create', async (req, res) => {
   const parsed = createPaymentSchema.safeParse(req.body);
@@ -59,7 +109,10 @@ paymentsRouter.post('/webhook/yookassa', async (req, res) => {
   const eventType = body?.event || 'unknown';
   const object = body?.object || {};
 
-  if (!object?.id || !object?.status || !ALLOWED_STATUSES.has(object.status)) {
+  const providerPaymentId = object?.id || object?.payment_id;
+  const nextStatus = mapIncomingStatus(eventType, object);
+
+  if (!providerPaymentId || !nextStatus) {
     return res.status(400).json({ error: 'invalid_payload' });
   }
 
@@ -69,7 +122,7 @@ paymentsRouter.post('/webhook/yookassa', async (req, res) => {
     await query(
       `insert into payment_events (provider, event_type, provider_payment_id, payload, event_hash)
        values ('yookassa', $1, $2, $3::jsonb, $4)`,
-      [eventType, object.id, JSON.stringify(body), eventHash],
+      [eventType, providerPaymentId, JSON.stringify(body), eventHash],
     );
   } catch (e) {
     if (String(e.message || e).includes('duplicate key')) return res.json({ ok: true, duplicate: true });
@@ -78,64 +131,77 @@ paymentsRouter.post('/webhook/yookassa', async (req, res) => {
 
   const paymentRow = await query(
     `select id, user_id, amount_minor, status, metadata from payments where provider_payment_id = $1 limit 1`,
-    [object.id],
+    [providerPaymentId],
   );
   const row = paymentRow.rows[0];
   if (!row) return res.json({ ok: true, ignored: 'payment_not_found' });
 
   const prevStatus = row.status;
-  const nextStatus = object.status;
-
-  // terminal states should not be moved backwards
-  if ((prevStatus === 'succeeded' || prevStatus === 'canceled') && prevStatus !== nextStatus) {
-    return res.json({ ok: true, ignored: 'terminal_state' });
+  if (!canTransition(prevStatus, nextStatus)) {
+    return res.json({ ok: true, ignored: 'invalid_state_transition', prevStatus, nextStatus });
   }
 
-  await query(`update payments set status = $1, updated_at = now() where provider_payment_id = $2`, [nextStatus, object.id]);
+  await query(`update payments set status = $1, updated_at = now() where provider_payment_id = $2`, [nextStatus, providerPaymentId]);
 
   if (eventType === 'payment.succeeded' && prevStatus !== 'succeeded') {
     const recurring = Boolean(row.metadata?.recurring);
     const planCode = row.metadata?.planCode || 'default';
     const paymentMethodId = object.payment_method?.id || row.metadata?.payment_method_id || null;
 
-    await query('begin');
     try {
-      await query(
-        `insert into wallets (user_id, balance_minor, currency) values ($1, 0, 'RUB')
-         on conflict (user_id) do nothing`,
-        [row.user_id],
-      );
-      await query(`update wallets set balance_minor = balance_minor + $1, updated_at = now() where user_id = $2`, [
-        row.amount_minor,
-        row.user_id,
-      ]);
-      await query(
-        `insert into ledger_entries (user_id, delta_minor, currency, reason, metadata)
-         values ($1, $2, 'RUB', 'yookassa_topup', $3::jsonb)`,
-        [row.user_id, row.amount_minor, JSON.stringify({ providerPaymentId: object.id })],
-      );
-
-      if (recurring && paymentMethodId) {
-        await query(
-          `insert into subscriptions (user_id, provider, provider_subscription_id, plan_code, status, amount_minor, currency, yookassa_payment_method_id, current_period_start, current_period_end)
-           values ($1, 'yookassa', $2, $3, 'active', $4, 'RUB', $5, now(), now() + interval '1 month')
-           on conflict (provider_subscription_id)
-           do update set status = 'active', amount_minor = excluded.amount_minor, updated_at = now(), current_period_start = now(), current_period_end = now() + interval '1 month'`,
-          [row.user_id, paymentMethodId, planCode, row.amount_minor, paymentMethodId],
+      await withTx(async (client) => {
+        await client.query(
+          `insert into wallets (user_id, balance_minor, currency) values ($1, 0, 'RUB')
+           on conflict (user_id) do nothing`,
+          [row.user_id],
         );
-      }
+        await client.query(`update wallets set balance_minor = balance_minor + $1, updated_at = now() where user_id = $2`, [
+          row.amount_minor,
+          row.user_id,
+        ]);
+        await client.query(
+          `insert into ledger_entries (user_id, delta_minor, currency, reason, metadata)
+           values ($1, $2, 'RUB', 'yookassa_topup', $3::jsonb)`,
+          [row.user_id, row.amount_minor, JSON.stringify({ providerPaymentId })],
+        );
 
-      await query('commit');
+        if (recurring && paymentMethodId) {
+          await client.query(
+            `insert into subscriptions (user_id, provider, provider_subscription_id, plan_code, status, amount_minor, currency, yookassa_payment_method_id, current_period_start, current_period_end, metadata)
+             values ($1, 'yookassa', $2, $3, 'active', $4, 'RUB', $5, now(), now() + interval '1 month', '{}'::jsonb)
+             on conflict (provider_subscription_id)
+             do update set status = 'active', amount_minor = excluded.amount_minor, updated_at = now(), current_period_start = now(), current_period_end = now() + interval '1 month', yookassa_payment_method_id = excluded.yookassa_payment_method_id`,
+            [row.user_id, paymentMethodId, planCode, row.amount_minor, paymentMethodId],
+          );
+        }
+      });
     } catch (e) {
-      await query('rollback');
       return res.status(500).json({ error: String(e.message || e) });
     }
   }
 
-  if ((eventType === 'payment.canceled' || nextStatus === 'canceled') && row.metadata?.subscriptionId) {
+  const linkedSubscriptionId = row.metadata?.subscriptionId || null;
+
+  if (linkedSubscriptionId && (nextStatus === 'failed' || nextStatus === 'canceled')) {
     await query(
-      `update subscriptions set status = 'past_due', updated_at = now() where id = $1 and status <> 'canceled'`,
-      [row.metadata.subscriptionId],
+      `update subscriptions
+       set status = 'past_due',
+           metadata = coalesce(metadata, '{}'::jsonb) || jsonb_build_object('last_payment_failure_at', now(), 'last_payment_status', $2),
+           updated_at = now()
+       where id = $1 and status not in ('canceled')`,
+      [linkedSubscriptionId, nextStatus],
+    );
+  }
+
+  if (linkedSubscriptionId && (nextStatus === 'refunded' || nextStatus === 'charged_back')) {
+    await query(
+      `update subscriptions
+       set status = 'canceled',
+           canceled_at = now(),
+           metadata = coalesce(metadata, '{}'::jsonb) || jsonb_build_object('cancellation_reason', $2, 'cancellation_at', now()),
+           updated_at = now()
+       where id = $1 and status <> 'canceled'`,
+      [linkedSubscriptionId, nextStatus],
     );
   }
 
