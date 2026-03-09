@@ -8,35 +8,187 @@ const backendUrl = import.meta.env.PUBLIC_BACKEND_URL || 'http://localhost:8787'
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Кабинет — MyClawBot</title>
     <style>
-      body{font-family:Inter,system-ui,sans-serif;background:#0f0f12;color:#fff;margin:0;padding:24px}
-      .card{background:#1a1a21;border:1px solid #2d2d38;border-radius:16px;padding:18px;margin-bottom:14px}
+      :root{color-scheme:dark}
+      body{font-family:Inter,system-ui,sans-serif;background:#0f0f12;color:#fff;margin:0;padding:20px}
+      .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+      .card{background:#1a1a21;border:1px solid #2d2d38;border-radius:16px;padding:16px}
       .muted{color:#9ca3af}
+      button{background:#ef4444;border:none;color:#fff;padding:8px 12px;border-radius:10px;cursor:pointer}
+      button.secondary{background:#2d2d38}
+      input,select{width:100%;box-sizing:border-box;background:#11141c;border:1px solid #2d2d38;border-radius:10px;color:#fff;padding:8px 10px;margin:6px 0}
+      ul{margin:10px 0 0;padding-left:18px}
+      li{margin-bottom:6px}
+      .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
       code{color:#f87171}
+      .ok{color:#4ade80}.err{color:#f87171}
       a{color:#f87171}
     </style>
   </head>
   <body>
-    <h1>Кабинет (backend wiring готов)</h1>
-    <p class="muted">Бэкенд URL: <code>{backendUrl}</code></p>
+    <h1>Кабинет</h1>
+    <p class="muted">Backend: <code>{backendUrl}</code></p>
 
     <div class="card">
-      <h3>Готовые API</h3>
-      <ul>
-        <li><code>POST /api/payments/create</code></li>
-        <li><code>POST /api/payments/webhook/yookassa</code></li>
-        <li><code>GET /api/billing/wallet/:userId</code></li>
-        <li><code>POST /api/ai/chat</code></li>
-        <li><code>POST /api/infra/servers/order</code></li>
-        <li><code>POST /api/deploy/enqueue</code></li>
-        <li><code>POST /api/keys/upsert</code></li>
-      </ul>
+      <div class="row">
+        <input id="userId" placeholder="UUID пользователя" />
+        <button id="saveUser">Сохранить userId</button>
+        <button id="reload" class="secondary">Обновить всё</button>
+      </div>
+      <p id="status" class="muted">Укажи userId, чтобы загрузить кабинет.</p>
     </div>
 
-    <div class="card">
-      <h3>Следующий шаг</h3>
-      <p>Подключить эту страницу к реальному auth userId и начать рендерить данные кошелька/серверов/подписок с API.</p>
+    <div class="grid">
+      <section class="card">
+        <h3>Баланс</h3>
+        <div id="wallet" class="muted">—</div>
+        <h4>Пополнить</h4>
+        <input id="topupAmount" type="number" min="1" step="1" placeholder="Сумма ₽ (например 500)" />
+        <button id="topupBtn">Пополнить (создать YooKassa payment)</button>
+      </section>
+
+      <section class="card">
+        <h3>Подписки</h3>
+        <ul id="subs"></ul>
+      </section>
+
+      <section class="card">
+        <h3>Серверы</h3>
+        <ul id="servers"></ul>
+      </section>
+
+      <section class="card">
+        <h3>История платежей</h3>
+        <ul id="payments"></ul>
+      </section>
     </div>
 
     <p><a href="/">← На главную</a></p>
+
+    <script define:vars={{ backendUrl }}>
+      const $ = (id) => document.getElementById(id);
+      const fmtRub = (minor) => `${(Number(minor || 0) / 100).toFixed(2)} ₽`;
+
+      const userIdInput = $('userId');
+      const statusEl = $('status');
+      userIdInput.value = localStorage.getItem('cabinet_user_id') || '';
+
+      $('saveUser').onclick = () => {
+        localStorage.setItem('cabinet_user_id', userIdInput.value.trim());
+        loadAll();
+      };
+      $('reload').onclick = () => loadAll();
+
+      async function api(path, opts = {}) {
+        const res = await fetch(`${backendUrl}${path}`, {
+          ...opts,
+          headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) },
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || `${res.status}`);
+        return data;
+      }
+
+      async function loadAll() {
+        const userId = userIdInput.value.trim();
+        if (!userId) {
+          statusEl.textContent = 'Укажи userId.';
+          return;
+        }
+
+        localStorage.setItem('cabinet_user_id', userId);
+        statusEl.textContent = 'Загружаю...';
+        statusEl.className = 'muted';
+
+        try {
+          const [wallet, subs, servers, payments] = await Promise.all([
+            api(`/api/billing/wallet/${userId}`).catch(() => null),
+            api(`/api/subscriptions/${userId}`).catch(() => ({ subscriptions: [] })),
+            api(`/api/infra/servers/${userId}`).catch(() => ({ servers: [] })),
+            api(`/api/payments/history/${userId}`).catch(() => ({ payments: [] })),
+          ]);
+
+          $('wallet').textContent = wallet ? `${fmtRub(wallet.balance_minor)} (${wallet.currency})` : 'кошелек не найден';
+
+          $('subs').innerHTML = (subs.subscriptions || []).map((s) => `
+            <li>
+              <b>${s.plan_code}</b> — ${s.status}
+              <button data-cancel="${s.id}" class="secondary">Отменить</button>
+            </li>
+          `).join('') || '<li class="muted">пусто</li>';
+
+          $('servers').innerHTML = (servers.servers || []).map((s) => `
+            <li>
+              <b>${s.plan_code}</b> ${s.region} — ${s.status} ${s.ip_address || ''}
+              <div class="row" style="margin-top:6px">
+                <button data-sync="${s.id}" class="secondary">Sync</button>
+                <button data-reboot="${s.id}" class="secondary">Reboot</button>
+                <button data-reinstall="${s.id}">Переустановить</button>
+              </div>
+            </li>
+          `).join('') || '<li class="muted">пусто</li>';
+
+          $('payments').innerHTML = (payments.payments || []).map((p) => `
+            <li>
+              ${fmtRub(p.amount_minor)} — ${p.status} <span class="muted">${new Date(p.created_at).toLocaleString()}</span>
+            </li>
+          `).join('') || '<li class="muted">пусто</li>';
+
+          bindActions(userId);
+          statusEl.textContent = 'Готово';
+          statusEl.className = 'ok';
+        } catch (e) {
+          statusEl.textContent = `Ошибка: ${e.message}`;
+          statusEl.className = 'err';
+        }
+      }
+
+      function bindActions(userId) {
+        document.querySelectorAll('[data-cancel]').forEach((el) => {
+          el.onclick = async () => {
+            await api('/api/subscriptions/cancel', {
+              method: 'POST',
+              body: JSON.stringify({ userId, subscriptionId: el.dataset.cancel }),
+            });
+            loadAll();
+          };
+        });
+
+        document.querySelectorAll('[data-sync]').forEach((el) => {
+          el.onclick = async () => { await api(`/api/infra/servers/${el.dataset.sync}/sync`, { method: 'POST' }); loadAll(); };
+        });
+        document.querySelectorAll('[data-reboot]').forEach((el) => {
+          el.onclick = async () => { await api(`/api/infra/servers/${el.dataset.reboot}/reboot`, { method: 'POST' }); loadAll(); };
+        });
+        document.querySelectorAll('[data-reinstall]').forEach((el) => {
+          el.onclick = async () => {
+            await api('/api/deploy/enqueue', { method: 'POST', body: JSON.stringify({ userId, serverId: el.dataset.reinstall }) });
+            loadAll();
+          };
+        });
+      }
+
+      $('topupBtn').onclick = async () => {
+        const userId = userIdInput.value.trim();
+        const amountRub = Number($('topupAmount').value || 0);
+        if (!userId || !amountRub) return;
+
+        try {
+          const data = await api('/api/payments/create', {
+            method: 'POST',
+            body: JSON.stringify({ userId, amountRub, planCode: 'base', recurring: true, description: 'Пополнение баланса' }),
+          });
+
+          if (data.confirmationUrl) {
+            window.open(data.confirmationUrl, '_blank');
+          }
+          loadAll();
+        } catch (e) {
+          statusEl.textContent = `Ошибка пополнения: ${e.message}`;
+          statusEl.className = 'err';
+        }
+      };
+
+      loadAll();
+    </script>
   </body>
 </html>

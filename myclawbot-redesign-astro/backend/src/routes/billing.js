@@ -20,6 +20,18 @@ const adjustSchema = z.object({
   reason: z.string().min(1),
 });
 
+billingRouter.get('/ledger/:userId', async (req, res) => {
+  const rows = await query(
+    `select id, delta_minor, currency, reason, metadata, created_at
+     from ledger_entries
+     where user_id = $1
+     order by created_at desc
+     limit 100`,
+    [req.params.userId],
+  );
+  res.json({ entries: rows.rows });
+});
+
 billingRouter.post('/ledger/adjust', async (req, res) => {
   const parsed = adjustSchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });

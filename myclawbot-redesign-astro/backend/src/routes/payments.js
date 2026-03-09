@@ -100,6 +100,18 @@ paymentsRouter.post('/create', async (req, res) => {
   }
 });
 
+paymentsRouter.get('/history/:userId', async (req, res) => {
+  const rows = await query(
+    `select id, provider, provider_payment_id, amount_minor, currency, status, metadata, created_at, updated_at
+     from payments
+     where user_id = $1
+     order by created_at desc
+     limit 50`,
+    [req.params.userId],
+  );
+  res.json({ payments: rows.rows });
+});
+
 paymentsRouter.post('/webhook/yookassa', async (req, res) => {
   if (!verifyYooKassaWebhookSecret(req)) {
     return res.status(401).json({ error: 'invalid_webhook_secret' });
