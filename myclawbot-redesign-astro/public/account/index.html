@@ -146,6 +146,26 @@
     </div>
   </div>
 
+  <div class="modal-bg" id="botSettingsModal">
+    <div class="modal panel">
+      <button class="close" id="botSettingsClose">×</button>
+      <h3>Настройки бота</h3>
+      <p class="muted" id="botSettingsName">—</p>
+
+      <div class="field"><label>Telegram токен</label><input id="botTokenInput" placeholder="1234567890:ABCdef..." /></div>
+      <div class="field"><label>Файлы конфигурации (JSON)</label><textarea id="botConfigInput" rows="6" placeholder='{"model":"claude","daily_limit":500}'></textarea></div>
+
+      <div class="settings-actions">
+        <button class="btn solid" id="saveBotSettings">Сохранить настройки</button>
+        <button class="btn ghost" id="downloadBotZip">Скачать ZIP бота</button>
+      </div>
+      <div class="settings-actions">
+        <button class="btn ghost danger" id="cancelBotSub">Отменить подписку</button>
+        <button class="btn ghost danger" id="deleteBotBtn">Удалить бота</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const botsGrid = document.getElementById('botsGrid');
 
@@ -154,7 +174,7 @@
       const updated = bot.updated_at || bot.created_at || new Date().toISOString();
       const d = new Date(updated);
       const dateText = Number.isNaN(d.getTime()) ? '—' : d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
-      return `<article class="bot-card ${active ? 'active' : ''}">
+      return `<article class="bot-card ${active ? 'active' : ''}" data-bot-id="${bot.id || ''}" data-bot-name="${(bot.name || '').replace(/"/g,'&quot;')}" data-bot-token="${(bot.telegram_token || '').replace(/"/g,'&quot;')}" data-bot-config='${JSON.stringify(bot.config || {}).replace(/'/g, '&apos;')}'>
         <span class="bot-state ${active ? 'is-active' : 'is-paused'}">${active ? 'Активен' : 'Неактивен'}</span>
         <div>
           <p class="bot-name">${bot.name}</p>
@@ -162,8 +182,8 @@
           <p class="bot-date">${dateText}</p>
         </div>
         <div class="bot-actions">
-          <button class="btn ghost small">Настройки</button>
-          <button class="btn ghost small">${active ? 'Пауза' : 'Запуск'}</button>
+          <button class="btn ghost small open-settings" type="button">Настройки</button>
+          <button class="btn ghost small" type="button">${active ? 'Пауза' : 'Запуск'}</button>
         </div>
       </article>`;
     }
@@ -321,6 +341,69 @@
     document.getElementById('topupOpen').onclick = ()=>m.classList.add('show');
     document.getElementById('topupClose').onclick = ()=>m.classList.remove('show');
     m.onclick = (e)=>{ if(e.target===m) m.classList.remove('show'); };
+
+    // Bot settings modal
+    const botSettingsModal = document.getElementById('botSettingsModal');
+    const botSettingsClose = document.getElementById('botSettingsClose');
+    const botSettingsName = document.getElementById('botSettingsName');
+    const botTokenInput = document.getElementById('botTokenInput');
+    const botConfigInput = document.getElementById('botConfigInput');
+    let currentBotId = null;
+
+    botsGrid.addEventListener('click', (e) => {
+      const btn = e.target.closest('.open-settings');
+      if (!btn) return;
+      const card = e.target.closest('.bot-card');
+      if (!card) return;
+      currentBotId = card.dataset.botId || null;
+      if (botSettingsName) botSettingsName.textContent = card.dataset.botName || 'Бот';
+      if (botTokenInput) botTokenInput.value = card.dataset.botToken || '';
+      if (botConfigInput) {
+        try {
+          const cfg = JSON.parse((card.dataset.botConfig || '{}').replace(/&apos;/g, "'"));
+          botConfigInput.value = JSON.stringify(cfg, null, 2);
+        } catch {
+          botConfigInput.value = '{}';
+        }
+      }
+      botSettingsModal.classList.add('show');
+    });
+
+    botSettingsClose.onclick = () => botSettingsModal.classList.remove('show');
+    botSettingsModal.onclick = (e) => { if (e.target === botSettingsModal) botSettingsModal.classList.remove('show'); };
+
+    document.getElementById('saveBotSettings').onclick = async () => {
+      if (!currentBotId) return;
+      let config = {};
+      try { config = JSON.parse(botConfigInput.value || '{}'); } catch { return alert('Невалидный JSON в конфиге'); }
+      await fetch(`/api/account/bots/${currentBotId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ telegram_token: botTokenInput.value.trim(), config })
+      });
+      botSettingsModal.classList.remove('show');
+      loadBots();
+    };
+
+    document.getElementById('downloadBotZip').onclick = () => {
+      if (!currentBotId) return;
+      location.href = `/api/account/bots/${currentBotId}/download`;
+    };
+
+    document.getElementById('cancelBotSub').onclick = async () => {
+      if (!currentBotId) return;
+      if (!confirm('Отменить подписку для этого бота?')) return;
+      await fetch(`/api/account/bots/${currentBotId}/cancel-subscription`, { method: 'POST' });
+      alert('Запрос на отмену подписки отправлен');
+    };
+
+    document.getElementById('deleteBotBtn').onclick = async () => {
+      if (!currentBotId) return;
+      if (!confirm('Удалить бота? Это действие нельзя отменить.')) return;
+      await fetch(`/api/account/bots/${currentBotId}`, { method: 'DELETE' });
+      botSettingsModal.classList.remove('show');
+      loadBots();
+    };
   </script>
 </body>
 </html>

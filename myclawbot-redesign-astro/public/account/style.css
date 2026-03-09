@@ -76,7 +76,9 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 .btn.small{padding:7px 10px;font-size:12px;border-radius:10px}
 
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-.field{margin:10px 0}.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}.field input{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:#fff1;color:#fff}
+.field{margin:10px 0}.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}.field input,.field textarea{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:#fff1;color:#fff}
+.settings-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.btn.danger{border-color:rgba(255,107,107,.45);color:#ffb2c1}
 .chips{display:flex;flex-wrap:wrap;gap:8px}.chips span{padding:7px 10px;border-radius:999px;background:#fff1;border:1px solid var(--line);font-size:13px}
 table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid #ffffff1f;text-align:left}th{color:var(--muted);font-size:12px}
 .topup-history{margin-top:12px}
