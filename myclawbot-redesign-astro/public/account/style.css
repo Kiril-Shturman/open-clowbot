@@ -33,7 +33,8 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 .quick-setup{margin-top:12px;background:linear-gradient(180deg,rgba(255,107,107,.14),rgba(230,63,63,.08) 52%,rgba(255,255,255,.02) 100%);border:1px solid var(--brand-stroke)}
 .quick-setup .setup-subhead{margin:-8px 0 14px;color:var(--muted);font-size:15px;line-height:1.35}
 .quick-setup .model-tabs{display:grid;gap:10px;margin-top:0}
-.quick-setup .model-tab{border:1px solid rgba(255,255,255,.13);background:#130a0f;color:#fff;border-radius:14px;padding:12px 13px;font-weight:600;text-align:left;cursor:pointer;font-size:15px}
+.quick-setup .model-tab{border:1px solid rgba(255,255,255,.13);background:#130a0f;color:#fff;border-radius:14px;padding:12px 13px;font-weight:600;text-align:left;cursor:pointer;font-size:15px;display:flex;align-items:center;gap:10px}
+.quick-setup .model-tab img{width:20px;height:20px;object-fit:contain}
 .quick-setup .model-tab.active{border-color:var(--brand-2);background:linear-gradient(180deg,var(--brand-fill),var(--brand-fill-soft));box-shadow:0 0 0 1px rgba(255,77,77,.18) inset}
 .quick-setup .model-info{margin-top:12px;border:1px solid var(--brand-stroke-strong);border-radius:14px;padding:14px;background:linear-gradient(180deg,var(--brand-fill),rgba(255,77,77,.10) 55%,rgba(230,63,63,.12))}
 .quick-setup .model-info h3{margin:0 0 5px;font-size:30px;line-height:1;letter-spacing:-.2px}
