@@ -12,6 +12,7 @@ import { infraRouter } from './routes/infra.js';
 import { keysRouter } from './routes/keys.js';
 import { deployRouter } from './routes/deploy.js';
 import { subscriptionsRouter } from './routes/subscriptions.js';
+import { authRouter } from './routes/auth.js';
 import { requireAuth } from './middleware/auth.js';
 
 const app = express();
@@ -23,6 +24,7 @@ app.use(express.json({ limit: '2mb' }));
 
 app.get('/', (_req, res) => res.json({ service: 'myclawbot-backend', ok: true }));
 app.use('/health', healthRouter);
+app.use('/api/auth', authRouter);
 
 app.use('/api', requireAuth);
 app.use('/api/payments', paymentsRouter);

@@ -56,8 +56,8 @@
 
   <script>
     const CLIENT_ID = '884284199336-h238f68r3kthrj59adokma1f9612ud0o.apps.googleusercontent.com';
-    const rawReturnTo = new URLSearchParams(location.search).get('return_to') || '/account/';
-    const RETURN_TO = (rawReturnTo.startsWith('/') && !rawReturnTo.startsWith('//')) ? rawReturnTo : '/account/';
+    const rawReturnTo = new URLSearchParams(location.search).get('return_to') || '/cabinet/';
+    const RETURN_TO = (rawReturnTo.startsWith('/') && !rawReturnTo.startsWith('//')) ? rawReturnTo : '/cabinet/';
     const REDIRECT_URI = 'https://open-clawbot.ru/login/';
 
     async function loginByGoogleIdToken(idToken) {

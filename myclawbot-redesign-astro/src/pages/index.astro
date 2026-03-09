@@ -469,7 +469,7 @@ import "../styles/main.css";
 
       // Header switch: Войти -> Профиль + баланс
       if (headerAuthBtn) {
-        headerAuthBtn.href = '/account/';
+        headerAuthBtn.href = '/cabinet/';
         headerAuthBtn.innerHTML = `<img class="header-btn__icon" src="/assets/icons/login/user-filled.svg" alt="">Профиль`;
       }
       if (headerBalance) {
@@ -486,10 +486,10 @@ import "../styles/main.css";
       if (Number.isNaN(tokenAmount) || tokenAmount < 1000) tokenAmount = 1000;
 
       if (hasSubscription) {
-        authRow.innerHTML = `<a class="btn btn-primary full" href="/account/">Открыть личный кабинет</a>`;
+        authRow.innerHTML = `<a class="btn btn-primary full" href="/cabinet/">Открыть личный кабинет</a>`;
       } else {
         const total = 3890 + tokenAmount;
-        authRow.innerHTML = `<a class="btn btn-primary full" href="#price">Оплатить ${total} ₽</a><a class="btn btn-ghost full" href="/account/">Личный кабинет</a>`;
+        authRow.innerHTML = `<a class="btn btn-primary full" href="#price">Оплатить ${total} ₽</a><a class="btn btn-ghost full" href="/cabinet/">Личный кабинет</a>`;
       }
     }).catch(() => {});
 

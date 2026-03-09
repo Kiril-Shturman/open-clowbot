@@ -3,6 +3,16 @@ import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || '';
 
 const PUBLIC_API_PATHS = new Set(['/payments/webhook/yookassa']);
+const AUTH_COOKIE_NAME = process.env.AUTH_COOKIE_NAME || 'myclawbot_auth';
+
+function getCookieToken(req) {
+  const raw = req.headers.cookie || '';
+  if (!raw) return null;
+  const parts = raw.split(';').map((part) => part.trim());
+  const match = parts.find((part) => part.startsWith(`${AUTH_COOKIE_NAME}=`));
+  if (!match) return null;
+  return decodeURIComponent(match.slice(AUTH_COOKIE_NAME.length + 1));
+}
 
 export function requireAuth(req, res, next) {
   if (PUBLIC_API_PATHS.has(req.path)) return next();
@@ -12,7 +22,8 @@ export function requireAuth(req, res, next) {
   }
 
   const auth = req.headers.authorization || '';
-  const token = auth.startsWith('Bearer ') ? auth.slice(7) : null;
+  const bearerToken = auth.startsWith('Bearer ') ? auth.slice(7) : null;
+  const token = bearerToken || getCookieToken(req);
   if (!token) return res.status(401).json({ error: 'unauthorized' });
 
   try {

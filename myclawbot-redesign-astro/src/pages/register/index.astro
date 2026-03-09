@@ -42,7 +42,7 @@
       const r = await fetch('/api/auth/register', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)});
       const j = await r.json();
       if (!r.ok) return document.getElementById('hint').textContent = 'Ошибка: ' + (j.error || 'register_failed');
-      location.href = '/account/';
+      location.href = '/cabinet/';
     };
   </script>
 </body>
