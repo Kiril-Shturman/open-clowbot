@@ -22,7 +22,7 @@ psql "$DATABASE_URL" -f sql/003_subscriptions.sql
 ## Что уже есть
 
 - Реальный create payment в YooKassa (`/api/payments/create`)
-- Webhook ingestion с idempotency по `event_hash`
+- Webhook ingestion с idempotency по `event_hash` + secret check (`x-yookassa-webhook-secret`)
 - Auto-create/update subscription при successful recurring payment
 - Wallet/Ledger
 - OpenRouter proxy endpoint (`/api/ai/chat`) с pre-hold + settlement по фактическим токенам
