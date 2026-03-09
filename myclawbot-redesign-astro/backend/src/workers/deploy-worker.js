@@ -3,6 +3,7 @@ import { exec as cpExec } from 'child_process';
 import { promisify } from 'util';
 import { decryptSecret } from '../services/crypto.js';
 import { withTransaction, query } from '../db.js';
+import { sendOpsAlert } from '../services/alerts.js';
 
 const exec = promisify(cpExec);
 const POLL_MS = Number(process.env.DEPLOY_WORKER_POLL_MS || 5000);
@@ -130,6 +131,7 @@ async function processNext() {
   } catch (error) {
     if (!job) {
       console.error('deploy-worker error before job lock:', error);
+      await sendOpsAlert(`deploy worker internal error: ${String(error.message || error)}`);
       return;
     }
 
@@ -139,6 +141,7 @@ async function processNext() {
 
     await withTransaction(async (client) => {
       if (shouldRetry) {
+        await sendOpsAlert(`deploy retry scheduled job=${job.id} server=${job.server_id} attempt=${job.attempts} error=${errText}`);
         await client.query(
           `update deploy_jobs
            set status = 'retrying',
@@ -155,6 +158,7 @@ async function processNext() {
           [job.server_id, JSON.stringify({ jobId: job.id, attempt: job.attempts, error: errText })],
         );
       } else {
+        await sendOpsAlert(`deploy failed job=${job.id} server=${job.server_id} attempts=${job.attempts} error=${errText}`);
         await client.query(
           `update deploy_jobs
            set status = 'failed',
