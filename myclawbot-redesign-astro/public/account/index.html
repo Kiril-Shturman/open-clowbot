@@ -152,7 +152,12 @@
       <h3>Настройки бота</h3>
       <p class="muted" id="botSettingsName">—</p>
 
-      <div class="field"><label>Telegram токен</label><input id="botTokenInput" placeholder="1234567890:ABCdef..." /></div>
+      <div class="field"><label>Telegram токен</label>
+        <div class="token-input-wrap">
+          <input id="botTokenInput" placeholder="1234567890:ABCdef..." />
+          <button class="token-select-btn" id="pasteBotTokenBtn" type="button">Вставить</button>
+        </div>
+      </div>
       <div class="field"><label>Файлы конфигурации</label>
         <div class="config-files" id="configFilesList"></div>
       </div>
@@ -352,6 +357,7 @@
     const botSettingsClose = document.getElementById('botSettingsClose');
     const botSettingsName = document.getElementById('botSettingsName');
     const botTokenInput = document.getElementById('botTokenInput');
+    const pasteBotTokenBtn = document.getElementById('pasteBotTokenBtn');
     const configFilesList = document.getElementById('configFilesList');
     const CONFIG_TREE = [
       { type: 'folder', name: 'prompts', children: ['SOUL.md', 'USER.md', 'AGENTS.md'] },
@@ -431,6 +437,17 @@
 
     botSettingsClose.onclick = () => closeModal(botSettingsModal);
     botSettingsModal.onclick = (e) => { if (e.target === botSettingsModal) closeModal(botSettingsModal); };
+
+    if (pasteBotTokenBtn && botTokenInput) {
+      pasteBotTokenBtn.onclick = async () => {
+        try {
+          const txt = await navigator.clipboard.readText();
+          if (txt) botTokenInput.value = txt.trim();
+        } catch {
+          alert('Не удалось вставить из буфера. Вставь вручную.');
+        }
+      };
+    }
 
     document.getElementById('saveBotSettings').onclick = async () => {
       if (!currentBotId) return;
