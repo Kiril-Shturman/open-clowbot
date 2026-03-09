@@ -157,8 +157,6 @@
         <div class="config-files" id="configFilesList"></div>
       </div>
 
-      <div class="field"><label>Быстрое редактирование JSON</label><textarea id="botConfigInput" rows="6" placeholder='{"model":"claude","daily_limit":500}'></textarea></div>
-
       <div class="settings-actions">
         <button class="btn solid" id="saveBotSettings">Сохранить настройки</button>
         <button class="btn ghost" id="downloadBotZip">Скачать ZIP бота</button>
@@ -351,7 +349,6 @@
     const botSettingsClose = document.getElementById('botSettingsClose');
     const botSettingsName = document.getElementById('botSettingsName');
     const botTokenInput = document.getElementById('botTokenInput');
-    const botConfigInput = document.getElementById('botConfigInput');
     const configFilesList = document.getElementById('configFilesList');
     const CONFIG_TREE = [
       { type: 'folder', name: 'prompts', children: ['SOUL.md', 'USER.md', 'AGENTS.md'] },
@@ -425,14 +422,6 @@
       currentBotId = card.dataset.botId || null;
       if (botSettingsName) botSettingsName.textContent = card.dataset.botName || 'Бот';
       if (botTokenInput) botTokenInput.value = card.dataset.botToken || '';
-      if (botConfigInput) {
-        try {
-          const cfg = JSON.parse((card.dataset.botConfig || '{}').replace(/&apos;/g, "'"));
-          botConfigInput.value = JSON.stringify(cfg, null, 2);
-        } catch {
-          botConfigInput.value = '{}';
-        }
-      }
       renderConfigFiles(currentBotId);
       botSettingsModal.classList.add('show');
     });
@@ -442,12 +431,10 @@
 
     document.getElementById('saveBotSettings').onclick = async () => {
       if (!currentBotId) return;
-      let config = {};
-      try { config = JSON.parse(botConfigInput.value || '{}'); } catch { return alert('Невалидный JSON в конфиге'); }
       await fetch(`/api/account/bots/${currentBotId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ telegram_token: botTokenInput.value.trim(), config })
+        body: JSON.stringify({ telegram_token: botTokenInput.value.trim() })
       });
       botSettingsModal.classList.remove('show');
       loadBots();
