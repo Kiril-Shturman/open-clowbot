@@ -73,9 +73,16 @@ paymentsRouter.post('/webhook/yookassa', async (req, res) => {
     ]);
 
     if (eventType === 'payment.succeeded') {
-      const paymentRow = await query(`select user_id, amount_minor from payments where provider_payment_id = $1 limit 1`, [object.id]);
+      const paymentRow = await query(
+        `select user_id, amount_minor, metadata from payments where provider_payment_id = $1 limit 1`,
+        [object.id],
+      );
       const row = paymentRow.rows[0];
       if (row) {
+        const recurring = Boolean(row.metadata?.recurring);
+        const planCode = row.metadata?.planCode || 'default';
+        const paymentMethodId = object.payment_method?.id || null;
+
         await query('begin');
         await query(
           `insert into wallets (user_id, balance_minor, currency) values ($1, 0, 'RUB')
@@ -91,6 +98,17 @@ paymentsRouter.post('/webhook/yookassa', async (req, res) => {
            values ($1, $2, 'RUB', 'yookassa_topup', $3::jsonb)`,
           [row.user_id, row.amount_minor, JSON.stringify({ providerPaymentId: object.id })],
         );
+
+        if (recurring && paymentMethodId) {
+          await query(
+            `insert into subscriptions (user_id, provider, provider_subscription_id, plan_code, status, amount_minor, currency, yookassa_payment_method_id, current_period_start, current_period_end)
+             values ($1, 'yookassa', $2, $3, 'active', $4, 'RUB', $5, now(), now() + interval '1 month')
+             on conflict (provider_subscription_id)
+             do update set status = 'active', updated_at = now(), current_period_start = now(), current_period_end = now() + interval '1 month'`,
+            [row.user_id, paymentMethodId, planCode, row.amount_minor, paymentMethodId],
+          );
+        }
+
         await query('commit');
       }
     }

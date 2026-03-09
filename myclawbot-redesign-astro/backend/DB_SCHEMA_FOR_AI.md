@@ -80,8 +80,12 @@ Purpose: сырые webhook события для аудита и идемпот
 - `provider text default yookassa`
 - `provider_subscription_id text unique`
 - `plan_code text`
-- `status text` (`active`, `past_due`, `canceled`, ...)
+- `status text` (`active`, `pending_renewal`, `past_due`, `canceled`, ...)
+- `amount_minor bigint`
+- `currency text`
+- `yookassa_payment_method_id text`
 - `current_period_start`, `current_period_end`
+- `canceled_at`
 - `created_at`, `updated_at`
 
 Purpose: рекуррентные подписки.

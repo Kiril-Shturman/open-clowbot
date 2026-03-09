@@ -11,6 +11,7 @@ import { aiRouter } from './routes/ai.js';
 import { infraRouter } from './routes/infra.js';
 import { keysRouter } from './routes/keys.js';
 import { deployRouter } from './routes/deploy.js';
+import { subscriptionsRouter } from './routes/subscriptions.js';
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use('/api/ai', aiRouter);
 app.use('/api/infra', infraRouter);
 app.use('/api/keys', keysRouter);
 app.use('/api/deploy', deployRouter);
+app.use('/api/subscriptions', subscriptionsRouter);
 
 app.use((err, _req, res, _next) => {
   console.error(err);
