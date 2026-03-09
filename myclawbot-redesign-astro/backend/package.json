@@ -8,7 +8,8 @@
     "worker:deploy": "node src/workers/deploy-worker.js",
     "worker:subscriptions": "node src/workers/subscription-renewal-worker.js",
     "worker:hostkey-sync": "node src/workers/hostkey-sync-worker.js",
-    "preflight:prod": "bash scripts/prod-preflight.sh"
+    "preflight:prod": "bash scripts/prod-preflight.sh",
+    "smoke:e2e": "bash scripts/smoke-e2e.sh"
   },
   "dependencies": {
     "cors": "^2.8.5",

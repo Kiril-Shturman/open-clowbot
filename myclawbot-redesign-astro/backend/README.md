@@ -43,6 +43,19 @@ npm run preflight:prod
 - применение SQL миграций (001..004)
 - синтаксис backend + workers
 
+## Smoke E2E (минимальный боевой прогон)
+
+> Требуется запущенный backend (`npm run start`), доступный по `BASE_URL` (по умолчанию `http://127.0.0.1:8787`).
+
+```bash
+npm run smoke:e2e
+```
+
+Проверяет:
+- JWT auth + user scope
+- deploy enqueue + infra sync API
+- webhook idempotency (двойная доставка одного события)
+
 ## Что осталось перед финальным go-live
 
 1. Реальный auth middleware (JWT/session)
