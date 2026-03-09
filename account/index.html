@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Личный кабинет — open-clawbot.ru</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css?v=7" />
+  <meta name="theme-color" content="#0b0709" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="color-scheme" content="dark" />
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap row">
+      <a class="brand" href="/"><img class="brand-logo" src="/assets/logo-bot.png" alt="logo"></a>
+      <div class="row gap8">
+        <a class="btn ghost" href="/guides/"><img class="btn-icon" src="/assets/icons/login/book-filled.svg" alt="">База знаний</a>
+        <a class="btn solid" href="#" id="logoutBtn"><img class="btn-icon" src="/assets/icons/login/logout-filled.svg" alt="">Выйти</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap main">
+    <section class="panel profile-card">
+      <div class="profile-left">
+        <img class="profile-avatar" src="/assets/logo-bot.png" alt="avatar">
+        <div>
+          <p class="profile-name" id="profileName">Пользователь</p>
+          <p class="muted" id="profileEmail">—</p>
+        </div>
+      </div>
+      <button class="icon-btn" id="profileSettingsOpen" type="button" aria-label="Настройки"><img src="/assets/icons/login/settings-filled.svg" alt=""></button>
+    </section>
+
+    <section class="panel balance-main">
+      <div>
+        <p class="muted">Текущий баланс</p>
+        <h1 class="balance-line"><span id="balance">1 250 ₽</span><span id="balanceUsd" class="balance-usd">$13.9</span></h1>
+      </div>
+      <div class="balance-actions">
+        <button class="btn solid" id="topupOpen"><img class="btn-icon" src="/assets/icons/login/wallet-filled.svg" alt="">Пополнить баланс</button>
+        <button class="btn ghost" id="autopayOpen">Настроить автоплатеж</button>
+      </div>
+    </section>
+
+    <section class="panel bots">
+      <div class="row bots-head">
+        <h3>Мои боты</h3>
+        <button class="link-red" id="addBotBtn">+ Добавить бота</button>
+      </div>
+      <div class="bots-grid" id="botsGrid"></div>
+    </section>
+
+    <section class="panel quick-setup" id="quickSetupBlock" hidden>
+      <div class="row bots-head">
+        <h2>Быстрая установка</h2>
+        <button class="btn ghost" id="quickSetupClose" type="button">Закрыть</button>
+      </div>
+      <p class="setup-subhead">Выбор модели на старте</p>
+      <div class="model-tabs" id="setupTabs" role="tablist" aria-label="Выбор модели">
+        <button class="model-tab active" data-model="claude" type="button"><img src="/assets/icons/claude.svg" alt="Claude"> Anthropic Claude</button>
+        <button class="model-tab" data-model="gpt" type="button"><img src="/assets/icons/chatgpt.png" alt="GPT"> OpenAI ChatGPT</button>
+        <button class="model-tab" data-model="gemini" type="button"><img src="/assets/icons/gemini.png" alt="Gemini"> Google Gemini</button>
+        <button class="model-tab" data-model="deepseek" type="button"><img src="https://www.deepseek.com/favicon.ico" alt="DeepSeek"> DeepSeek</button>
+      </div>
+      <button class="more-ai-btn" id="setupMoreAiBtn" type="button">Другие нейросети</button>
+      <div class="more-ai-panel" id="setupMoreAiPanel" aria-hidden="true">
+        <button class="ai-option" data-model="mistral"><img src="https://mistral.ai/favicon.ico" alt="Mistral"> Mistral AI</button>
+        <button class="ai-option" data-model="llama"><img src="https://cdn.simpleicons.org/meta/7ec6ff" alt="Llama"> Meta Llama</button>
+        <button class="ai-option" data-model="cohere"><img src="https://cohere.com/favicon.ico" alt="Cohere"> Cohere</button>
+        <button class="ai-option" data-model="qwen"><img src="https://chat.qwen.ai/favicon.ico" alt="Qwen"> Alibaba Qwen</button>
+        <button class="ai-option" data-model="grok"><img src="https://grok.com/favicon.ico" alt="Grok"> xAI Grok</button>
+      </div>
+      <div class="model-info" id="setupModelInfo">
+        <h3>Anthropic Claude</h3>
+        <p>Максимум качества для сложных задач, кода и анализа.</p>
+        <div class="model-pills" id="setupModelPills"></div>
+      </div>
+      <p class="setup-subhead channel-subhead">Настроить способ связи</p>
+      <div class="channel-row">
+        <button class="channel active" type="button"><img src="/assets/icons/telegram.png" alt="Telegram"> Telegram</button>
+      </div>
+      <p class="setup-subhead token-subhead">Выбрать количество токенов на старте</p>
+      <div class="token-pills" id="setupTokenPills">
+        <button class="token-pill active" type="button" data-value="1000">1000 ₽</button>
+        <button class="token-pill" type="button" data-value="3000">3000 ₽</button>
+        <button class="token-pill" type="button" data-value="5000">5000 ₽</button>
+      </div>
+      <div class="token-custom-row">
+        <label for="setupTokenAmount">Своя сумма (минимум 1000 ₽)</label>
+        <div class="token-input-wrap">
+          <input id="setupTokenAmount" type="number" min="1000" step="500" value="1000" />
+          <button class="token-select-btn" id="setupTokenSelectBtn" type="button">Выбрать</button>
+        </div>
+      </div>
+      <p class="token-note">Токены можно пополнить позже в личном кабинете.</p>
+      <p class="form-note">Вход нужен для запуска бота.</p>
+    </section>
+
+    <section class="grid2">
+      <article class="panel">
+        <h3>История расходов</h3>
+        <table>
+          <thead><tr><th>Время</th><th>Модель</th><th>Сумма</th></tr></thead>
+          <tbody>
+            <tr><td>17:01</td><td>Claude Sonnet</td><td>-18 ₽</td></tr>
+            <tr><td>16:42</td><td>GPT-4.1-mini</td><td>-6 ₽</td></tr>
+            <tr><td>16:12</td><td>Gemini Flash</td><td>-3 ₽</td></tr>
+            <tr><td>15:50</td><td>Claude Sonnet</td><td>-22 ₽</td></tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <section class="panel topup-history">
+      <h3>История пополнения</h3>
+      <table>
+        <thead><tr><th>Дата</th><th>Способ</th><th>Сумма</th><th>Статус</th></tr></thead>
+        <tbody>
+          <tr><td>09.03 · 01:10</td><td>Банковская карта</td><td>+1 000 ₽</td><td>Успешно</td></tr>
+          <tr><td>08.03 · 19:42</td><td>СБП</td><td>+3 000 ₽</td><td>Успешно</td></tr>
+          <tr><td>07.03 · 13:21</td><td>Банковская карта</td><td>+500 ₽</td><td>Успешно</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <div class="modal-bg" id="topupModal">
+    <div class="modal panel">
+      <button class="close" id="topupClose">×</button>
+      <h3>Пополнение баланса</h3>
+      <p class="muted">MVP-форма: привяжем к реальной оплате (YooKassa/Stripe) следующим шагом.</p>
+      <div class="topup-grid">
+        <button class="amount">500 ₽</button>
+        <button class="amount">1 000 ₽</button>
+        <button class="amount">2 000 ₽</button>
+        <button class="amount">5 000 ₽</button>
+      </div>
+      <div class="field"><label>Своя сумма</label><input placeholder="Введите сумму" /></div>
+      <button class="btn solid full">Перейти к оплате</button>
+    </div>
+  </div>
+
+  <div class="modal-bg modal-center" id="profileSettingsModal">
+    <div class="modal panel">
+      <button class="close" id="profileSettingsClose">×</button>
+      <h3>Настройки профиля</h3>
+      <div class="field"><label>Текущий пароль</label><input id="currentPassword" type="password" placeholder="Введите текущий пароль" /></div>
+      <div class="field"><label>Новый пароль</label><input id="newPassword" type="password" placeholder="Новый пароль" /></div>
+      <div class="field"><label>Повторите новый пароль</label><input id="confirmPassword" type="password" placeholder="Повторите пароль" /></div>
+      <button class="btn solid full" id="saveProfilePassword">Сменить пароль</button>
+      <p class="muted" id="profileSettingsHint" style="margin-top:10px"></p>
+    </div>
+  </div>
+
+  <div class="modal-bg" id="botSettingsModal">
+    <div class="modal panel">
+      <button class="close" id="botSettingsClose">×</button>
+      <h3>Настройки бота</h3>
+      <p class="muted" id="botSettingsName">—</p>
+      <p class="muted" id="botSettingsExpiry">Подписка до: —</p>
+      <p class="muted" id="botSettingsIp">IP сервера: —</p>
+
+      <div class="field"><label>Telegram токен</label>
+        <div class="token-input-wrap">
+          <input id="botTokenInput" placeholder="1234567890:ABCdef..." />
+          <button class="token-select-btn" id="pasteBotTokenBtn" type="button">Вставить</button>
+        </div>
+      </div>
+      <div class="field"><label>Файлы конфигурации</label>
+        <div class="config-files" id="configFilesList"></div>
+      </div>
+
+      <div class="settings-actions">
+        <button class="btn ghost" id="downloadBotZip">Скачать ZIP бота</button>
+      </div>
+      <div class="settings-actions">
+        <button class="btn ghost danger" id="cancelBotSub">Отменить подписку</button>
+        <button class="btn ghost danger" id="deleteBotBtn">Удалить бота</button>
+      </div>
+      <div class="settings-actions settings-save-row">
+        <button class="btn solid" id="saveBotSettings">Сохранить настройки</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const botsGrid = document.getElementById('botsGrid');
+
+    function botCard(bot){
+      const active = bot.status === 'active';
+      const updated = bot.updated_at || bot.created_at || new Date().toISOString();
+      const d = new Date(updated);
+      const dateText = Number.isNaN(d.getTime()) ? '—' : d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const exp = new Date(bot.subscription_expires_at || bot.plan_until || bot.subscription_until || updated);
+      const expText = Number.isNaN(exp.getTime()) ? '—' : exp.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const ip = bot.server_ip || bot.ip || bot.server_host || '—';
+      return `<article class="bot-card ${active ? 'active' : ''}" data-bot-id="${bot.id || ''}" data-bot-name="${(bot.name || '').replace(/"/g,'&quot;')}" data-bot-token="${(bot.telegram_token || '').replace(/"/g,'&quot;')}" data-bot-expiry="${expText}" data-bot-ip="${String(ip).replace(/"/g,'&quot;')}" data-bot-config='${JSON.stringify(bot.config || {}).replace(/'/g, '&apos;')}'>
+        <span class="bot-state ${active ? 'is-active' : 'is-paused'}">${active ? 'Активен' : 'Неактивен'}</span>
+        <div>
+          <p class="bot-name">${bot.name}</p>
+          <p class="muted">${bot.telegram_username || 'без username'} · ${bot.channel}</p>
+          <p class="bot-date">${dateText}</p>
+        </div>
+        <div class="bot-actions">
+          <button class="btn ghost small open-settings" type="button">Настройки</button>
+          <button class="btn ghost small" type="button">${active ? 'Пауза' : 'Запуск'}</button>
+        </div>
+      </article>`;
+    }
+
+    async function loadBots(){
+      const r = await fetch('/api/account/bots');
+      const j = await r.json();
+      if (!r.ok) return;
+      botsGrid.innerHTML = (j.bots || []).map(botCard).join('');
+    }
+
+    fetch('/api/auth/me').then(async r => {
+      const data = await r.json();
+      if (!data.ok) return location.href = '/login/';
+
+      const user = data.user || data;
+      const name = user.name || user.full_name || user.username || 'Пользователь';
+      const email = user.email || '—';
+      const balance = user.balance ?? user.wallet_balance ?? user.credits ?? user.tokens_balance;
+
+      const profileNameEl = document.getElementById('profileName');
+      const profileEmailEl = document.getElementById('profileEmail');
+      const balanceEl = document.getElementById('balance');
+      const balanceUsdEl = document.getElementById('balanceUsd');
+
+      if (profileNameEl) profileNameEl.textContent = name;
+      if (profileEmailEl) profileEmailEl.textContent = email;
+      if (balanceEl) {
+        const rub = (typeof balance === 'number') ? balance : 0;
+        balanceEl.textContent = `${rub.toLocaleString('ru-RU')} ₽`;
+        if (balanceUsdEl) {
+          const usd = rub / 90; // display-only approximate conversion
+          balanceUsdEl.textContent = `$${usd.toFixed(1)}`;
+        }
+      }
+
+      loadBots();
+    }).catch(() => location.href = '/login/');
+
+    const quickSetupBlock = document.getElementById('quickSetupBlock');
+    const quickSetupClose = document.getElementById('quickSetupClose');
+
+    document.getElementById('addBotBtn').onclick = () => {
+      quickSetupBlock.hidden = false;
+      quickSetupBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    quickSetupClose.onclick = () => {
+      quickSetupBlock.hidden = true;
+    };
+
+    const setupTabs = document.querySelectorAll('#setupTabs .model-tab');
+    const setupInfo = document.getElementById('setupModelInfo');
+    const setupMoreAiBtn = document.getElementById('setupMoreAiBtn');
+    const setupMoreAiPanel = document.getElementById('setupMoreAiPanel');
+    const setupAiOptions = document.querySelectorAll('#setupMoreAiPanel .ai-option');
+    const setupModelPills = document.getElementById('setupModelPills');
+
+    const setupModels = {
+      claude: { title: 'Anthropic Claude', text: 'Максимум качества для сложных задач, кода и анализа.' },
+      gpt: { title: 'OpenAI ChatGPT', text: 'Универсальный быстрый режим для ежедневной работы.' },
+      gemini: { title: 'Google Gemini', text: 'Отлично подходит для мультимодальных сценариев.' },
+      deepseek: { title: 'DeepSeek', text: 'Сильная модель для кода и рабочих задач по цене ниже топовых.' },
+      mistral: { title: 'Mistral AI', text: 'Быстрая и стабильная модель для повседневных задач и чатов.' },
+      llama: { title: 'Meta Llama', text: 'Сбалансированная open-weight модель для широкого спектра задач.' },
+      cohere: { title: 'Cohere', text: 'Хороша для корпоративных сценариев и структурированных ответов.' },
+      qwen: { title: 'Alibaba Qwen', text: 'Мощная универсальная линейка моделей от Alibaba Cloud.' },
+      grok: { title: 'xAI Grok', text: 'Модель xAI для живых диалогов и быстрого поиска инсайтов.' }
+    };
+
+    const setupProviderModels = {
+      claude: ['Claude 4.5 Opus', 'Claude 4.5 Sonnet', 'Claude 4.1 Sonnet'],
+      gpt: ['GPT-5.2', 'GPT-5.1', 'GPT-4.1'],
+      gemini: ['Gemini 2.5 Pro', 'Gemini 2.5 Flash', 'Gemini 2.0 Flash'],
+      deepseek: ['DeepSeek R1', 'DeepSeek V3', 'DeepSeek Coder V2'],
+      mistral: ['Mistral Large 2', 'Mistral Nemo', 'Codestral 2'],
+      llama: ['Llama 4', 'Llama 3.3 70B', 'Llama 3.1 405B'],
+      cohere: ['Command R+ 08-2024', 'Command R', 'Command R7B'],
+      qwen: ['Qwen 2.5 Max', 'Qwen 2.5 72B', 'Qwen 2.5 Coder'],
+      grok: ['Grok 3', 'Grok 2', 'Grok Vision']
+    };
+
+    function renderSetupModel(key) {
+      const m = setupModels[key];
+      if (!m || !setupInfo) return;
+      const h = setupInfo.querySelector('h3');
+      const p = setupInfo.querySelector('p');
+      if (h) h.textContent = m.title;
+      if (p) p.textContent = m.text;
+
+      const models = setupProviderModels[key] || [];
+      if (setupModelPills) {
+        setupModelPills.innerHTML = models.map((name, i) => `<button class="model-pill ${i===0?'active':''}" type="button">${name}</button>`).join('');
+        setupModelPills.querySelectorAll('.model-pill').forEach(btn => {
+          btn.onclick = () => {
+            setupModelPills.querySelectorAll('.model-pill').forEach(x => x.classList.remove('active'));
+            btn.classList.add('active');
+          };
+        });
+      }
+    }
+
+    setupTabs.forEach(tab => {
+      tab.onclick = () => {
+        setupTabs.forEach(t => t.classList.remove('active'));
+        setupAiOptions.forEach(a => a.classList.remove('active'));
+        tab.classList.add('active');
+        renderSetupModel(tab.dataset.model);
+      };
+    });
+
+    setupAiOptions.forEach(btn => {
+      btn.onclick = () => {
+        setupTabs.forEach(t => t.classList.remove('active'));
+        setupAiOptions.forEach(a => a.classList.remove('active'));
+        btn.classList.add('active');
+        renderSetupModel(btn.dataset.model);
+      };
+    });
+
+    if (setupMoreAiBtn) {
+      setupMoreAiBtn.onclick = () => {
+        const open = setupMoreAiPanel.classList.toggle('open');
+        setupMoreAiPanel.setAttribute('aria-hidden', open ? 'false' : 'true');
+        if (open) setupMoreAiBtn.style.display = 'none';
+      };
+    }
+
+    renderSetupModel('claude');
+
+    const setupTokenPills = document.querySelectorAll('#setupTokenPills .token-pill');
+    const setupTokenAmount = document.getElementById('setupTokenAmount');
+    const setupTokenSelectBtn = document.getElementById('setupTokenSelectBtn');
+    setupTokenPills.forEach(p => p.onclick = () => {
+      setupTokenPills.forEach(x => x.classList.remove('active'));
+      p.classList.add('active');
+      if (setupTokenAmount) setupTokenAmount.value = p.dataset.value;
+    });
+    if (setupTokenSelectBtn && setupTokenAmount) {
+      setupTokenSelectBtn.onclick = () => {
+        let v = parseInt(setupTokenAmount.value || '0', 10);
+        if (Number.isNaN(v) || v < 1000) v = 1000;
+        setupTokenAmount.value = String(v);
+        setupTokenPills.forEach(x => x.classList.toggle('active', x.dataset.value === String(v)));
+      };
+    }
+
+    document.getElementById('logoutBtn').onclick = async (e) => {
+      e.preventDefault();
+      await fetch('/api/auth/logout', { method: 'POST' });
+      location.href = '/login/';
+    };
+
+    const m = document.getElementById('topupModal');
+    const openModal = (el) => { el.classList.add('show'); document.body.classList.add('modal-open'); };
+    const closeModal = (el) => { el.classList.remove('show'); if (!document.querySelector('.modal-bg.show')) document.body.classList.remove('modal-open'); };
+
+    document.getElementById('topupOpen').onclick = ()=>openModal(m);
+    document.getElementById('topupClose').onclick = ()=>closeModal(m);
+    m.onclick = (e)=>{ if(e.target===m) closeModal(m); };
+
+    // Profile settings modal (change password)
+    const profileSettingsModal = document.getElementById('profileSettingsModal');
+    const profileSettingsOpen = document.getElementById('profileSettingsOpen');
+    const profileSettingsClose = document.getElementById('profileSettingsClose');
+    const profileSettingsHint = document.getElementById('profileSettingsHint');
+
+    profileSettingsOpen.onclick = () => openModal(profileSettingsModal);
+    profileSettingsClose.onclick = () => closeModal(profileSettingsModal);
+    profileSettingsModal.onclick = (e) => { if (e.target === profileSettingsModal) closeModal(profileSettingsModal); };
+
+    document.getElementById('saveProfilePassword').onclick = async () => {
+      const current_password = document.getElementById('currentPassword').value;
+      const new_password = document.getElementById('newPassword').value;
+      const confirm_password = document.getElementById('confirmPassword').value;
+
+      if (!new_password || new_password.length < 8) {
+        profileSettingsHint.textContent = 'Новый пароль должен быть не короче 8 символов';
+        return;
+      }
+      if (new_password !== confirm_password) {
+        profileSettingsHint.textContent = 'Пароли не совпадают';
+        return;
+      }
+
+      try {
+        const r = await fetch('/api/account/change-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ current_password, new_password })
+        });
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(j.error || 'password_change_failed');
+        profileSettingsHint.textContent = 'Пароль успешно изменён';
+      } catch (e) {
+        profileSettingsHint.textContent = 'Ошибка смены пароля: ' + e.message;
+      }
+    };
+
+    // Bot settings modal
+    const botSettingsModal = document.getElementById('botSettingsModal');
+    const botSettingsClose = document.getElementById('botSettingsClose');
+    const botSettingsName = document.getElementById('botSettingsName');
+    const botSettingsExpiry = document.getElementById('botSettingsExpiry');
+    const botSettingsIp = document.getElementById('botSettingsIp');
+    const botTokenInput = document.getElementById('botTokenInput');
+    const pasteBotTokenBtn = document.getElementById('pasteBotTokenBtn');
+    const configFilesList = document.getElementById('configFilesList');
+    const CONFIG_TREE = [
+      { type: 'folder', name: 'prompts', children: ['SOUL.md', 'USER.md', 'AGENTS.md'] },
+      { type: 'folder', name: 'system', children: ['TOOLS.md', 'openclaw.config.json'] },
+      { type: 'folder', name: 'memory', children: ['MEMORY.md'] }
+    ];
+    let currentBotId = null;
+
+    function renderConfigFiles(botId){
+      if (!configFilesList) return;
+
+      configFilesList.innerHTML = CONFIG_TREE.map(folder => `
+        <div class="cfg-folder">
+          <button class="cfg-folder-head" type="button">
+            <span class="cfg-folder-arrow">▾</span>
+            <img class="config-file-icon" src="/assets/icons/caps/box.svg" alt="folder" />
+            <span>${folder.name}</span>
+          </button>
+          <div class="cfg-folder-body">
+            ${folder.children.map(name => `
+              <div class="config-file" data-file="${folder.name}/${name}">
+                <div class="config-file-left">
+                  <img class="config-file-icon" src="/assets/icons/caps/note.svg" alt="file" />
+                  <span class="config-file-name">${name}</span>
+                </div>
+                <div class="config-file-actions">
+                  <button class="config-btn cfg-download" type="button">Скачать</button>
+                  <button class="config-btn cfg-upload" type="button">Загрузить свой</button>
+                  <input class="cfg-input" type="file" accept=".json,.yaml,.yml,.env,.txt,.md" hidden />
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+
+      configFilesList.querySelectorAll('.cfg-folder-head').forEach(head => {
+        head.onclick = () => {
+          const folder = head.closest('.cfg-folder');
+          folder.classList.toggle('collapsed');
+        };
+      });
+
+      configFilesList.querySelectorAll('.config-file').forEach(row => {
+        const file = row.dataset.file;
+        const downloadBtn = row.querySelector('.cfg-download');
+        const uploadBtn = row.querySelector('.cfg-upload');
+        const fileInput = row.querySelector('.cfg-input');
+
+        downloadBtn.onclick = () => {
+          if (!botId) return;
+          location.href = `/api/account/bots/${botId}/files/${encodeURIComponent(file)}/download`;
+        };
+
+        uploadBtn.onclick = () => fileInput.click();
+        fileInput.onchange = async () => {
+          if (!botId || !fileInput.files || !fileInput.files[0]) return;
+          const fd = new FormData();
+          fd.append('file', fileInput.files[0]);
+          await fetch(`/api/account/bots/${botId}/files/${encodeURIComponent(file)}/upload`, { method: 'POST', body: fd });
+          alert(`Файл ${file} загружен`);
+        };
+      });
+    }
+
+    botsGrid.addEventListener('click', (e) => {
+      const btn = e.target.closest('.open-settings');
+      if (!btn) return;
+      const card = e.target.closest('.bot-card');
+      if (!card) return;
+      currentBotId = card.dataset.botId || null;
+      if (botSettingsName) botSettingsName.textContent = card.dataset.botName || 'Бот';
+      if (botSettingsExpiry) botSettingsExpiry.textContent = `Подписка до: ${card.dataset.botExpiry || '—'}`;
+      if (botSettingsIp) botSettingsIp.textContent = `IP сервера: ${card.dataset.botIp || '—'}`;
+      if (botTokenInput) botTokenInput.value = card.dataset.botToken || '';
+      renderConfigFiles(currentBotId);
+      openModal(botSettingsModal);
+    });
+
+    botSettingsClose.onclick = () => closeModal(botSettingsModal);
+    botSettingsModal.onclick = (e) => { if (e.target === botSettingsModal) closeModal(botSettingsModal); };
+
+    if (pasteBotTokenBtn && botTokenInput) {
+      pasteBotTokenBtn.onclick = async () => {
+        try {
+          const txt = await navigator.clipboard.readText();
+          if (txt) botTokenInput.value = txt.trim();
+        } catch {
+          alert('Не удалось вставить из буфера. Вставь вручную.');
+        }
+      };
+    }
+
+    document.getElementById('saveBotSettings').onclick = async () => {
+      if (!currentBotId) return;
+      await fetch(`/api/account/bots/${currentBotId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ telegram_token: botTokenInput.value.trim() })
+      });
+      closeModal(botSettingsModal);
+      loadBots();
+    };
+
+    document.getElementById('downloadBotZip').onclick = () => {
+      if (!currentBotId) return;
+      location.href = `/api/account/bots/${currentBotId}/download`;
+    };
+
+    document.getElementById('cancelBotSub').onclick = async () => {
+      if (!currentBotId) return;
+      if (!confirm('Отменить подписку для этого бота?')) return;
+      await fetch(`/api/account/bots/${currentBotId}/cancel-subscription`, { method: 'POST' });
+      alert('Запрос на отмену подписки отправлен');
+    };
+
+    document.getElementById('deleteBotBtn').onclick = async () => {
+      if (!currentBotId) return;
+      if (!confirm('Удалить бота? Это действие нельзя отменить.')) return;
+      await fetch(`/api/account/bots/${currentBotId}`, { method: 'DELETE' });
+      closeModal(botSettingsModal);
+      loadBots();
+    };
+  </script>
+</body>
+</html>
