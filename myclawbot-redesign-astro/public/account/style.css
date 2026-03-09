@@ -99,7 +99,7 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 .chips{display:flex;flex-wrap:wrap;gap:8px}.chips span{padding:7px 10px;border-radius:999px;background:#fff1;border:1px solid var(--line);font-size:13px}
 table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid #ffffff1f;text-align:left}th{color:var(--muted);font-size:12px}
 .topup-history{margin-top:12px}
-.modal-bg{display:none;position:fixed;inset:0;background:#000a;align-items:center;justify-content:center;padding:14px;overflow-y:auto;overscroll-behavior:contain}.modal-bg.show{display:flex}.modal{width:min(520px,100%);position:relative;max-height:calc(100vh - 28px);overflow:auto}.close{position:absolute;right:8px;top:4px;border:0;background:transparent;color:#fff;font-size:30px;cursor:pointer}
+.modal-bg{display:none;position:fixed;inset:0;background:#000a;align-items:flex-start;justify-content:center;padding:14px;overflow-y:auto;overscroll-behavior:contain}.modal-bg.show{display:flex}.modal{width:min(520px,100%);position:relative;max-height:calc(100dvh - 28px);overflow:auto;margin-top:6px}.close{position:sticky;float:right;right:0;top:0;border:0;background:rgba(11,7,9,.92);color:#fff;font-size:30px;cursor:pointer;z-index:2;border-radius:10px;line-height:1;padding:2px 8px}
 body.modal-open{overflow:hidden;touch-action:none}
 .topup-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.amount{border:1px solid var(--line);background:#fff1;color:#fff;border-radius:10px;padding:10px;cursor:pointer}
 @media(max-width:900px){.bots-grid,.grid2{grid-template-columns:1fr}h1{font-size:34px}}
