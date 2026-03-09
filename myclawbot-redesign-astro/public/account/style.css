@@ -80,6 +80,8 @@ h1{font-size:46px;line-height:.95;margin:8px 0}h2{font-size:34px;margin:6px 0 0}
 .field .token-input-wrap{display:grid;grid-template-columns:1fr auto;gap:8px}
 .field .token-select-btn{height:40px;padding:0 14px;border:0;border-radius:10px;background:var(--brand-gradient-main);color:#fff;font-weight:700;cursor:pointer}
 .settings-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.settings-save-row{margin-top:14px}
+.settings-save-row .btn{width:100%}
 .config-files{display:grid;gap:8px;max-height:280px;overflow:auto;padding-right:2px}
 .cfg-folder{border:1px solid var(--line);border-radius:10px;background:#fff1}
 .cfg-folder-head{width:100%;display:flex;align-items:center;gap:8px;border:0;background:transparent;color:#fff;padding:8px 10px;cursor:pointer}
