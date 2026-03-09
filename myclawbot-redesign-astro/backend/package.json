@@ -6,7 +6,8 @@
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
     "worker:deploy": "node src/workers/deploy-worker.js",
-    "worker:subscriptions": "node src/workers/subscription-renewal-worker.js"
+    "worker:subscriptions": "node src/workers/subscription-renewal-worker.js",
+    "worker:hostkey-sync": "node src/workers/hostkey-sync-worker.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
