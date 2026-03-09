@@ -1,0 +1,42 @@
+---
+const backendUrl = import.meta.env.PUBLIC_BACKEND_URL || 'http://localhost:8787';
+---
+
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Кабинет — MyClawBot</title>
+    <style>
+      body{font-family:Inter,system-ui,sans-serif;background:#0f0f12;color:#fff;margin:0;padding:24px}
+      .card{background:#1a1a21;border:1px solid #2d2d38;border-radius:16px;padding:18px;margin-bottom:14px}
+      .muted{color:#9ca3af}
+      code{color:#f87171}
+      a{color:#f87171}
+    </style>
+  </head>
+  <body>
+    <h1>Кабинет (backend wiring готов)</h1>
+    <p class="muted">Бэкенд URL: <code>{backendUrl}</code></p>
+
+    <div class="card">
+      <h3>Готовые API</h3>
+      <ul>
+        <li><code>POST /api/payments/create</code></li>
+        <li><code>POST /api/payments/webhook/yookassa</code></li>
+        <li><code>GET /api/billing/wallet/:userId</code></li>
+        <li><code>POST /api/ai/chat</code></li>
+        <li><code>POST /api/infra/servers/order</code></li>
+        <li><code>POST /api/deploy/enqueue</code></li>
+        <li><code>POST /api/keys/upsert</code></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Следующий шаг</h3>
+      <p>Подключить эту страницу к реальному auth userId и начать рендерить данные кошелька/серверов/подписок с API.</p>
+    </div>
+
+    <p><a href="/">← На главную</a></p>
+  </body>
+</html>
