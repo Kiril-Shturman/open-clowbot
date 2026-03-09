@@ -31,7 +31,8 @@ const backendUrl = import.meta.env.PUBLIC_BACKEND_URL || 'http://localhost:8787'
     <div class="card">
       <div class="row">
         <input id="userId" placeholder="UUID пользователя" />
-        <button id="saveUser">Сохранить userId</button>
+        <input id="jwt" placeholder="JWT токен (Bearer без префикса)" />
+        <button id="saveUser">Сохранить</button>
         <button id="reload" class="secondary">Обновить всё</button>
       </div>
       <p id="status" class="muted">Укажи userId, чтобы загрузить кабинет.</p>
@@ -69,19 +70,27 @@ const backendUrl = import.meta.env.PUBLIC_BACKEND_URL || 'http://localhost:8787'
       const fmtRub = (minor) => `${(Number(minor || 0) / 100).toFixed(2)} ₽`;
 
       const userIdInput = $('userId');
+      const jwtInput = $('jwt');
       const statusEl = $('status');
       userIdInput.value = localStorage.getItem('cabinet_user_id') || '';
+      jwtInput.value = localStorage.getItem('cabinet_jwt') || '';
 
       $('saveUser').onclick = () => {
         localStorage.setItem('cabinet_user_id', userIdInput.value.trim());
+        localStorage.setItem('cabinet_jwt', jwtInput.value.trim());
         loadAll();
       };
       $('reload').onclick = () => loadAll();
 
       async function api(path, opts = {}) {
+        const token = jwtInput.value.trim();
         const res = await fetch(`${backendUrl}${path}`, {
           ...opts,
-          headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) },
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            ...(opts.headers || {}),
+          },
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) throw new Error(data.error || `${res.status}`);

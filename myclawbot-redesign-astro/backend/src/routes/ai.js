@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { withTransaction, query } from '../db.js';
 import { openRouterChat } from '../services/openrouter.js';
 import { calcCostMinor, getModelPricing, getPreHoldMinor, getDailySpendLimitMinor } from '../services/pricing.js';
+import { enforceUserScope } from '../middleware/auth.js';
 
 export const aiRouter = Router();
 
@@ -42,7 +43,7 @@ function cleanupRateBuckets() {
 
 setInterval(cleanupRateBuckets, RATE_WINDOW_MS).unref();
 
-aiRouter.post('/chat', async (req, res) => {
+aiRouter.post('/chat', enforceUserScope, async (req, res) => {
   const parsed = chatSchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
 

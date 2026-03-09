@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { query } from '../db.js';
+import { enforceUserScope } from '../middleware/auth.js';
 
 export const subscriptionsRouter = Router();
 
-subscriptionsRouter.get('/:userId', async (req, res) => {
+subscriptionsRouter.get('/:userId', enforceUserScope, async (req, res) => {
   const rows = await query(
     `select * from subscriptions where user_id = $1 order by created_at desc`,
     [req.params.userId],
@@ -17,7 +18,7 @@ const cancelSchema = z.object({
   subscriptionId: z.string().uuid(),
 });
 
-subscriptionsRouter.post('/cancel', async (req, res) => {
+subscriptionsRouter.post('/cancel', enforceUserScope, async (req, res) => {
   const parsed = cancelSchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
 

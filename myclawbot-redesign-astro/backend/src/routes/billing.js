@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { query } from '../db.js';
+import { enforceUserScope } from '../middleware/auth.js';
 
 export const billingRouter = Router();
 
-billingRouter.get('/wallet/:userId', async (req, res) => {
+billingRouter.get('/wallet/:userId', enforceUserScope, async (req, res) => {
   const { userId } = req.params;
   const result = await query(
     `select user_id, balance_minor, currency, updated_at from wallets where user_id = $1`,
@@ -20,7 +21,7 @@ const adjustSchema = z.object({
   reason: z.string().min(1),
 });
 
-billingRouter.get('/ledger/:userId', async (req, res) => {
+billingRouter.get('/ledger/:userId', enforceUserScope, async (req, res) => {
   const rows = await query(
     `select id, delta_minor, currency, reason, metadata, created_at
      from ledger_entries
@@ -32,7 +33,7 @@ billingRouter.get('/ledger/:userId', async (req, res) => {
   res.json({ entries: rows.rows });
 });
 
-billingRouter.post('/ledger/adjust', async (req, res) => {
+billingRouter.post('/ledger/adjust', enforceUserScope, async (req, res) => {
   const parsed = adjustSchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
 

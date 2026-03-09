@@ -3,6 +3,7 @@ import { z } from 'zod';
 import crypto from 'crypto';
 import { pool, query } from '../db.js';
 import { createYooKassaPayment, verifyYooKassaWebhookSecret } from '../services/yookassa.js';
+import { enforceUserScope } from '../middleware/auth.js';
 
 export const paymentsRouter = Router();
 
@@ -66,7 +67,7 @@ async function withTx(fn) {
   }
 }
 
-paymentsRouter.post('/create', async (req, res) => {
+paymentsRouter.post('/create', enforceUserScope, async (req, res) => {
   const parsed = createPaymentSchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
 
@@ -100,7 +101,7 @@ paymentsRouter.post('/create', async (req, res) => {
   }
 });
 
-paymentsRouter.get('/history/:userId', async (req, res) => {
+paymentsRouter.get('/history/:userId', enforceUserScope, async (req, res) => {
   const rows = await query(
     `select id, provider, provider_payment_id, amount_minor, currency, status, metadata, created_at, updated_at
      from payments

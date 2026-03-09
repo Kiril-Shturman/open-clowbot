@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { z } from 'zod';
 import { query } from '../db.js';
 import { encryptSecret } from '../services/crypto.js';
+import { enforceUserScope } from '../middleware/auth.js';
 
 export const keysRouter = Router();
 
@@ -12,7 +13,7 @@ const upsertSchema = z.object({
   secretValue: z.string().min(1),
 });
 
-keysRouter.post('/upsert', async (req, res) => {
+keysRouter.post('/upsert', enforceUserScope, async (req, res) => {
   const parsed = upsertSchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
 
@@ -36,7 +37,7 @@ keysRouter.post('/upsert', async (req, res) => {
   res.json({ ok: true });
 });
 
-keysRouter.get('/:userId', async (req, res) => {
+keysRouter.get('/:userId', enforceUserScope, async (req, res) => {
   const rows = await query(
     `select id, provider, key_name, created_at, updated_at
      from secrets where user_id = $1 order by updated_at desc`,

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { query } from '../db.js';
+import { enforceUserScope } from '../middleware/auth.js';
 
 export const deployRouter = Router();
 
@@ -9,7 +10,7 @@ const enqueueSchema = z.object({
   userId: z.string().uuid(),
 });
 
-deployRouter.post('/enqueue', async (req, res) => {
+deployRouter.post('/enqueue', enforceUserScope, async (req, res) => {
   const parsed = enqueueSchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
 
@@ -30,7 +31,7 @@ deployRouter.post('/enqueue', async (req, res) => {
   res.json({ ok: true, deployJobId: row.rows[0].id });
 });
 
-deployRouter.get('/jobs/:userId', async (req, res) => {
+deployRouter.get('/jobs/:userId', enforceUserScope, async (req, res) => {
   const rows = await query(
     `select * from deploy_jobs where user_id = $1 order by created_at desc limit 50`,
     [req.params.userId],

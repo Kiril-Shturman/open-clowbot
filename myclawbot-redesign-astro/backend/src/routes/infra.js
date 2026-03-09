@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { query } from '../db.js';
 import { createHostkeyServer, deleteHostkeyServer, getHostkeyServer, rebootHostkeyServer } from '../services/hostkey.js';
 import { encryptSecret } from '../services/crypto.js';
+import { enforceUserScope } from '../middleware/auth.js';
 
 export const infraRouter = Router();
 
@@ -21,7 +22,7 @@ async function logServerEvent(serverId, eventType, payload = {}) {
   ]);
 }
 
-infraRouter.post('/servers/order', async (req, res) => {
+infraRouter.post('/servers/order', enforceUserScope, async (req, res) => {
   const parsed = orderSchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
 
@@ -117,7 +118,7 @@ infraRouter.delete('/servers/:serverId', async (req, res) => {
   }
 });
 
-infraRouter.get('/servers/:userId', async (req, res) => {
+infraRouter.get('/servers/:userId', enforceUserScope, async (req, res) => {
   const rows = await query(`select * from servers where user_id = $1 order by created_at desc`, [req.params.userId]);
   res.json({ servers: rows.rows });
 });
