@@ -17,6 +17,7 @@ npm run dev
 psql "$DATABASE_URL" -f sql/001_init.sql
 psql "$DATABASE_URL" -f sql/002_billing_hardening.sql
 psql "$DATABASE_URL" -f sql/003_subscriptions.sql
+psql "$DATABASE_URL" -f sql/004_deploy_hardening.sql
 ```
 
 ## Что уже есть

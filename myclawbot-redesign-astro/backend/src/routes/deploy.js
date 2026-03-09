@@ -14,12 +14,13 @@ deployRouter.post('/enqueue', async (req, res) => {
   if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
 
   const { serverId, userId } = parsed.data;
+  const maxAttempts = Number(process.env.DEPLOY_MAX_ATTEMPTS || 3);
 
   const row = await query(
-    `insert into deploy_jobs (server_id, user_id, status, payload)
-     values ($1, $2, 'queued', '{}'::jsonb)
+    `insert into deploy_jobs (server_id, user_id, status, payload, attempts, max_attempts, next_retry_at)
+     values ($1, $2, 'queued', '{}'::jsonb, 0, $3, now())
      returning id`,
-    [serverId, userId],
+    [serverId, userId, maxAttempts],
   );
 
   await query(`insert into server_events (server_id, event_type, payload) values ($1, 'deploy_queued', '{}'::jsonb)`, [
