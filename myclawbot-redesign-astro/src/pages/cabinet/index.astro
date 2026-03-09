@@ -1,203 +1,436 @@
 ---
-const backendUrl = import.meta.env.PUBLIC_BACKEND_URL || 'http://localhost:8787';
+const apiBase = import.meta.env.PUBLIC_API_BASE || '';
 ---
 
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Кабинет — MyClawBot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Личный кабинет — MyClawBot</title>
+    <meta name="theme-color" content="#000000" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-      :root{color-scheme:dark}
-      body{font-family:Inter,system-ui,sans-serif;background:#0f0f12;color:#fff;margin:0;padding:20px}
-      .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
-      .card{background:#1a1a21;border:1px solid #2d2d38;border-radius:16px;padding:16px}
-      .muted{color:#9ca3af}
-      button{background:#ef4444;border:none;color:#fff;padding:8px 12px;border-radius:10px;cursor:pointer}
-      button.secondary{background:#2d2d38}
-      input,select{width:100%;box-sizing:border-box;background:#11141c;border:1px solid #2d2d38;border-radius:10px;color:#fff;padding:8px 10px;margin:6px 0}
-      ul{margin:10px 0 0;padding-left:18px}
-      li{margin-bottom:6px}
-      .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-      code{color:#f87171}
-      .ok{color:#4ade80}.err{color:#f87171}
-      a{color:#f87171}
+      :root {
+        color-scheme: dark;
+        --bg: #070709;
+        --panel: rgba(18, 18, 22, 0.94);
+        --panel-2: rgba(26, 26, 32, 0.96);
+        --line: rgba(255,255,255,.09);
+        --muted: #a7a7b3;
+        --text: #f5f7fb;
+        --accent: #ff4d57;
+        --accent-2: #c81e39;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; background: radial-gradient(circle at top, rgba(120,0,16,.25), transparent 34%), var(--bg); color: var(--text); font-family: Onest, system-ui, sans-serif; }
+      body { min-height: 100vh; }
+      a { color: inherit; text-decoration: none; }
+      .container { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+      .header { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(18px); background: rgba(7,7,9,.78); border-bottom: 1px solid rgba(255,255,255,.06); }
+      .nav { min-height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+      .brand-logo { height: 42px; display: block; }
+      .nav-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+      .btn { border: 0; border-radius: 14px; padding: 12px 16px; font-weight: 700; cursor: pointer; transition: .18s ease; }
+      .btn:hover { transform: translateY(-1px); }
+      .btn-primary { color: #fff; background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: 0 16px 40px rgba(255, 77, 87, .24); }
+      .btn-secondary { color: #fff; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); }
+      .btn-danger { color: #fff; background: linear-gradient(135deg, #ff5a66, #9f162e); }
+      .hero { padding: 34px 0 22px; }
+      .eyebrow { color: #ff8a92; font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+      h1 { margin: 10px 0 12px; font-size: clamp(32px, 5vw, 54px); line-height: .98; }
+      .lead { max-width: 760px; color: var(--muted); font-size: 18px; line-height: 1.55; margin: 0; }
+      .summary { margin-top: 22px; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; }
+      .summary-card, .card { background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border: 1px solid var(--line); border-radius: 24px; }
+      .summary-card { padding: 18px; }
+      .summary-label { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+      .summary-value { font-size: 28px; font-weight: 800; }
+      .summary-sub { margin-top: 8px; color: var(--muted); font-size: 13px; }
+      .grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 16px; padding-bottom: 40px; }
+      .stack { display: grid; gap: 16px; }
+      .card { padding: 22px; }
+      .card h2 { margin: 0 0 16px; font-size: 22px; }
+      .card h3 { margin: 0 0 8px; font-size: 16px; }
+      .muted { color: var(--muted); }
+      .state { margin-top: 12px; padding: 14px 16px; border-radius: 16px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07); color: var(--muted); }
+      .state.error { color: #ffb4ba; border-color: rgba(255, 95, 109, .32); background: rgba(143, 18, 37, .16); }
+      .state.ok { color: #bff5ce; border-color: rgba(56, 189, 100, .3); background: rgba(14, 81, 40, .22); }
+      .list { display: grid; gap: 12px; }
+      .item { padding: 16px; border-radius: 18px; background: var(--panel-2); border: 1px solid rgba(255,255,255,.06); }
+      .item-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+      .item-title { font-size: 16px; font-weight: 700; }
+      .badge { display: inline-flex; align-items: center; padding: 6px 10px; border-radius: 999px; background: rgba(255,255,255,.08); color: #fff; font-size: 12px; font-weight: 700; }
+      .badge.active { background: rgba(28, 156, 89, .22); color: #bbf7d0; }
+      .badge.pending { background: rgba(255, 183, 77, .16); color: #ffe1a8; }
+      .badge.error { background: rgba(255, 99, 132, .16); color: #ffb4ba; }
+      .meta { margin-top: 8px; display: grid; gap: 6px; color: var(--muted); font-size: 14px; }
+      .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+      .actions { margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
+      .empty { color: var(--muted); padding: 6px 0 0; }
+      .field { display: grid; gap: 8px; }
+      .field label { font-size: 14px; color: var(--muted); }
+      .input { width: 100%; height: 50px; border-radius: 14px; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.04); color: #fff; padding: 0 14px; font: inherit; }
+      .price-note { margin-top: 10px; color: var(--muted); font-size: 13px; }
+      .footer-link { display: inline-flex; margin-top: 18px; color: #ff959b; font-weight: 700; }
+      @media (max-width: 980px) { .summary, .grid { grid-template-columns: 1fr 1fr; } }
+      @media (max-width: 720px) {
+        .container { width: min(100% - 20px, 1180px); }
+        .nav { min-height: 66px; }
+        .brand-logo { height: 34px; }
+        .summary, .grid { grid-template-columns: 1fr; }
+        .card, .summary-card { border-radius: 20px; }
+        .btn { width: 100%; justify-content: center; }
+        .nav-actions { width: 100%; }
+      }
     </style>
   </head>
   <body>
-    <h1>Кабинет</h1>
-    <p class="muted">Backend: <code>{backendUrl}</code></p>
-
-    <div class="card">
-      <div class="row">
-        <input id="userId" placeholder="UUID пользователя" />
-        <input id="jwt" placeholder="JWT токен (Bearer без префикса)" />
-        <button id="saveUser">Сохранить</button>
-        <button id="reload" class="secondary">Обновить всё</button>
+    <header class="header">
+      <div class="container nav">
+        <a href="/"><img class="brand-logo" src="/assets/logo-bot.png" alt="MyClawBot"></a>
+        <div class="nav-actions">
+          <button class="btn btn-secondary" id="reloadBtn" type="button">Обновить</button>
+          <button class="btn btn-secondary" id="logoutBtn" type="button">Выйти</button>
+        </div>
       </div>
-      <p id="status" class="muted">Укажи userId, чтобы загрузить кабинет.</p>
-    </div>
+    </header>
 
-    <div class="grid">
-      <section class="card">
-        <h3>Баланс</h3>
-        <div id="wallet" class="muted">—</div>
-        <h4>Пополнить</h4>
-        <input id="topupAmount" type="number" min="1" step="1" placeholder="Сумма ₽ (например 500)" />
-        <button id="topupBtn">Пополнить (создать YooKassa payment)</button>
+    <main class="container">
+      <section class="hero">
+        <div class="eyebrow">Личный кабинет</div>
+        <h1 id="helloTitle">Загружаем данные…</h1>
+        <p class="lead" id="helloLead">Здесь будут баланс, подписка, серверы и история платежей по вашему боту.</p>
+
+        <div class="summary">
+          <article class="summary-card">
+            <div class="summary-label">Баланс</div>
+            <div class="summary-value" id="walletValue">—</div>
+            <div class="summary-sub" id="walletSub">Ожидаем данные</div>
+          </article>
+          <article class="summary-card">
+            <div class="summary-label">Подписка</div>
+            <div class="summary-value" id="subscriptionValue">—</div>
+            <div class="summary-sub" id="subscriptionSub">Статус подписки</div>
+          </article>
+          <article class="summary-card">
+            <div class="summary-label">Серверы</div>
+            <div class="summary-value" id="serversValue">—</div>
+            <div class="summary-sub">Активная инфраструктура</div>
+          </article>
+          <article class="summary-card">
+            <div class="summary-label">Платежи</div>
+            <div class="summary-value" id="paymentsValue">—</div>
+            <div class="summary-sub">Последние транзакции</div>
+          </article>
+        </div>
+
+        <div class="state" id="statusBox">Проверяем сессию…</div>
       </section>
 
-      <section class="card">
-        <h3>Подписки</h3>
-        <ul id="subs"></ul>
+      <section class="grid">
+        <div class="stack">
+          <article class="card">
+            <h2>Баланс и пополнение</h2>
+            <div class="field">
+              <label for="topupAmount">Сумма пополнения, ₽</label>
+              <input class="input" id="topupAmount" type="number" min="1000" step="500" value="1000" />
+            </div>
+            <div class="actions">
+              <button class="btn btn-primary" id="topupBtn" type="button">Пополнить через YooKassa</button>
+            </div>
+            <div class="price-note">Минимум 1000 ₽. После создания платежа откроется страница оплаты.</div>
+          </article>
+
+          <article class="card">
+            <h2>Подписка</h2>
+            <div id="subsList" class="list"></div>
+          </article>
+        </div>
+
+        <div class="stack">
+          <article class="card">
+            <h2>Серверы</h2>
+            <div id="serversList" class="list"></div>
+          </article>
+
+          <article class="card">
+            <h2>История платежей</h2>
+            <div id="paymentsList" class="list"></div>
+            <a class="footer-link" href="/">← На главную</a>
+          </article>
+        </div>
       </section>
+    </main>
 
-      <section class="card">
-        <h3>Серверы</h3>
-        <ul id="servers"></ul>
-      </section>
-
-      <section class="card">
-        <h3>История платежей</h3>
-        <ul id="payments"></ul>
-      </section>
-    </div>
-
-    <p><a href="/">← На главную</a></p>
-
-    <script define:vars={{ backendUrl }}>
+    <script define:vars={{ apiBase }}>
       const $ = (id) => document.getElementById(id);
-      const fmtRub = (minor) => `${(Number(minor || 0) / 100).toFixed(2)} ₽`;
+      const API_BASE = apiBase || '';
+      const state = { me: null, wallet: null, subscriptions: [], servers: [], payments: [] };
 
-      const userIdInput = $('userId');
-      const jwtInput = $('jwt');
-      const statusEl = $('status');
-      userIdInput.value = localStorage.getItem('cabinet_user_id') || '';
-      jwtInput.value = localStorage.getItem('cabinet_jwt') || '';
-
-      $('saveUser').onclick = () => {
-        localStorage.setItem('cabinet_user_id', userIdInput.value.trim());
-        localStorage.setItem('cabinet_jwt', jwtInput.value.trim());
-        loadAll();
+      const fmtRub = (minor) => `${(Number(minor || 0) / 100).toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₽`;
+      const fmtDate = (value) => {
+        if (!value) return '—';
+        const date = new Date(value);
+        return Number.isNaN(date.getTime()) ? '—' : date.toLocaleString('ru-RU');
       };
-      $('reload').onclick = () => loadAll();
+      const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+      const badgeClass = (status) => {
+        const s = String(status || '').toLowerCase();
+        if (['active', 'succeeded', 'ready', 'running'].includes(s)) return 'badge active';
+        if (['pending', 'waiting_for_capture', 'provisioning', 'past_due'].includes(s)) return 'badge pending';
+        if (['canceled', 'failed', 'error', 'deleted', 'refunded', 'charged_back'].includes(s)) return 'badge error';
+        return 'badge';
+      };
+
+      function setStatus(text, kind = '') {
+        const el = $('statusBox');
+        el.textContent = text;
+        el.className = kind ? `state ${kind}` : 'state';
+      }
 
       async function api(path, opts = {}) {
-        const token = jwtInput.value.trim();
-        const res = await fetch(`${backendUrl}${path}`, {
+        const res = await fetch(`${API_BASE}${path}`, {
           ...opts,
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
             ...(opts.headers || {}),
           },
         });
         const data = await res.json().catch(() => ({}));
-        if (!res.ok) throw new Error(data.error || `${res.status}`);
+        if (!res.ok) {
+          const error = new Error(data.error || `${res.status}`);
+          error.status = res.status;
+          error.payload = data;
+          throw error;
+        }
         return data;
       }
 
-      async function loadAll() {
-        const userId = userIdInput.value.trim();
-        if (!userId) {
-          statusEl.textContent = 'Укажи userId.';
+      function renderSummary() {
+        const me = state.me;
+        $('helloTitle').textContent = me?.user?.name ? `${me.user.name}, вот ваш кабинет` : 'Личный кабинет MyClawBot';
+        $('helloLead').textContent = me?.user?.email ? `Аккаунт: ${me.user.email}` : 'Управляйте подпиской, балансом и инфраструктурой бота.';
+        $('walletValue').textContent = fmtRub(state.wallet?.balance_minor ?? me?.wallet_balance_minor ?? 0);
+        $('walletSub').textContent = state.wallet?.currency || me?.wallet_currency || 'RUB';
+        $('subscriptionValue').textContent = state.subscriptions.length ? state.subscriptions[0].plan_code || 'Подписка' : 'Нет';
+        $('subscriptionSub').textContent = state.subscriptions.length ? `Статус: ${state.subscriptions[0].status}` : 'Подписка не найдена';
+        $('serversValue').textContent = String(state.servers.length);
+        $('paymentsValue').textContent = String(state.payments.length);
+      }
+
+      function renderSubscriptions() {
+        const root = $('subsList');
+        if (!state.subscriptions.length) {
+          root.innerHTML = '<div class="empty">Подписок пока нет.</div>';
           return;
         }
+        root.innerHTML = state.subscriptions.map((sub) => `
+          <div class="item">
+            <div class="item-top">
+              <div>
+                <div class="item-title">${escapeHtml(sub.plan_code || 'Тариф')}</div>
+                <div class="meta">
+                  <div>Период до: ${escapeHtml(fmtDate(sub.current_period_end))}</div>
+                  <div>ID: ${escapeHtml(sub.id)}</div>
+                </div>
+              </div>
+              <span class="${badgeClass(sub.status)}">${escapeHtml(sub.status || 'unknown')}</span>
+            </div>
+            <div class="actions">
+              ${sub.status === 'canceled' ? '' : `<button class="btn btn-secondary" data-cancel-sub="${escapeHtml(sub.id)}" type="button">Отменить подписку</button>`}
+            </div>
+          </div>
+        `).join('');
 
-        localStorage.setItem('cabinet_user_id', userId);
-        statusEl.textContent = 'Загружаю...';
-        statusEl.className = 'muted';
+        root.querySelectorAll('[data-cancel-sub]').forEach((button) => {
+          button.addEventListener('click', async () => {
+            try {
+              await api('/api/subscriptions/cancel', {
+                method: 'POST',
+                body: JSON.stringify({ userId: state.me.user.id, subscriptionId: button.dataset.cancelSub }),
+              });
+              setStatus('Подписка отменена. Обновляю данные…', 'ok');
+              await loadCabinet();
+            } catch (error) {
+              setStatus(`Не удалось отменить подписку: ${error.message}`, 'error');
+            }
+          });
+        });
+      }
 
+      function renderServers() {
+        const root = $('serversList');
+        if (!state.servers.length) {
+          root.innerHTML = '<div class="empty">Серверов пока нет.</div>';
+          return;
+        }
+        root.innerHTML = state.servers.map((server) => `
+          <div class="item">
+            <div class="item-top">
+              <div>
+                <div class="item-title">${escapeHtml(server.plan_code || 'Сервер')}</div>
+                <div class="meta">
+                  <div>Регион: ${escapeHtml(server.region || '—')}</div>
+                  <div>IP: ${escapeHtml(server.ip_address || 'ещё не выдан')}</div>
+                </div>
+              </div>
+              <span class="${badgeClass(server.status)}">${escapeHtml(server.status || 'unknown')}</span>
+            </div>
+            <div class="actions">
+              <button class="btn btn-secondary" data-sync-server="${escapeHtml(server.id)}" type="button">Sync</button>
+              <button class="btn btn-secondary" data-reboot-server="${escapeHtml(server.id)}" type="button">Reboot</button>
+              <button class="btn btn-primary" data-reinstall-server="${escapeHtml(server.id)}" type="button">Переустановить</button>
+            </div>
+          </div>
+        `).join('');
+
+        root.querySelectorAll('[data-sync-server]').forEach((button) => {
+          button.addEventListener('click', async () => {
+            try {
+              await api(`/api/infra/servers/${button.dataset.syncServer}/sync`, { method: 'POST' });
+              setStatus('Синхронизация сервера запущена…', 'ok');
+              await loadCabinet();
+            } catch (error) {
+              setStatus(`Не удалось синхронизировать сервер: ${error.message}`, 'error');
+            }
+          });
+        });
+
+        root.querySelectorAll('[data-reboot-server]').forEach((button) => {
+          button.addEventListener('click', async () => {
+            try {
+              await api(`/api/infra/servers/${button.dataset.rebootServer}/reboot`, { method: 'POST' });
+              setStatus('Перезагрузка сервера отправлена…', 'ok');
+              await loadCabinet();
+            } catch (error) {
+              setStatus(`Не удалось перезагрузить сервер: ${error.message}`, 'error');
+            }
+          });
+        });
+
+        root.querySelectorAll('[data-reinstall-server]').forEach((button) => {
+          button.addEventListener('click', async () => {
+            try {
+              await api('/api/deploy/enqueue', {
+                method: 'POST',
+                body: JSON.stringify({ userId: state.me.user.id, serverId: button.dataset.reinstallServer }),
+              });
+              setStatus('Переустановка поставлена в очередь…', 'ok');
+              await loadCabinet();
+            } catch (error) {
+              setStatus(`Не удалось поставить переустановку в очередь: ${error.message}`, 'error');
+            }
+          });
+        });
+      }
+
+      function renderPayments() {
+        const root = $('paymentsList');
+        if (!state.payments.length) {
+          root.innerHTML = '<div class="empty">Платежей пока нет.</div>';
+          return;
+        }
+        root.innerHTML = state.payments.map((payment) => `
+          <div class="item">
+            <div class="item-top">
+              <div>
+                <div class="item-title">${escapeHtml(fmtRub(payment.amount_minor))}</div>
+                <div class="meta">
+                  <div>${escapeHtml(fmtDate(payment.created_at))}</div>
+                  <div>${escapeHtml(payment.provider || 'provider')}</div>
+                </div>
+              </div>
+              <span class="${badgeClass(payment.status)}">${escapeHtml(payment.status || 'unknown')}</span>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      async function loadCabinet() {
+        setStatus('Загружаю кабинет…');
         try {
-          const [wallet, subs, servers, payments] = await Promise.all([
+          const me = await api('/api/auth/me');
+          state.me = me;
+          const userId = me?.user?.id;
+          if (!userId) throw new Error('user_id_missing');
+
+          const [wallet, subscriptions, servers, payments] = await Promise.all([
             api(`/api/billing/wallet/${userId}`).catch(() => null),
             api(`/api/subscriptions/${userId}`).catch(() => ({ subscriptions: [] })),
             api(`/api/infra/servers/${userId}`).catch(() => ({ servers: [] })),
             api(`/api/payments/history/${userId}`).catch(() => ({ payments: [] })),
           ]);
 
-          $('wallet').textContent = wallet ? `${fmtRub(wallet.balance_minor)} (${wallet.currency})` : 'кошелек не найден';
+          state.wallet = wallet;
+          state.subscriptions = subscriptions.subscriptions || [];
+          state.servers = servers.servers || [];
+          state.payments = payments.payments || [];
 
-          $('subs').innerHTML = (subs.subscriptions || []).map((s) => `
-            <li>
-              <b>${s.plan_code}</b> — ${s.status}
-              <button data-cancel="${s.id}" class="secondary">Отменить</button>
-            </li>
-          `).join('') || '<li class="muted">пусто</li>';
-
-          $('servers').innerHTML = (servers.servers || []).map((s) => `
-            <li>
-              <b>${s.plan_code}</b> ${s.region} — ${s.status} ${s.ip_address || ''}
-              <div class="row" style="margin-top:6px">
-                <button data-sync="${s.id}" class="secondary">Sync</button>
-                <button data-reboot="${s.id}" class="secondary">Reboot</button>
-                <button data-reinstall="${s.id}">Переустановить</button>
-              </div>
-            </li>
-          `).join('') || '<li class="muted">пусто</li>';
-
-          $('payments').innerHTML = (payments.payments || []).map((p) => `
-            <li>
-              ${fmtRub(p.amount_minor)} — ${p.status} <span class="muted">${new Date(p.created_at).toLocaleString()}</span>
-            </li>
-          `).join('') || '<li class="muted">пусто</li>';
-
-          bindActions(userId);
-          statusEl.textContent = 'Готово';
-          statusEl.className = 'ok';
-        } catch (e) {
-          statusEl.textContent = `Ошибка: ${e.message}`;
-          statusEl.className = 'err';
+          renderSummary();
+          renderSubscriptions();
+          renderServers();
+          renderPayments();
+          setStatus('Кабинет загружен.', 'ok');
+        } catch (error) {
+          if (error.status === 401) {
+            setStatus('Сессия не найдена. Перенаправляю на вход…', 'error');
+            setTimeout(() => {
+              location.href = '/login/?return_to=%2Fcabinet%2F';
+            }, 700);
+            return;
+          }
+          setStatus(`Не удалось загрузить кабинет: ${error.message}`, 'error');
         }
       }
 
-      function bindActions(userId) {
-        document.querySelectorAll('[data-cancel]').forEach((el) => {
-          el.onclick = async () => {
-            await api('/api/subscriptions/cancel', {
-              method: 'POST',
-              body: JSON.stringify({ userId, subscriptionId: el.dataset.cancel }),
-            });
-            loadAll();
-          };
-        });
+      $('reloadBtn').addEventListener('click', () => loadCabinet());
+      $('logoutBtn').addEventListener('click', async () => {
+        try {
+          await api('/api/auth/logout', { method: 'POST' });
+        } catch (_) {}
+        location.href = '/login/';
+      });
 
-        document.querySelectorAll('[data-sync]').forEach((el) => {
-          el.onclick = async () => { await api(`/api/infra/servers/${el.dataset.sync}/sync`, { method: 'POST' }); loadAll(); };
-        });
-        document.querySelectorAll('[data-reboot]').forEach((el) => {
-          el.onclick = async () => { await api(`/api/infra/servers/${el.dataset.reboot}/reboot`, { method: 'POST' }); loadAll(); };
-        });
-        document.querySelectorAll('[data-reinstall]').forEach((el) => {
-          el.onclick = async () => {
-            await api('/api/deploy/enqueue', { method: 'POST', body: JSON.stringify({ userId, serverId: el.dataset.reinstall }) });
-            loadAll();
-          };
-        });
-      }
-
-      $('topupBtn').onclick = async () => {
-        const userId = userIdInput.value.trim();
+      $('topupBtn').addEventListener('click', async () => {
         const amountRub = Number($('topupAmount').value || 0);
-        if (!userId || !amountRub) return;
+        if (!state.me?.user?.id) {
+          setStatus('Пользователь не загружен.', 'error');
+          return;
+        }
+        if (!amountRub || amountRub < 1000) {
+          setStatus('Минимальная сумма пополнения — 1000 ₽.', 'error');
+          return;
+        }
 
         try {
+          setStatus('Создаю платёж…');
           const data = await api('/api/payments/create', {
             method: 'POST',
-            body: JSON.stringify({ userId, amountRub, planCode: 'base', recurring: true, description: 'Пополнение баланса' }),
+            body: JSON.stringify({
+              userId: state.me.user.id,
+              amountRub,
+              planCode: 'base',
+              recurring: true,
+              description: 'Пополнение баланса MyClawBot',
+            }),
           });
-
           if (data.confirmationUrl) {
-            window.open(data.confirmationUrl, '_blank');
+            window.open(data.confirmationUrl, '_blank', 'noopener,noreferrer');
           }
-          loadAll();
-        } catch (e) {
-          statusEl.textContent = `Ошибка пополнения: ${e.message}`;
-          statusEl.className = 'err';
+          setStatus('Платёж создан. Открыл страницу оплаты.', 'ok');
+          await loadCabinet();
+        } catch (error) {
+          setStatus(`Не удалось создать платёж: ${error.message}`, 'error');
         }
-      };
+      });
 
-      loadAll();
+      loadCabinet();
     </script>
   </body>
 </html>
