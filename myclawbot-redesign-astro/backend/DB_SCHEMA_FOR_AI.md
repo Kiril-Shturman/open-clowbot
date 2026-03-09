@@ -14,8 +14,9 @@
 1. **Users/Auth**: `users`
 2. **Balance/Billing**: `wallets`, `ledger_entries`, `usage_logs`
 3. **Payments/Subscriptions**: `payments`, `payment_events`, `subscriptions`
-4. **Infra/VPS/Bots**: `servers`, `bot_instances`, `deploy_jobs`, `server_events`
-5. **Secrets/Audit**: `secrets`, `audit_logs`
+4. **AI Pricing**: `model_prices`
+5. **Infra/VPS/Bots**: `servers`, `bot_instances`, `deploy_jobs`, `server_events`
+6. **Secrets/Audit**: `secrets`, `audit_logs`
 
 ---
 
@@ -68,6 +69,7 @@ Purpose: платежные транзакции с PSP.
 - `event_type text`
 - `provider_payment_id text`
 - `payload jsonb`
+- `event_hash text unique`
 - `created_at`
 
 Purpose: сырые webhook события для аудита и идемпотентной обработки.
@@ -92,12 +94,24 @@ Purpose: рекуррентные подписки.
 - `completion_tokens int`
 - `total_tokens int`
 - `cost_minor bigint`
+- `prehold_minor bigint`
+- `settlement_delta_minor bigint`
 - `latency_ms int`
 - `raw_response jsonb`
 - `error_text text nullable`
 - `created_at`
 
-Purpose: учёт запросов к OpenRouter и их стоимости.
+Purpose: учёт запросов к OpenRouter и их стоимости (pre-hold + settlement).
+
+### model_prices
+- `id uuid pk`
+- `model text unique`
+- `input_usd_per_mtok numeric`
+- `output_usd_per_mtok numeric`
+- `is_active bool`
+- `created_at`, `updated_at`
+
+Purpose: прайсинг по моделям для расчёта `cost_minor`.
 
 ### servers
 - `id uuid pk`

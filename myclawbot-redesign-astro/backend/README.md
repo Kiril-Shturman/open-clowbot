@@ -11,19 +11,22 @@ npm run dev
 
 ## База данных
 
-Нужен PostgreSQL. Применить схему:
+Нужен PostgreSQL. Применить схемы:
 
 ```bash
 psql "$DATABASE_URL" -f sql/001_init.sql
+psql "$DATABASE_URL" -f sql/002_billing_hardening.sql
 ```
 
 ## Что уже есть
 
-- Payments scaffold (YooKassa create + webhook ingestion)
+- Реальный create payment в YooKassa (`/api/payments/create`)
+- Webhook ingestion с idempotency по `event_hash`
 - Wallet/Ledger
-- OpenRouter proxy endpoint (`/api/ai/chat`) + usage logging + списание
-- Hostkey provisioning scaffold + servers registry
-- Deploy jobs queue table + endpoints
+- OpenRouter proxy endpoint (`/api/ai/chat`) с pre-hold + settlement по фактическим токенам
+- Модельный прайсинг (`model_prices`) + fallback pricing
+- Hostkey provisioning через `HOSTKEY_BASE_URL` (или mock fallback)
+- Deploy jobs queue table + endpoints + deploy worker (`npm run worker:deploy`)
 - Secrets storage (encrypted at rest)
 
 ## Важно (доделать в первую очередь)
