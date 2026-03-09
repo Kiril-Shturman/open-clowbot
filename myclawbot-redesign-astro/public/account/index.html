@@ -151,16 +151,19 @@
 
     function botCard(bot){
       const active = bot.status === 'active';
+      const updated = bot.updated_at || bot.created_at || new Date().toISOString();
+      const d = new Date(updated);
+      const dateText = Number.isNaN(d.getTime()) ? '—' : d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
       return `<article class="bot-card ${active ? 'active' : ''}">
+        <span class="bot-state ${active ? 'is-active' : 'is-paused'}">${active ? 'Активен' : 'Неактивен'}</span>
         <div>
           <p class="bot-name">${bot.name}</p>
           <p class="muted">${bot.telegram_username || 'без username'} · ${bot.channel}</p>
+          <p class="bot-date">${dateText}</p>
         </div>
-        <span class="status ${active ? 'ok':''}">${active ? 'Активен' : 'Пауза'}</span>
         <div class="bot-actions">
           <button class="btn ghost small">Настройки</button>
-          <button class="btn ghost small">Лимиты</button>
-          <button class="btn ghost small">${active ? 'Остановить' : 'Запустить'}</button>
+          <button class="btn ghost small">${active ? 'Пауза' : 'Запуск'}</button>
         </div>
       </article>`;
     }
