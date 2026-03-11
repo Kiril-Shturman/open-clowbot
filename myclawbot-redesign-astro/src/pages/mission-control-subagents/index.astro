@@ -59,6 +59,7 @@
         background: rgba(255,255,255,.04); color: #fff; font-weight: 700; cursor: pointer;
       }
       .btn.primary { background: linear-gradient(135deg, var(--cyan), #17789b); color: #091118; border-color: transparent; }
+      .btn.warn { background: linear-gradient(135deg, #ffcf57, #b27a08); color: #161103; border-color: transparent; }
       .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 16px; margin-bottom: 16px; }
       .card { padding: 18px; }
       .section-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
@@ -66,6 +67,7 @@
       .tag { display: inline-flex; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; background: rgba(255,255,255,.06); }
       .tag.live { background: rgba(99,245,155,.14); color: #c8fbd9; }
       .tag.cyan { background: rgba(112,221,255,.14); color: #c7f2ff; }
+      .tag.warn { background: rgba(255,207,87,.14); color: #ffe7a6; }
       .mission-title { font-size: clamp(28px, 4vw, 44px); font-weight: 800; line-height: .98; margin-bottom: 14px; }
       .stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-bottom: 14px; }
       .stat { padding: 14px; border-radius: 18px; background: var(--panel-2); border: 1px solid rgba(255,255,255,.06); }
@@ -85,12 +87,15 @@
       .item { padding: 14px; border-radius: 18px; background: var(--panel-2); border: 1px solid rgba(255,255,255,.06); }
       .item-title { font-size: 15px; font-weight: 700; }
       .item-meta { margin-top: 6px; color: var(--muted); font-size: 13px; line-height: 1.4; }
-      .textarea {
-        width: 100%; min-height: 96px; border-radius: 14px; border: 1px solid rgba(255,255,255,.08);
-        background: rgba(255,255,255,.04); color: #fff; padding: 12px 14px; font: inherit; resize: vertical;
+      .textarea, .select {
+        width: 100%; min-height: 54px; border-radius: 14px; border: 1px solid rgba(255,255,255,.08);
+        background: rgba(255,255,255,.04); color: #fff; padding: 12px 14px; font: inherit;
       }
+      .textarea { min-height: 96px; resize: vertical; }
+      .form { display: grid; gap: 10px; }
+      .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
       @media (max-width: 1180px) {
-        .hero-grid, .flow, .subagents, .lower-grid, .stat-grid { grid-template-columns: 1fr; }
+        .hero-grid, .flow, .subagents, .lower-grid, .stat-grid, .two { grid-template-columns: 1fr; }
       }
       @media (max-width: 760px) {
         .wrap { width: min(100% - 18px, 1440px); }
@@ -108,92 +113,228 @@
           <div>
             <div class="eyebrow">Subagent model</div>
             <h1>Центр миссий — через саб-агентов</h1>
-            <p class="subtitle">Новая ветка рядом со старой. Здесь один главный агент играет COO, а реальную работу отдает изолированным саб-агентам под конкретные задачи.</p>
+            <p class="subtitle">Основная новая ветка. Один главный агент играет COO, а реальную работу отдает изолированным саб-агентам под конкретные задачи.</p>
           </div>
         </div>
         <div class="actions">
           <a class="btn" href="/mission-control/">Старая версия</a>
-          <button class="btn primary">START</button>
+          <button class="btn" id="tickBtn">Шаг цикла</button>
+          <button class="btn warn" id="blockerBtn">Смоделировать blocker</button>
+          <button class="btn primary" id="startBtn">START</button>
         </div>
       </section>
 
       <section class="hero-grid">
         <article class="card">
-          <div class="section-head"><div class="section-title">1. Главная миссия</div><span class="tag live">COO active</span></div>
-          <div class="mission-title">Собрать 10 кейсов использования OpenClaw для предпринимателей</div>
+          <div class="section-head"><div class="section-title">1. Главная миссия</div><span class="tag live" id="missionTag">COO active</span></div>
+          <div class="mission-title" id="missionTitle">Собрать 10 кейсов использования OpenClaw для предпринимателей</div>
           <div class="stat-grid">
             <div class="stat"><div class="label">Commander</div><div class="value">COO</div></div>
-            <div class="stat"><div class="label">Subagents</div><div class="value">3</div></div>
-            <div class="stat"><div class="label">Активный шаг</div><div class="value">2/4</div></div>
-            <div class="stat"><div class="label">Статус</div><div class="value">В работе</div></div>
+            <div class="stat"><div class="label">Subagents</div><div class="value" id="subagentCount">3</div></div>
+            <div class="stat"><div class="label">Активный шаг</div><div class="value" id="stepValue">1/3</div></div>
+            <div class="stat"><div class="label">Статус</div><div class="value" id="statusValue">В работе</div></div>
           </div>
-          <div class="panel"><strong>Что делает COO</strong> Принимает задачу, дробит её на шаги, спавнит саб-агентов на ресерч/контент/код, потом собирает их outputs и решает следующий шаг.</div>
-          <div class="panel" style="margin-top:12px;"><strong>Следующий шаг</strong> Дождаться результата от Content Subagent и потом отправить Builder Subagent задачу на упаковку итогового артефакта.</div>
+          <div class="panel"><strong>Что делает COO</strong><span id="cooLine">Принимает задачу, дробит её на шаги, спавнит саб-агентов и собирает их outputs в один итог.</span></div>
+          <div class="panel" style="margin-top:12px;"><strong>Следующий шаг</strong><span id="nextStep">Запустить Research Subagent на сбор кейсов.</span></div>
         </article>
 
         <article class="card">
-          <div class="section-head"><div class="section-title">2. Новая задача</div><span class="tag cyan">Founder input</span></div>
-          <textarea class="textarea">Собери 10 сильных кейсов использования OpenClaw для предпринимателей и упакуй их в понятные идеи для сайта и Reels.</textarea>
-          <div class="panel" style="margin-top:12px;"><strong>Как работает эта версия</strong> Founder ставит задачу → главный агент COO превращает её в миссию → спавнит изолированные саб-агенты под узкие задачи → собирает результат в одном контуре.</div>
+          <div class="section-head"><div class="section-title">2. Запуск миссии</div><span class="tag cyan">Founder input</span></div>
+          <div class="form">
+            <textarea class="textarea" id="missionInput">Собери 10 сильных кейсов использования OpenClaw для предпринимателей и упакуй их в понятные идеи для сайта и Reels.</textarea>
+            <div class="two">
+              <select class="select" id="missionType">
+                <option>Контент</option>
+                <option>Ресерч</option>
+                <option>Продукт</option>
+                <option>Продажи</option>
+              </select>
+              <select class="select" id="missionPriority">
+                <option>Высокий приоритет</option>
+                <option>Средний приоритет</option>
+                <option>Низкий приоритет</option>
+              </select>
+            </div>
+          </div>
+          <div class="panel" style="margin-top:12px;"><strong>Как это работает</strong> Founder ставит задачу → COO превращает её в миссию → спавнит саб-агентов → собирает результат → решает следующий шаг.</div>
         </article>
       </section>
 
       <section class="card" style="margin-bottom:16px;">
-        <div class="section-head"><div class="section-title">3. Как течёт работа</div><span class="tag">Просто и без каши</span></div>
+        <div class="section-head"><div class="section-title">3. Как течёт работа</div><span class="tag">Простой контур</span></div>
         <div class="flow">
-          <div class="panel"><strong>Founder</strong> Даёт цель и приоритет.</div>
-          <div class="panel"><strong>COO agent</strong> Разбивает на шаги и запускает саб-агентов.</div>
-          <div class="panel"><strong>Subagents</strong> Делают узкие задачи: research, content, build, audit.</div>
+          <div class="panel"><strong>Founder</strong><span id="flowFounder">Даёт цель и приоритет.</span></div>
+          <div class="panel"><strong>COO agent</strong><span id="flowCoo">Разбивает на шаги и выбирает, кого спавнить первым.</span></div>
+          <div class="panel"><strong>Subagents</strong><span id="flowSubagents">Делают узкие задачи: research, content, build.</span></div>
         </div>
       </section>
 
       <article class="card" style="margin-bottom:16px;">
         <div class="section-head"><div class="section-title">4. Кто сейчас работает</div><span class="tag cyan">Execution layer</span></div>
-        <div class="subagents">
-          <div class="agent">
-            <div class="agent-name">Research Subagent</div>
-            <div class="agent-role">Поиск и анализ</div>
-            <div class="agent-task">Собирает реальные кейсы и упоминания из внешних источников.</div>
-            <div class="agent-status">Статус: завершил и вернул summary COO</div>
-          </div>
-          <div class="agent">
-            <div class="agent-name">Content Subagent</div>
-            <div class="agent-role">Упаковка и контент</div>
-            <div class="agent-task">Превращает кейсы в темы для сайта и Reels.</div>
-            <div class="agent-status">Статус: активен</div>
-          </div>
-          <div class="agent">
-            <div class="agent-name">Builder Subagent</div>
-            <div class="agent-role">Реализация / продукт</div>
-            <div class="agent-task">Готовит структуру страницы или прототипа под найденные кейсы.</div>
-            <div class="agent-status">Статус: в очереди</div>
-          </div>
-        </div>
+        <div class="subagents" id="subagentsList"></div>
       </article>
 
       <section class="lower-grid">
         <article class="card">
           <div class="section-head"><div class="section-title">Что уже вернулось</div><span class="tag live">Artifacts</span></div>
-          <div class="list">
-            <div class="item"><div class="item-title">Research summary</div><div class="item-meta">10 кейсов, 4 паттерна, 3 сильных угла для предпринимателей.</div></div>
-            <div class="item"><div class="item-title">Draft hooks</div><div class="item-meta">Первый набор заголовков и content angles уже готовится.</div></div>
-          </div>
+          <div class="list" id="artifactsList"></div>
         </article>
         <article class="card">
           <div class="section-head"><div class="section-title">Проблемы</div><span class="tag">Blockers</span></div>
-          <div class="list">
-            <div class="item"><div class="item-title">Пока пусто</div><div class="item-meta">В этой модели блокер сначала видит COO, а уже потом решает — уточнить, перераспределить или эскалировать человеку.</div></div>
-          </div>
+          <div class="list" id="blockersList"></div>
         </article>
         <article class="card">
-          <div class="section-head"><div class="section-title">Почему это лучше</div><span class="tag cyan">Архитектура</span></div>
-          <div class="list">
-            <div class="item"><div class="item-title">Не нужны 2 Telegram-бота в одном чате</div><div class="item-meta">Один главный агент управляет всем в едином контуре.</div></div>
-            <div class="item"><div class="item-title">Саб-агенты изолированы</div><div class="item-meta">Каждый делает узкую работу и не шумит в общем канале.</div></div>
-            <div class="item"><div class="item-title">Легче строить Mission Control</div><div class="item-meta">COO + active subagents читаются проще, чем хаотичные внешние боты.</div></div>
-          </div>
+          <div class="section-head"><div class="section-title">Лента COO</div><span class="tag cyan">Mission log</span></div>
+          <div class="list" id="logList"></div>
         </article>
       </section>
     </main>
+
+    <script>
+      const STORAGE_KEY = 'mission-control-subagents-v1';
+      const templates = {
+        Контент: [
+          { name: 'Research Subagent', role: 'Поиск и анализ', task: 'Собирает кейсы и паттерны', output: 'Список кейсов и инсайтов' },
+          { name: 'Content Subagent', role: 'Контент и упаковка', task: 'Превращает кейсы в темы и hooks', output: 'Темы для сайта и Reels' },
+          { name: 'Builder Subagent', role: 'Сборка результата', task: 'Упаковывает финальный артефакт', output: 'Структура страницы / финальный драфт' },
+        ],
+        Ресерч: [
+          { name: 'Research Subagent', role: 'Поиск и анализ', task: 'Поднимает источники и сравнения', output: 'Таблица и summary' },
+          { name: 'Synthesis Subagent', role: 'Синтез', task: 'Собирает выводы и паттерны', output: 'Ключевые выводы' },
+          { name: 'Packager Subagent', role: 'Упаковка', task: 'Собирает итоговый отчёт', output: 'Готовый документ' },
+        ],
+        Продукт: [
+          { name: 'Research Subagent', role: 'Ресерч', task: 'Собирает входные требования', output: 'Список требований' },
+          { name: 'Builder Subagent', role: 'Разработка', task: 'Готовит реализацию / прототип', output: 'MVP / код' },
+          { name: 'QA Subagent', role: 'Проверка', task: 'Проверяет результат и слабые места', output: 'Список доработок' },
+        ],
+        Продажи: [
+          { name: 'Lead Subagent', role: 'Лиды', task: 'Ищет подходящих лидов', output: 'Lead list' },
+          { name: 'Offer Subagent', role: 'Оффер', task: 'Готовит оффер и сообщения', output: 'Outreach pack' },
+          { name: 'Closer Subagent', role: 'Финализация', task: 'Собирает итог и next actions', output: 'Готовый sales handoff' },
+        ],
+      };
+
+      const defaultState = {
+        missionTitle: 'Собрать 10 кейсов использования OpenClaw для предпринимателей',
+        missionType: 'Контент',
+        missionPriority: 'Высокий приоритет',
+        status: 'В работе',
+        step: 1,
+        cooLine: 'Принимает задачу, дробит её на шаги, спавнит саб-агентов и собирает их outputs в один итог.',
+        nextStep: 'Запустить Research Subagent на сбор кейсов.',
+        agents: templates['Контент'].map((a, i) => ({ ...a, status: i === 0 ? 'Активен' : 'В очереди' })),
+        artifacts: [],
+        blockers: [],
+        log: ['COO готов принять новую миссию и распределить первый цикл задач.'],
+      };
+
+      let state = loadState();
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : structuredClone(defaultState);
+        } catch {
+          return structuredClone(defaultState);
+        }
+      }
+      function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+      function $(id) { return document.getElementById(id); }
+      function pushLog(text) { state.log.unshift(text); state.log = state.log.slice(0, 10); }
+
+      function render() {
+        $('missionTitle').textContent = state.missionTitle;
+        $('statusValue').textContent = state.status;
+        $('stepValue').textContent = `${Math.min(state.step, state.agents.length)}/${state.agents.length}`;
+        $('cooLine').textContent = state.cooLine;
+        $('nextStep').textContent = state.nextStep;
+        $('subagentCount').textContent = String(state.agents.length);
+        $('missionTag').textContent = state.status === 'Готово' ? 'Mission complete' : 'COO active';
+        $('flowFounder').textContent = `${state.missionType} • ${state.missionPriority}`;
+        $('flowCoo').textContent = state.cooLine;
+        $('flowSubagents').textContent = state.agents.map((a) => a.name).join(', ');
+
+        $('subagentsList').innerHTML = state.agents.map((agent) => `
+          <div class="agent">
+            <div class="agent-name">${agent.name}</div>
+            <div class="agent-role">${agent.role}</div>
+            <div class="agent-task">${agent.task}</div>
+            <div class="agent-status">Статус: ${agent.status}</div>
+          </div>
+        `).join('');
+
+        $('artifactsList').innerHTML = state.artifacts.length
+          ? state.artifacts.map((a) => `<div class="item"><div class="item-title">${a.title}</div><div class="item-meta">${a.body}</div></div>`).join('')
+          : '<div class="item"><div class="item-title">Пока пусто</div><div class="item-meta">Артефакты появятся, когда саб-агенты начнут возвращать результаты.</div></div>';
+
+        $('blockersList').innerHTML = state.blockers.length
+          ? state.blockers.map((b) => `<div class="item"><div class="item-title">${b.title}</div><div class="item-meta">${b.body}</div></div>`).join('')
+          : '<div class="item"><div class="item-title">Пока нет blocker-ов</div><div class="item-meta">COO пока держит миссию без эскалаций.</div></div>';
+
+        $('logList').innerHTML = state.log.map((line) => `<div class="item"><div class="item-title">${line}</div></div>`).join('');
+        saveState();
+      }
+
+      function startMission() {
+        const type = $('missionType').value;
+        const priority = $('missionPriority').value;
+        const title = $('missionInput').value.trim() || 'Новая миссия';
+        state.missionTitle = title;
+        state.missionType = type;
+        state.missionPriority = priority;
+        state.status = 'В работе';
+        state.step = 1;
+        state.cooLine = `COO принял миссию типа «${type}», разбил её на ${templates[type].length} шага и активировал первого саб-агента.`;
+        state.nextStep = `Дождаться результата от ${templates[type][0].name}.`;
+        state.agents = templates[type].map((a, i) => ({ ...a, status: i === 0 ? 'Активен' : 'В очереди' }));
+        state.artifacts = [];
+        state.blockers = [];
+        state.log = [`Founder поставил миссию: ${title}`, `COO активировал ${templates[type][0].name}.`];
+        render();
+      }
+
+      function tickCycle() {
+        if (state.status === 'Готово') return;
+        const activeIndex = state.agents.findIndex((a) => a.status === 'Активен');
+        if (activeIndex === -1) return;
+        const active = state.agents[activeIndex];
+        active.status = 'Завершил';
+        state.artifacts.unshift({ title: `${active.name} вернул результат`, body: active.output });
+        pushLog(`${active.name} завершил шаг и вернул артефакт COO.`);
+
+        const next = state.agents[activeIndex + 1];
+        if (next) {
+          next.status = 'Активен';
+          state.step = activeIndex + 2;
+          state.nextStep = `Дождаться результата от ${next.name}.`;
+          state.cooLine = `COO принял артефакт от ${active.name} и передал эстафету ${next.name}.`;
+          pushLog(`COO активировал ${next.name}.`);
+        } else {
+          state.status = 'Готово';
+          state.step = state.agents.length;
+          state.nextStep = 'Миссия завершена. Можно запускать следующую.';
+          state.cooLine = 'COO собрал все артефакты и закрыл миссию.';
+          pushLog('COO завершил миссию и собрал финальный итог.');
+        }
+        render();
+      }
+
+      function addBlocker() {
+        const active = state.agents.find((a) => a.status === 'Активен');
+        const who = active ? active.name : 'Unknown Subagent';
+        state.blockers.unshift({ title: `${who}: blocker`, body: 'Нужен дополнительный контекст / входные данные для продолжения.' });
+        state.blockers = state.blockers.slice(0, 5);
+        state.cooLine = `COO получил blocker от ${who} и должен решить — уточнить задачу или перераспределить работу.`;
+        state.nextStep = `Разобрать blocker от ${who} и дать новый приказ.`;
+        pushLog(`${who} поднял blocker. COO ждёт решения.`);
+        render();
+      }
+
+      $('startBtn').addEventListener('click', startMission);
+      $('tickBtn').addEventListener('click', tickCycle);
+      $('blockerBtn').addEventListener('click', addBlocker);
+      render();
+    </script>
   </body>
 </html>
