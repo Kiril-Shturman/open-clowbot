@@ -5,7 +5,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Mission Control — OpenClaw Boss Mode</title>
+    <title>Mission Control — Commander Runtime</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -46,30 +46,21 @@
         opacity: .07;
         z-index: 0;
       }
-      .wrap { position: relative; z-index: 1; width: min(1440px, calc(100% - 28px)); margin: 0 auto; padding: 20px 0 40px; }
+      .wrap { position: relative; z-index: 1; width: min(1500px, calc(100% - 28px)); margin: 0 auto; padding: 20px 0 40px; }
       .topbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 16px;
-        margin-bottom: 18px;
-        background: rgba(17,21,29,.88);
-        border: 1px solid var(--line);
-        border-radius: 24px;
-        padding: 14px 18px;
-        box-shadow: var(--shadow);
+        display: flex; justify-content: space-between; align-items: center; gap: 16px;
+        margin-bottom: 18px; background: rgba(17,21,29,.88); border: 1px solid var(--line);
+        border-radius: 24px; padding: 14px 18px; box-shadow: var(--shadow);
       }
       .brand { display: flex; gap: 14px; align-items: center; }
       .brand-mark {
-        width: 56px; height: 56px; border-radius: 18px;
-        background: linear-gradient(135deg, var(--red), #7e0e29);
-        display: grid; place-items: center;
-        font-family: 'Press Start 2P', monospace; font-size: 12px;
+        width: 56px; height: 56px; border-radius: 18px; background: linear-gradient(135deg, var(--red), #7e0e29);
+        display: grid; place-items: center; font-family: 'Press Start 2P', monospace; font-size: 12px;
         box-shadow: 0 14px 30px rgba(255,77,87,.28);
       }
       .eyebrow { font-family: 'Press Start 2P', monospace; font-size: 10px; color: #ff9aa1; margin-bottom: 6px; }
       .title { font-size: clamp(24px, 3vw, 40px); line-height: 1; font-weight: 800; }
-      .subtitle { color: var(--muted); margin-top: 6px; max-width: 760px; }
+      .subtitle { color: var(--muted); margin-top: 6px; max-width: 780px; }
       .top-actions { display: flex; gap: 10px; flex-wrap: wrap; }
       .btn {
         border: 1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 12px 14px;
@@ -85,13 +76,14 @@
       .label { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
       .value { font-size: 30px; font-weight: 800; }
       .sub { margin-top: 8px; color: var(--muted); font-size: 13px; }
-      .grid { display: grid; grid-template-columns: 1.3fr .95fr; gap: 16px; }
+      .grid { display: grid; grid-template-columns: 1.45fr .95fr; gap: 16px; }
       .card { padding: 18px; }
       .section-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
       .section-title { font-size: 20px; font-weight: 800; }
-      .mission-layout { display: grid; grid-template-columns: 1.08fr .92fr; gap: 16px; }
+      .main-stack, .side-stack, .mission-stack { display: grid; gap: 16px; }
+      .control-grid { display: grid; grid-template-columns: 1fr .95fr; gap: 16px; }
       .office {
-        position: relative; min-height: 680px; border-radius: 24px; overflow: hidden;
+        position: relative; min-height: 700px; border-radius: 24px; overflow: hidden;
         background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)), linear-gradient(180deg, #202632 0%, #171c24 100%);
         border: 1px solid rgba(255,255,255,.08);
       }
@@ -110,12 +102,13 @@
       .zone.writing { top: 20px; right: 20px; width: 280px; height: 180px; }
       .zone.ops { bottom: 24px; left: 24px; width: 240px; height: 160px; }
       .zone.memory { bottom: 24px; right: 24px; width: 240px; height: 160px; }
-      .zone.war { left: 50%; top: 48%; transform: translate(-50%, -50%); width: 340px; height: 220px; border-color: rgba(255,77,87,.22); background: rgba(255,77,87,.06); }
+      .zone.war { left: 50%; top: 48%; transform: translate(-50%, -50%); width: 360px; height: 220px; border-color: rgba(255,77,87,.22); background: rgba(255,77,87,.06); }
+      .zone.command { left: 50%; top: 16px; transform: translateX(-50%); width: 230px; height: 110px; border-color: rgba(89,217,255,.18); background: rgba(89,217,255,.06); }
       .boss-card {
-        position: absolute; left: 50%; top: 48%; transform: translate(-50%, -50%); width: 250px;
+        position: absolute; left: 50%; top: 49%; transform: translate(-50%, -50%); width: 250px;
         padding: 16px; border-radius: 24px; border: 1px solid rgba(255,77,87,.24);
         background: linear-gradient(180deg, rgba(72,9,21,.95), rgba(36,8,14,.95));
-        box-shadow: 0 20px 60px rgba(145, 15, 43, .36); z-index: 4;
+        box-shadow: 0 20px 60px rgba(145,15,43,.36); z-index: 4;
       }
       .boss-type { font-family: 'Press Start 2P', monospace; font-size: 10px; color: #ff9da4; margin-bottom: 8px; }
       .boss-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; }
@@ -126,10 +119,11 @@
       .hp-fill { height: 100%; width: 72%; background: linear-gradient(90deg, #ff6671, #ff313f); box-shadow: 0 0 20px rgba(255,77,87,.4); transition: width .6s ease; }
       .agents-layer { position: absolute; inset: 0; z-index: 3; }
       .agent {
-        position: absolute; width: 104px; padding: 10px; border-radius: 18px;
+        position: absolute; width: 108px; padding: 10px; border-radius: 18px;
         border: 1px solid rgba(255,255,255,.08); background: rgba(18,23,31,.92);
         text-align: center; transform: translate(-50%, -50%); transition: left 1.2s ease, top 1.2s ease;
       }
+      .agent.commander { width: 130px; border-color: rgba(89,217,255,.18); background: rgba(10,31,40,.92); }
       .agent .sprite {
         width: 40px; height: 40px; margin: 0 auto 8px; border-radius: 12px; display: grid; place-items: center;
         font-family: 'Press Start 2P', monospace; font-size: 12px; color: #08090d;
@@ -139,6 +133,7 @@
       .agent.writer .sprite { background: #ff93b1; }
       .agent.operator .sprite { background: var(--green); }
       .agent.closer .sprite { background: var(--purple); }
+      .agent.commander .sprite { background: #9be9ff; }
       .agent-name { font-size: 13px; font-weight: 700; }
       .agent-role { font-size: 11px; color: var(--muted); margin-top: 4px; }
       .agent-state { margin-top: 8px; font-size: 11px; color: #d8e1f0; }
@@ -156,32 +151,42 @@
       .tag { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; background: rgba(255,255,255,.06); }
       .tag.live { background: rgba(83,242,140,.14); color: #bbf7cf; }
       .tag.warn { background: rgba(255,216,77,.12); color: #ffe8a3; }
-      .stack { display: grid; gap: 16px; }
-      .boss-list, .agent-list, .log-list { display: grid; gap: 12px; }
+      .tag.command { background: rgba(89,217,255,.12); color: #bfeeff; }
       .item { padding: 14px; border-radius: 18px; background: var(--panel-2); border: 1px solid rgba(255,255,255,.06); }
       .item-top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
       .item-title { font-size: 16px; font-weight: 700; }
       .item-meta { color: var(--muted); font-size: 13px; margin-top: 8px; display: grid; gap: 6px; }
+      .log-list, .agent-list, .queue-list, .notes-list, .orders-list { display: grid; gap: 12px; }
       .mini-bar { height: 8px; border-radius: 999px; background: rgba(255,255,255,.06); overflow: hidden; margin-top: 12px; }
       .mini-bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--red), #ff8991); transition: width .6s ease; }
-      .connect-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-      .connect-card { padding: 14px; border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)); border: 1px solid rgba(255,255,255,.08); }
-      .connect-card h3 { margin: 0 0 10px; font-size: 15px; }
-      .tiny { font-size: 12px; color: var(--muted); }
-      .field { display: grid; gap: 8px; margin-top: 10px; }
-      .input, .select { width: 100%; height: 46px; border-radius: 14px; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.04); color: #fff; padding: 0 14px; font: inherit; }
+      .field, .mission-form { display: grid; gap: 10px; }
+      .mission-form { grid-template-columns: 1.5fr 1fr 1fr auto; align-items: end; }
+      .input, .select, .textarea {
+        width: 100%; border-radius: 14px; border: 1px solid rgba(255,255,255,.08);
+        background: rgba(255,255,255,.04); color: #fff; padding: 12px 14px; font: inherit;
+      }
+      .textarea { min-height: 110px; resize: vertical; }
+      .commander-card {
+        padding: 16px; border-radius: 20px; border: 1px solid rgba(89,217,255,.14);
+        background: linear-gradient(180deg, rgba(89,217,255,.06), rgba(255,255,255,.02));
+      }
+      .commander-line { color: var(--muted); font-size: 13px; margin-top: 8px; }
       .footer-note { margin-top: 18px; color: var(--muted); font-size: 13px; }
-      @media (max-width: 1180px) { .grid, .mission-layout, .connect-grid, .summary { grid-template-columns: 1fr; } .office { min-height: 760px; } }
+      @media (max-width: 1280px) {
+        .grid, .control-grid, .summary { grid-template-columns: 1fr; }
+        .mission-form { grid-template-columns: 1fr; }
+      }
       @media (max-width: 740px) {
-        .wrap { width: min(100% - 18px, 1440px); }
+        .wrap { width: min(100% - 18px, 1500px); }
         .topbar { flex-direction: column; align-items: stretch; }
         .top-actions { width: 100%; }
         .btn { width: 100%; }
-        .office { min-height: 920px; }
+        .office { min-height: 980px; }
         .zone.research, .zone.writing { width: calc(100% - 24px); left: 12px; right: 12px; }
-        .zone.research { top: 16px; }
-        .zone.writing { top: 212px; }
-        .zone.war { width: calc(100% - 28px); top: 54%; }
+        .zone.research { top: 112px; }
+        .zone.writing { top: 304px; }
+        .zone.command { top: 12px; width: calc(100% - 24px); }
+        .zone.war { width: calc(100% - 28px); top: 60%; }
         .zone.ops { left: 12px; width: calc(50% - 18px); }
         .zone.memory { right: 12px; width: calc(50% - 18px); }
       }
@@ -193,48 +198,84 @@
         <div class="brand">
           <div class="brand-mark">OC</div>
           <div>
-            <div class="eyebrow">Boss Fight MVP / Real-time loop</div>
+            <div class="eyebrow">Commander Runtime MVP</div>
             <div class="title">Mission Control</div>
-            <div class="subtitle">Задача как босс, агенты как юниты, а офис живёт в real-time: движение, реплики, фазы и урон по проблеме.</div>
+            <div class="subtitle">Не просто офис, а оркестрация: командир принимает миссию, режет её на подзадачи, проверяет статусы отряда и выдаёт следующие приказы.</div>
           </div>
         </div>
         <div class="top-actions">
-          <button class="btn">Подключить домен Tuna</button>
-          <button class="btn" id="shuffleBoss">Сменить босса</button>
-          <button class="btn primary" id="tickBoss">Нанести урон</button>
+          <button class="btn">Подключить Tuna</button>
+          <button class="btn" id="forceCheckinBtn">Force Check-in</button>
+          <button class="btn primary" id="assignMissionBtn">Start Mission</button>
         </div>
       </section>
 
       <section class="summary">
-        <article class="summary-card"><div class="label">Активные боссы</div><div class="value" id="activeBossesValue">3</div><div class="sub" id="activeBossesSub">2 в процессе, 1 в очереди</div></article>
-        <article class="summary-card"><div class="label">Юниты онлайн</div><div class="value" id="unitsOnlineValue">5</div><div class="sub">Все роли на посту</div></article>
-        <article class="summary-card"><div class="label">Урон за сессию</div><div class="value" id="damageValue">184</div><div class="sub">Очки прогресса по задачам</div></article>
-        <article class="summary-card"><div class="label">Подключение</div><div class="value">Tuna</div><div class="sub">Готовим домен под внешний доступ</div></article>
+        <article class="summary-card"><div class="label">Текущая миссия</div><div class="value" id="missionStatusValue">LIVE</div><div class="sub" id="missionStatusSub">Контент-план на 30 дней</div></article>
+        <article class="summary-card"><div class="label">Следующий check-in</div><div class="value" id="nextCheckinValue">00:28</div><div class="sub">Commander refresh cycle</div></article>
+        <article class="summary-card"><div class="label">Выполнено подзадач</div><div class="value" id="completedTasksValue">6</div><div class="sub">Из 10 назначенных шагов</div></article>
+        <article class="summary-card"><div class="label">Boss HP</div><div class="value" id="bossPercentValue">72%</div><div class="sub">Остаток работы по миссии</div></article>
       </section>
 
       <section class="grid">
-        <div class="stack">
+        <div class="main-stack">
           <article class="card">
             <div class="section-head">
-              <div class="section-title">Живой бой с задачей</div>
-              <span class="tag live">● LIVE LOOP</span>
+              <div class="section-title">Поставить миссию</div>
+              <span class="tag command">Commander input</span>
+            </div>
+            <div class="mission-form">
+              <div class="field">
+                <label class="label" for="missionInput">Задача / миссия</label>
+                <textarea id="missionInput" class="textarea">Собери контент-план на 30 дней для продвижения OpenClaw среди предпринимателей.</textarea>
+              </div>
+              <div class="field">
+                <label class="label" for="missionType">Тип босса</label>
+                <select id="missionType" class="select">
+                  <option value="Marketing">Marketing</option>
+                  <option value="Sales">Sales</option>
+                  <option value="Research">Research</option>
+                  <option value="Ops">Ops</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="label" for="missionDifficulty">Сложность</label>
+                <select id="missionDifficulty" class="select">
+                  <option value="Hard">Hard</option>
+                  <option value="Epic" selected>Epic</option>
+                  <option value="Legendary">Legendary</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="label">&nbsp;</label>
+                <button class="btn primary" id="createMissionBtn">Создать миссию</button>
+              </div>
+            </div>
+            <div class="footer-note">MVP логика: командир берёт текст задачи, создаёт босса, раскладывает миссию на подзадачи и запускает цикл check-ins.</div>
+          </article>
+
+          <article class="card">
+            <div class="section-head">
+              <div class="section-title">Живой runtime</div>
+              <span class="tag live">● COMMAND LOOP</span>
             </div>
 
-            <div class="mission-layout">
+            <div class="control-grid">
               <div class="office">
+                <div class="zone command"><h3>Command Desk</h3><p>Командир собирает статусы, назначает задачи, делает review и даёт next orders.</p></div>
                 <div class="zone research"><h3>Research Zone</h3><p>Поиск источников, конкурентов, кейсов и рыночной информации.</p></div>
-                <div class="zone writing"><h3>Writing Desk</h3><p>Посты, офферы, письма, summaries, финальные тексты.</p></div>
-                <div class="zone war"><h3>Boss Arena</h3><p>Главная задача разбивается на фазы, а агенты наносят по ней урон действиями.</p></div>
-                <div class="zone ops"><h3>Ops Desk</h3><p>Оркестрация, статусы, маршрутизация и принятие решений.</p></div>
-                <div class="zone.memory"><h3>Memory Vault</h3><p>Артефакты, заметки, вчерашние выводы и закреплённые паттерны.</p></div>
+                <div class="zone writing"><h3>Writing Desk</h3><p>Посты, summaries, офферы, тексты, сценарии и финальные драфты.</p></div>
+                <div class="zone war"><h3>Boss Arena</h3><p>Главная миссия. Когда подзадачи закрываются, HP босса падает.</p></div>
+                <div class="zone ops"><h3>Ops Desk</h3><p>Контроль статусов, роутинг, блокеры, check-ins.</p></div>
+                <div class="zone memory"><h3>Memory Vault</h3><p>Артефакты, выводы, итоговые отчёты и вчерашние заметки.</p></div>
 
                 <div class="boss-card">
-                  <div class="boss-type" id="bossType">BOSS / MARKETING OPS</div>
+                  <div class="boss-type" id="bossType">BOSS / MARKETING RAID</div>
                   <div class="boss-title" id="bossTitle">Контент-план на 30 дней</div>
                   <div class="boss-meta">
                     <div id="bossDifficulty">Сложность: Epic</div>
-                    <div id="bossReward">Награда: 30 готовых тем + рубрикатор</div>
-                    <div id="bossPhase">Фаза: Research → Structure → Draft</div>
+                    <div id="bossReward">Награда: 30 тем + рубрикатор + hooks</div>
+                    <div id="bossPhase">Фаза: Breakdown → Assign → Review → Package</div>
                   </div>
                   <div class="hp-wrap">
                     <div class="hp-label"><span>HP</span><span id="bossHpText">72 / 100</span></div>
@@ -245,60 +286,44 @@
                 <div class="agents-layer" id="agentsLayer"></div>
               </div>
 
-              <div class="stack">
-                <div class="card" style="padding:0; background:transparent; border:none; box-shadow:none;">
-                  <div class="boss-list" id="bossQueueList"></div>
+              <div class="mission-stack">
+                <div class="commander-card">
+                  <div class="section-head" style="margin-bottom:8px;">
+                    <div class="section-title" style="font-size:18px;">Commander</div>
+                    <span class="tag command" id="commanderMode">Reviewing</span>
+                  </div>
+                  <div class="commander-line"><strong>Текущий приказ:</strong> <span id="currentOrder">Scout собирает источники, Analyst готовит framework, Writer ждёт input.</span></div>
+                  <div class="commander-line"><strong>Последний обзор:</strong> <span id="lastReview">2 мин назад</span></div>
+                  <div class="commander-line"><strong>Следующий шаг:</strong> <span id="nextOrder">После check-in раздать drafting tasks.</span></div>
                 </div>
+                <div class="queue-list" id="missionQueue"></div>
               </div>
             </div>
           </article>
 
           <article class="card">
             <div class="section-head">
-              <div class="section-title">Лог боя</div>
-              <span class="tag">Boss HP updates</span>
+              <div class="section-title">Журнал командира</div>
+              <span class="tag">Check-ins & orders</span>
             </div>
-            <div class="log-list" id="logList"></div>
-            <div class="footer-note">Теперь это не статичная витрина: loop гоняет фазы, статусы агентов, движение по зонам, реплики и урон по HP. Следующий этап — кормить этот loop реальными данными задач.</div>
+            <div class="log-list" id="commanderLog"></div>
           </article>
         </div>
 
-        <div class="stack">
+        <div class="side-stack">
           <article class="card">
-            <div class="section-head"><div class="section-title">Юниты</div><span class="tag">5 classes</span></div>
+            <div class="section-head"><div class="section-title">Отряд</div><span class="tag">Squad status</span></div>
             <div class="agent-list" id="agentStatusList"></div>
           </article>
 
           <article class="card">
-            <div class="section-head"><div class="section-title">Yesterday Notes</div><span class="tag warn">Daily memory</span></div>
-            <div class="log-list" id="yesterdayNotesList"></div>
+            <div class="section-head"><div class="section-title">Подзадачи</div><span class="tag warn">Assignments</span></div>
+            <div class="orders-list" id="subtaskList"></div>
           </article>
 
           <article class="card">
-            <div class="section-head"><div class="section-title">Подключения</div><span class="tag warn">MVP infra</span></div>
-            <div class="connect-grid">
-              <div class="connect-card">
-                <h3>Домен Tuna</h3>
-                <div class="tiny">Подключить внешний домен и отдать Mission Control наружу.</div>
-                <div class="field">
-                  <input class="input" placeholder="mission.tuna.domain" />
-                  <button class="btn primary">Подключить Tuna</button>
-                </div>
-              </div>
-              <div class="connect-card">
-                <h3>Agent Runtime</h3>
-                <div class="tiny">Укажи источник реальных задач для замены demo loop.</div>
-                <div class="field">
-                  <select class="select">
-                    <option>OpenClaw Tasks API</option>
-                    <option>Static Demo Feed</option>
-                    <option>Telegram Missions</option>
-                  </select>
-                  <button class="btn">Bind Runtime</button>
-                </div>
-              </div>
-            </div>
-            <div class="footer-note">Через Tuna уже можно показать страницу. Следом — привязка boss loop к реальным задачам и агентным раннерам.</div>
+            <div class="section-head"><div class="section-title">Yesterday Notes</div><span class="tag warn">Daily memory</span></div>
+            <div class="notes-list" id="yesterdayNotesList"></div>
           </article>
         </div>
       </section>
@@ -306,133 +331,128 @@
 
     <script>
       const zonePositions = {
+        command: { x: 50, y: 12 },
         research: { x: 26, y: 22 },
         writing: { x: 77, y: 20 },
         ops: { x: 26, y: 78 },
         memory: { x: 73, y: 78 },
-        war: { x: 50, y: 48 },
+        war: { x: 50, y: 49 },
       };
 
-      const bosses = [
-        {
-          type: 'BOSS / MARKETING OPS',
-          title: 'Контент-план на 30 дней',
-          difficulty: 'Epic',
-          reward: '30 тем + рубрикатор + hooks',
-          phases: ['Research', 'Structure', 'Draft', 'Packaging'],
-          maxHp: 100,
-          hp: 72,
-        },
-        {
-          type: 'BOSS / SALES INTEL',
-          title: 'Найти 50 лидов',
-          difficulty: 'Hard',
-          reward: 'База лидов + контакты + приоритеты',
-          phases: ['Discovery', 'Qualification', 'Enrichment', 'Delivery'],
-          maxHp: 100,
-          hp: 58,
-        },
-        {
-          type: 'BOSS / RESEARCH RAID',
-          title: 'Анализ 10 конкурентов',
-          difficulty: 'Epic',
-          reward: 'Таблица + паттерны + выводы',
-          phases: ['SERP', 'Collection', 'Patterning', 'Summary'],
-          maxHp: 100,
-          hp: 66,
-        }
-      ];
+      const taskTemplates = {
+        Marketing: [
+          { agent: 'scout', action: 'Собрать 12 конкурентных каналов', zone: 'research', damage: 8 },
+          { agent: 'analyst', action: 'Выделить паттерны форматов', zone: 'war', damage: 10 },
+          { agent: 'writer', action: 'Собрать 15 заголовков', zone: 'writing', damage: 9 },
+          { agent: 'operator', action: 'Разложить календарь публикаций', zone: 'ops', damage: 7 },
+          { agent: 'closer', action: 'Упаковать финальный план', zone: 'memory', damage: 12 },
+        ],
+        Sales: [
+          { agent: 'scout', action: 'Поднять 50 потенциальных лидов', zone: 'research', damage: 9 },
+          { agent: 'analyst', action: 'Квалифицировать сегменты', zone: 'war', damage: 8 },
+          { agent: 'writer', action: 'Подготовить outreach-сообщения', zone: 'writing', damage: 8 },
+          { agent: 'operator', action: 'Распределить лидов по приоритету', zone: 'ops', damage: 6 },
+          { agent: 'closer', action: 'Собрать базу к выдаче', zone: 'memory', damage: 12 },
+        ],
+        Research: [
+          { agent: 'scout', action: 'Собрать 10 источников', zone: 'research', damage: 8 },
+          { agent: 'analyst', action: 'Построить таблицу сравнений', zone: 'war', damage: 10 },
+          { agent: 'writer', action: 'Написать summary и выводы', zone: 'writing', damage: 8 },
+          { agent: 'operator', action: 'Синхронизировать findings', zone: 'ops', damage: 6 },
+          { agent: 'closer', action: 'Собрать финальный отчёт', zone: 'memory', damage: 12 },
+        ],
+        Ops: [
+          { agent: 'scout', action: 'Собрать входные условия', zone: 'research', damage: 6 },
+          { agent: 'analyst', action: 'Выявить узкие места', zone: 'war', damage: 8 },
+          { agent: 'writer', action: 'Собрать SOP', zone: 'writing', damage: 7 },
+          { agent: 'operator', action: 'Маршрутизировать процессы', zone: 'ops', damage: 10 },
+          { agent: 'closer', action: 'Упаковать операционный набор', zone: 'memory', damage: 11 },
+        ],
+      };
 
       const agents = [
-        { id: 'scout', name: 'Scout', role: 'Discovery', className: 'scout', status: 'Собирает каналы', zone: 'research', bubble: 'Сканирую YouTube…' },
-        { id: 'analyst', name: 'Analyst', role: 'Patterns', className: 'analyst', status: 'Ищет паттерны', zone: 'war', bubble: 'Выделяю форматы…' },
-        { id: 'writer', name: 'Writer', role: 'Drafts', className: 'writer', status: 'Пишет драфт', zone: 'writing', bubble: 'Собираю заголовки…' },
-        { id: 'operator', name: 'Operator', role: 'Control', className: 'operator', status: 'Маршрутизирует этапы', zone: 'ops', bubble: 'Роутинг миссии…' },
-        { id: 'closer', name: 'Closer', role: 'Packaging', className: 'closer', status: 'Готовит финал', zone: 'memory', bubble: 'Упаковываю результат…' },
-      ];
-
-      const actionPool = {
-        research: ['нашёл 12 каналов', 'собрал 18 видео', 'поднял 6 конкурентов', 'засёк 9 тем'],
-        writing: ['собрал 15 заголовков', 'написал 5 драфтов', 'подготовил summary', 'переписал оффер'],
-        war: ['выделил 6 паттернов', 'собрал гипотезы', 'разбил босса на фазы', 'сформировал структуру'],
-        ops: ['перевёл босса в новую фазу', 'раздал роли команде', 'включил combo', 'связал этапы'],
-        memory: ['зафиксировал артефакт', 'собрал финальную выдачу', 'сложил выводы в memory', 'подготовил результат'],
-      };
-
-      const bubblesByZone = {
-        research: ['Ищу кейсы…', 'Поднимаю конкурентов…', 'Сканирую выдачу…'],
-        writing: ['Пишу драфт…', 'Собираю хук…', 'Пакую текст…'],
-        war: ['Давим босса…', 'Ломаю структуру…', 'Фаза почти пройдена…'],
-        ops: ['Собираю отряд…', 'Маршрутизирую задачи…', 'Контролирую фазы…'],
-        memory: ['Сохраняю артефакт…', 'Фиксирую выводы…', 'Пакую финал…'],
-      };
-
-      const yesterdayNotes = [
-        'Scout нашёл 27 новых источников по AI/automation.',
-        'Analyst выделил 11 повторяющихся форматов Reels.',
-        'Writer собрал 34 рабочих темы под предпринимателей.',
-        'Closer упаковал 3 набора выводов в финальные артефакты.',
+        { id: 'commander', name: 'Commander', role: 'Raid Leader', className: 'commander', zone: 'command', status: 'Делит миссию', bubble: 'Собираю отряд…', currentTask: 'Break mission into subtasks', done: 0 },
+        { id: 'scout', name: 'Scout', role: 'Discovery', className: 'scout', zone: 'research', status: 'Ждёт приказ', bubble: 'Жду цель…', currentTask: 'Stand by', done: 0 },
+        { id: 'analyst', name: 'Analyst', role: 'Patterns', className: 'analyst', zone: 'war', status: 'Ждёт приказ', bubble: 'Жду данные…', currentTask: 'Stand by', done: 0 },
+        { id: 'writer', name: 'Writer', role: 'Drafts', className: 'writer', zone: 'writing', status: 'Ждёт приказ', bubble: 'Готов писать…', currentTask: 'Stand by', done: 0 },
+        { id: 'operator', name: 'Operator', role: 'Control', className: 'operator', zone: 'ops', status: 'Ждёт приказ', bubble: 'Контур пуст…', currentTask: 'Stand by', done: 0 },
+        { id: 'closer', name: 'Closer', role: 'Packaging', className: 'closer', zone: 'memory', status: 'Ждёт приказ', bubble: 'Жду финал…', currentTask: 'Stand by', done: 0 },
       ];
 
       const state = {
-        bossIndex: 0,
-        totalDamage: 184,
-        queue: [72, 18, 34],
-        logs: [
-          'Scout нашёл 12 релевантных каналов по AI/automation → Boss HP -8',
-          'Analyst выделил 6 повторяющихся форматов роликов → Boss HP -11',
-          'Writer собрал 15 рабочих заголовков → Boss HP -9',
-          'Operator перевёл босса в фазу Draft → combo enabled',
-          'Closer готовит финальный артефакт для выдачи → charging',
+        mission: {
+          title: 'Контент-план на 30 дней',
+          type: 'Marketing',
+          difficulty: 'Epic',
+          reward: '30 тем + рубрикатор + hooks',
+          hp: 72,
+          maxHp: 100,
+          phase: 'Breakdown → Assign → Review → Package',
+          active: true,
+        },
+        commander: {
+          mode: 'Reviewing',
+          currentOrder: 'Scout собирает источники, Analyst готовит framework, Writer ждёт input.',
+          lastReview: '2 мин назад',
+          nextOrder: 'После check-in раздать drafting tasks.',
+          secondsToCheckin: 28,
+        },
+        completedTasks: 6,
+        totalTasks: 10,
+        commanderLog: [
+          'Commander принял миссию и разбил её на 5 стартовых подзадач.',
+          'Commander отправил Scout в research, Analyst — в boss arena.',
+          'Commander провёл review и выдал next order для Writer.',
+        ],
+        subtasks: [
+          { id: 1, agent: 'Scout', text: 'Собрать 12 каналов', status: 'done' },
+          { id: 2, agent: 'Analyst', text: 'Выделить 6 паттернов', status: 'active' },
+          { id: 3, agent: 'Writer', text: 'Собрать 15 заголовков', status: 'queued' },
+          { id: 4, agent: 'Operator', text: 'Собрать publishing map', status: 'queued' },
+          { id: 5, agent: 'Closer', text: 'Подготовить итоговую выдачу', status: 'queued' },
+        ],
+        yesterdayNotes: [
+          'Commander завершил рейд по конкурентам и упаковал summary.',
+          'Scout нашёл 27 новых источников по AI/automation.',
+          'Writer собрал 34 рабочих темы под предпринимателей.',
+          'Closer оформил 3 финальных артефакта для выдачи.',
         ],
       };
 
       const $ = (id) => document.getElementById(id);
+      const agentById = (id) => agents.find((a) => a.id === id);
+      const humanTime = (sec) => `00:${String(Math.max(sec, 0)).padStart(2, '0')}`;
       const rand = (arr) => arr[Math.floor(Math.random() * arr.length)];
+      const commanderBubbles = [
+        'Собираю статусы…',
+        'Проверяю прогресс…',
+        'Раздаю next orders…',
+        'Переназначаю задачи…',
+      ];
 
-      function currentBoss() {
-        return bosses[state.bossIndex];
+      function renderSummary() {
+        $('missionStatusValue').textContent = state.mission.active ? 'LIVE' : 'DONE';
+        $('missionStatusSub').textContent = state.mission.title;
+        $('nextCheckinValue').textContent = humanTime(state.commander.secondsToCheckin);
+        $('completedTasksValue').textContent = String(state.completedTasks);
+        $('bossPercentValue').textContent = `${state.mission.hp}%`;
       }
 
       function renderBoss() {
-        const boss = currentBoss();
-        $('bossType').textContent = boss.type;
-        $('bossTitle').textContent = boss.title;
-        $('bossDifficulty').textContent = `Сложность: ${boss.difficulty}`;
-        $('bossReward').textContent = `Награда: ${boss.reward}`;
-        $('bossPhase').textContent = `Фаза: ${boss.phases.join(' → ')}`;
-        $('bossHpText').textContent = `${boss.hp} / ${boss.maxHp}`;
-        $('bossHpFill').style.width = `${(boss.hp / boss.maxHp) * 100}%`;
-        $('activeBossesValue').textContent = '3';
-        $('activeBossesSub').textContent = boss.hp <= 0 ? '1 побеждён, 2 в очереди' : '1 в процессе, 2 в очереди';
+        $('bossType').textContent = `BOSS / ${state.mission.type.toUpperCase()} RAID`;
+        $('bossTitle').textContent = state.mission.title;
+        $('bossDifficulty').textContent = `Сложность: ${state.mission.difficulty}`;
+        $('bossReward').textContent = `Награда: ${state.mission.reward}`;
+        $('bossPhase').textContent = `Фаза: ${state.mission.phase}`;
+        $('bossHpText').textContent = `${state.mission.hp} / ${state.mission.maxHp}`;
+        $('bossHpFill').style.width = `${(state.mission.hp / state.mission.maxHp) * 100}%`;
       }
 
-      function renderQueue() {
-        const boss = currentBoss();
-        $('bossQueueList').innerHTML = [
-          {
-            title: boss.title,
-            tag: boss.hp <= 0 ? 'Completed' : 'In Progress',
-            className: boss.hp <= 0 ? 'tag' : 'tag live',
-            type: boss.type.replace('BOSS / ', ''),
-            reward: boss.reward,
-            width: `${(boss.hp / boss.maxHp) * 100}%`
-          },
-          { title: 'Анализ 10 конкурентов', tag: 'Queued', className: 'tag warn', type: 'Research', reward: 'Таблица + выводы', width: '18%' },
-          { title: 'Найти 50 лидов', tag: 'Phase 1', className: 'tag', type: 'Sales', reward: 'Лиды + контакты', width: '34%' },
-        ].map((item) => `
-          <div class="item">
-            <div class="item-top">
-              <div class="item-title">${item.title}</div>
-              <span class="${item.className}">${item.tag}</span>
-            </div>
-            <div class="item-meta">
-              <div>Boss type: ${item.type}</div>
-              <div>Reward: ${item.reward}</div>
-            </div>
-            <div class="mini-bar"><span style="width:${item.width}"></span></div>
-          </div>
-        `).join('');
+      function renderCommanderPanel() {
+        $('commanderMode').textContent = state.commander.mode;
+        $('currentOrder').textContent = state.commander.currentOrder;
+        $('lastReview').textContent = state.commander.lastReview;
+        $('nextOrder').textContent = state.commander.nextOrder;
       }
 
       function renderAgents() {
@@ -452,78 +472,220 @@
 
         $('agentStatusList').innerHTML = agents.map((agent) => `
           <div class="item">
-            <div class="item-top"><div class="item-title">${agent.name} Agent</div><span class="tag live">${agent.zone}</span></div>
-            <div class="item-meta"><div>Роль: ${agent.role}</div><div>State: ${agent.status}</div></div>
+            <div class="item-top"><div class="item-title">${agent.name}</div><span class="tag ${agent.id === 'commander' ? 'command' : agent.currentTask !== 'Stand by' ? 'live' : ''}">${agent.zone}</span></div>
+            <div class="item-meta">
+              <div>Роль: ${agent.role}</div>
+              <div>Статус: ${agent.status}</div>
+              <div>Текущая задача: ${agent.currentTask}</div>
+            </div>
           </div>
         `).join('');
       }
 
-      function renderLogs() {
-        $('logList').innerHTML = state.logs.slice(0, 7).map((log) => `<div class="item">${log}</div>`).join('');
+      function renderCommanderLog() {
+        $('commanderLog').innerHTML = state.commanderLog.slice(0, 8).map((line) => `<div class="item">${line}</div>`).join('');
+      }
+
+      function renderSubtasks() {
+        $('subtaskList').innerHTML = state.subtasks.map((task) => `
+          <div class="item">
+            <div class="item-top"><div class="item-title">${task.text}</div><span class="tag ${task.status === 'done' ? 'live' : task.status === 'active' ? 'warn' : ''}">${task.status}</span></div>
+            <div class="item-meta"><div>Назначено: ${task.agent}</div></div>
+          </div>
+        `).join('');
+      }
+
+      function renderQueue() {
+        const taskCount = state.subtasks.length;
+        const progress = Math.min(100, Math.round((state.completedTasks / Math.max(taskCount, 1)) * 100));
+        $('missionQueue').innerHTML = `
+          <div class="item">
+            <div class="item-top"><div class="item-title">Mission Runtime</div><span class="tag live">Active</span></div>
+            <div class="item-meta">
+              <div>Commander cycle: every 30 sec in demo</div>
+              <div>Assignments: ${taskCount}</div>
+              <div>Completed: ${state.completedTasks}</div>
+            </div>
+            <div class="mini-bar"><span style="width:${progress}%"></span></div>
+          </div>
+          <div class="item">
+            <div class="item-top"><div class="item-title">Next Orders</div><span class="tag command">Pending</span></div>
+            <div class="item-meta"><div>${state.commander.nextOrder}</div></div>
+          </div>
+        `;
       }
 
       function renderYesterdayNotes() {
-        $('yesterdayNotesList').innerHTML = yesterdayNotes.map((note) => `<div class="item">${note}</div>`).join('');
-      }
-
-      function renderDamage() {
-        $('damageValue').textContent = String(state.totalDamage);
-        $('unitsOnlineValue').textContent = String(agents.length);
-      }
-
-      function pushLog(text) {
-        state.logs.unshift(text);
-        state.logs = state.logs.slice(0, 8);
-      }
-
-      function tickLoop() {
-        const boss = currentBoss();
-        const agent = rand(agents);
-        const nextZone = rand(Object.keys(zonePositions));
-        agent.zone = nextZone;
-        agent.status = rand(actionPool[nextZone]);
-        agent.bubble = rand(bubblesByZone[nextZone]);
-
-        let damage = 0;
-        if (boss.hp > 0) {
-          damage = Math.floor(Math.random() * 10) + 4;
-          boss.hp = Math.max(0, boss.hp - damage);
-          state.totalDamage += damage;
-        }
-
-        const effect = boss.hp === 0
-          ? `${agent.name} добил босса «${boss.title}» → BOSS DOWN`
-          : `${agent.name} ${agent.status} → Boss HP -${damage}`;
-        pushLog(effect);
-
-        if (boss.hp === 0) {
-          boss.phases = ['Completed'];
-          yesterdayNotes.unshift(`Босс «${boss.title}» побеждён. Финальный артефакт упакован.`);
-          yesterdayNotes.splice(4);
-        }
-
-        renderAll();
-      }
-
-      function shuffleBoss() {
-        state.bossIndex = (state.bossIndex + 1) % bosses.length;
-        renderAll();
+        $('yesterdayNotesList').innerHTML = state.yesterdayNotes.map((note) => `<div class="item">${note}</div>`).join('');
       }
 
       function renderAll() {
+        renderSummary();
         renderBoss();
-        renderQueue();
+        renderCommanderPanel();
         renderAgents();
-        renderLogs();
+        renderCommanderLog();
+        renderSubtasks();
+        renderQueue();
         renderYesterdayNotes();
-        renderDamage();
       }
 
-      $('tickBoss').addEventListener('click', tickLoop);
-      $('shuffleBoss').addEventListener('click', shuffleBoss);
+      function pushCommanderLog(text) {
+        state.commanderLog.unshift(text);
+        state.commanderLog = state.commanderLog.slice(0, 10);
+      }
+
+      function createMissionFromInputs() {
+        const title = $('missionInput').value.trim() || 'Новая миссия';
+        const type = $('missionType').value;
+        const difficulty = $('missionDifficulty').value;
+        const reward = type === 'Sales'
+          ? 'Лиды + контакты + outreach kit'
+          : type === 'Research'
+          ? 'Summary + таблица + выводы'
+          : type === 'Ops'
+          ? 'SOP + процессы + блокеры'
+          : 'Контент + hooks + план';
+
+        state.mission = {
+          title,
+          type,
+          difficulty,
+          reward,
+          hp: 100,
+          maxHp: 100,
+          phase: 'Breakdown → Assign → Review → Package',
+          active: true,
+        };
+
+        const template = taskTemplates[type] || taskTemplates.Marketing;
+        state.subtasks = template.map((task, index) => ({
+          id: index + 1,
+          agent: task.agent.charAt(0).toUpperCase() + task.agent.slice(1),
+          text: task.action,
+          status: index === 0 ? 'active' : 'queued',
+        }));
+        state.completedTasks = 0;
+        state.totalTasks = state.subtasks.length;
+        state.commander = {
+          mode: 'Assigning',
+          currentOrder: `Commander разбивает миссию «${title}» и раздаёт стартовые приказы.` ,
+          lastReview: 'только что',
+          nextOrder: 'Через check-in собрать статусы и открыть следующую фазу.',
+          secondsToCheckin: 30,
+        };
+
+        agents.forEach((agent) => {
+          if (agent.id === 'commander') {
+            agent.zone = 'command';
+            agent.status = 'Назначает стартовые задачи';
+            agent.bubble = 'Разворачиваю миссию…';
+            agent.currentTask = 'Mission breakdown';
+            return;
+          }
+          const task = template.find((t) => t.agent === agent.id);
+          if (!task) return;
+          agent.zone = task.zone;
+          agent.status = indexLabel(task.action);
+          agent.currentTask = task.action;
+          agent.bubble = `Принял: ${shorten(task.action)}`;
+          agent.done = 0;
+        });
+
+        state.yesterdayNotes.unshift(`Создана новая миссия: ${title}`);
+        state.yesterdayNotes = state.yesterdayNotes.slice(0, 4);
+        pushCommanderLog(`Commander принял новую миссию: ${title}.`);
+        renderAll();
+      }
+
+      function shorten(text) {
+        return text.length > 24 ? `${text.slice(0, 24)}…` : text;
+      }
+
+      function indexLabel(text) {
+        if (/собрать|найти|поднять/i.test(text)) return 'Работает в поле';
+        if (/напис|собрал|оффер|summary/i.test(text)) return 'Готовит артефакт';
+        if (/разлож|маршру|процесс|SOP/i.test(text)) return 'Оркестрирует';
+        if (/выдел|таблиц|анализ/i.test(text)) return 'Анализирует';
+        return 'Исполняет приказ';
+      }
+
+      function runCheckin() {
+        if (!state.mission.active) return;
+
+        state.commander.mode = 'Reviewing';
+        state.commander.lastReview = 'только что';
+        state.commander.secondsToCheckin = 30;
+        const activeTask = state.subtasks.find((t) => t.status === 'active');
+
+        const commander = agentById('commander');
+        commander.bubble = rand(commanderBubbles);
+        commander.status = 'Собирает статусы отряда';
+        commander.currentTask = 'Check-in cycle';
+        commander.zone = 'command';
+
+        if (activeTask) {
+          const taskOwner = agentById(activeTask.agent.toLowerCase());
+          if (taskOwner) {
+            taskOwner.done += 1;
+            const damage = rand([7, 8, 9, 10, 12]);
+            state.mission.hp = Math.max(0, state.mission.hp - damage);
+            activeTask.status = 'done';
+            state.completedTasks += 1;
+            taskOwner.status = 'Завершил этап';
+            taskOwner.bubble = `Готово: -${damage} HP`;
+            pushCommanderLog(`${taskOwner.name} закрыл подзадачу «${activeTask.text}» → Boss HP -${damage}.`);
+
+            const nextTask = state.subtasks.find((t) => t.status === 'queued');
+            if (nextTask) {
+              nextTask.status = 'active';
+              const nextAgent = agentById(nextTask.agent.toLowerCase());
+              if (nextAgent) {
+                const template = (taskTemplates[state.mission.type] || taskTemplates.Marketing).find((t) => t.agent === nextAgent.id);
+                nextAgent.zone = template ? template.zone : nextAgent.zone;
+                nextAgent.status = indexLabel(nextTask.text);
+                nextAgent.currentTask = nextTask.text;
+                nextAgent.bubble = `Новый приказ: ${shorten(nextTask.text)}`;
+              }
+              state.commander.currentOrder = `${nextTask.agent} получает следующий приказ: ${nextTask.text}`;
+              state.commander.nextOrder = 'После следующего check-in оценить блокеры и подготовить упаковку.';
+              pushCommanderLog(`Commander выдал новый приказ ${nextTask.agent}: ${nextTask.text}.`);
+            } else {
+              state.commander.currentOrder = 'Все подзадачи закрыты. Переходим к финальной упаковке.';
+              state.commander.nextOrder = 'Закрыть миссию и выдать финальный артефакт.';
+            }
+          }
+        }
+
+        if (state.mission.hp === 0 || state.completedTasks >= state.subtasks.length) {
+          state.mission.hp = 0;
+          state.mission.active = false;
+          state.commander.mode = 'Mission Complete';
+          state.commander.currentOrder = 'Миссия закрыта. Отряд возвращается с результатом.';
+          state.commander.nextOrder = 'Создать следующую миссию.';
+          pushCommanderLog(`Commander закрыл миссию «${state.mission.title}». Финальный артефакт готов.`);
+          state.yesterdayNotes.unshift(`Миссия завершена: ${state.mission.title}`);
+          state.yesterdayNotes = state.yesterdayNotes.slice(0, 4);
+        }
+
+        renderAll();
+      }
+
+      function tickTimer() {
+        if (state.commander.secondsToCheckin > 0 && state.mission.active) {
+          state.commander.secondsToCheckin -= 1;
+          renderSummary();
+          return;
+        }
+        if (state.mission.active) runCheckin();
+      }
+
+      $('createMissionBtn').addEventListener('click', createMissionFromInputs);
+      $('assignMissionBtn').addEventListener('click', createMissionFromInputs);
+      $('forceCheckinBtn').addEventListener('click', runCheckin);
 
       renderAll();
-      setInterval(tickLoop, 3200);
+      setInterval(tickTimer, 1000);
     </script>
   </body>
 </html>
