@@ -207,17 +207,17 @@
 
       <section class="summary">
         <article class="summary-card"><div class="label">Текущая миссия</div><div class="value" id="missionStatusValue">В РАБОТЕ</div><div class="sub" id="missionStatusSub">Контент-план на 30 дней</div></article>
-        <article class="summary-card"><div class="label">Следующий check-in</div><div class="value" id="nextCheckinValue">00:28</div><div class="sub">Командир refresh cycle</div></article>
+        <article class="summary-card"><div class="label">Следующий check-in</div><div class="value" id="nextCheckinValue">00:28</div><div class="sub">Когда командир снова проверит всех</div></article>
         <article class="summary-card"><div class="label">Выполнено подзадач</div><div class="value" id="completedTasksValue">6</div><div class="sub">Из назначенных шагов</div></article>
-        <article class="summary-card"><div class="label">Boss HP</div><div class="value" id="bossPercentValue">72%</div><div class="sub">Остаток работы по миссии</div></article>
-        <article class="summary-card"><div class="label">Блокеры</div><div class="value" id="blockerCountValue">0</div><div class="sub">Ручные и автоматические эскалации</div></article>
+        <article class="summary-card"><div class="label">Boss HP</div><div class="value" id="bossPercentValue">72%</div><div class="sub">Сколько ещё осталось добить</div></article>
+        <article class="summary-card"><div class="label">Блокеры</div><div class="value" id="blockerCountValue">0</div><div class="sub">Что мешает задаче двигаться</div></article>
       </section>
 
       <section class="grid">
         <div class="main-stack">
           <article class="card">
             <div class="section-head">
-              <div class="section-title">Поставить миссию</div>
+              <div class="section-title">Дать новую задачу</div>
               <span class="tag command">Ввод командира</span>
             </div>
             <div class="mission-form">
@@ -256,7 +256,7 @@
 
           <article class="card">
             <div class="section-head">
-              <div class="section-title">Живой рантайм</div>
+              <div class="section-title">Что происходит сейчас</div>
               <span class="tag live">● ЦИКЛ КОМАНДИРА</span>
             </div>
 
@@ -304,7 +304,7 @@
 
           <article class="card">
             <div class="section-head">
-              <div class="section-title">Журнал командира</div>
+              <div class="section-title">Что меняется по ходу миссии</div>
               <span class="tag">Чек-ины и приказы</span>
             </div>
             <div class="log-list" id="commanderLog"></div>
@@ -313,17 +313,17 @@
 
         <div class="side-stack">
           <article class="card">
-            <div class="section-head"><div class="section-title">Отряд</div><span class="tag">Статус отряда</span></div>
+            <div class="section-head"><div class="section-title">Кто чем занят</div><span class="tag">Статус отряда</span></div>
             <div class="agent-list" id="agentStatusList"></div>
           </article>
 
           <article class="card">
-            <div class="section-head"><div class="section-title">Подзадачи</div><span class="tag warn">Назначения</span></div>
+            <div class="section-head"><div class="section-title">Что делают агенты</div><span class="tag warn">Назначения</span></div>
             <div class="orders-list" id="subtaskList"></div>
           </article>
 
           <article class="card">
-            <div class="section-head"><div class="section-title">Блокеры / эскалации</div><span class="tag warn">Эскалации</span></div>
+            <div class="section-head"><div class="section-title">Проблемы и блокеры</div><span class="tag warn">Эскалации</span></div>
             <div class="blocker-list" id="blockerList"></div>
           </article>
 
@@ -333,7 +333,7 @@
           </article>
 
           <article class="card">
-            <div class="section-head"><div class="section-title">Yesterday Notes</div><span class="tag warn">Память дня</span></div>
+            <div class="section-head"><div class="section-title">Что было до этого</div><span class="tag warn">Память дня</span></div>
             <div class="notes-list" id="yesterdayNotesList"></div>
           </article>
         </div>
@@ -564,7 +564,7 @@
         const progress = Math.min(100, Math.round((state.completedTasks / Math.max(state.subtasks.length, 1)) * 100));
         $('missionQueue').innerHTML = `
           <div class="item">
-            <div class="item-top"><div class="item-title">Рантайм миссии</div><span class="tag live">Активно</span></div>
+            <div class="item-top"><div class="item-title">Прогресс миссии</div><span class="tag live">Активно</span></div>
             <div class="item-meta">
               <div>Командир cycle: every 30 sec in demo</div>
               <div>Назначения: ${state.subtasks.length}</div>
@@ -573,7 +573,7 @@
             <div class="mini-bar"><span style="width:${progress}%"></span></div>
           </div>
           <div class="item">
-            <div class="item-top"><div class="item-title">Следующие приказы</div><span class="tag command">Ожидает</span></div>
+            <div class="item-top"><div class="item-title">Следующий шаг</div><span class="tag command">Ожидает</span></div>
             <div class="item-meta"><div>${state.commander.nextOrder}</div></div>
           </div>
         `;
@@ -788,7 +788,7 @@
           state.mission.hp = 0;
           state.mission.активно = false;
           state.commander.mode = 'Миссия завершена';
-          state.commander.currentOrder = 'Миссия закрыта. Отряд возвращается с результатом.';
+          state.commander.currentOrder = 'Миссия закрыта. Кто чем занят возвращается с результатом.';
           state.commander.nextOrder = 'Создать следующую миссию.';
           state.commander.lastEscalation = 'Все blockers закрыты.';
           pushCommanderLog(`Командир закрыл миссию «${state.mission.title}». Финальный артефакт готов.`);
