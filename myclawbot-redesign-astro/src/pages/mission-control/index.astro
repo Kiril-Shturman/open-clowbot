@@ -5,7 +5,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Mission Control — Commander Runtime</title>
+    <title>Центр миссий — Командир Runtime</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -192,25 +192,25 @@
         <div class="brand">
           <div class="brand-mark">OC</div>
           <div>
-            <div class="eyebrow">Commander Runtime / Persistent State</div>
-            <div class="title">Mission Control</div>
+            <div class="eyebrow">Рантайм командира / сохранение состояния</div>
+            <div class="title">Центр миссий</div>
             <div class="subtitle">Теперь это уже не одноразовый демо-loop: есть history миссий, блокеры, эскалации, ручные команды командира и сохранение state в браузере.</div>
           </div>
         </div>
         <div class="top-actions">
-          <button class="btn" id="exportStateBtn">Export State</button>
-          <button class="btn warn" id="raiseBlockerBtn">Raise Blocker</button>
-          <button class="btn" id="forceCheckinBtn">Force Check-in</button>
-          <button class="btn primary" id="assignMissionBtn">Start Mission</button>
+          <button class="btn" id="exportStateBtn">Экспорт состояния</button>
+          <button class="btn warn" id="raiseBlockerBtn">Поднять блокер</button>
+          <button class="btn" id="forceCheckinBtn">Форс-чек-ин</button>
+          <button class="btn primary" id="assignMissionBtn">Запустить миссию</button>
         </div>
       </section>
 
       <section class="summary">
-        <article class="summary-card"><div class="label">Текущая миссия</div><div class="value" id="missionStatusValue">LIVE</div><div class="sub" id="missionStatusSub">Контент-план на 30 дней</div></article>
-        <article class="summary-card"><div class="label">Следующий check-in</div><div class="value" id="nextCheckinValue">00:28</div><div class="sub">Commander refresh cycle</div></article>
+        <article class="summary-card"><div class="label">Текущая миссия</div><div class="value" id="missionStatusValue">В РАБОТЕ</div><div class="sub" id="missionStatusSub">Контент-план на 30 дней</div></article>
+        <article class="summary-card"><div class="label">Следующий check-in</div><div class="value" id="nextCheckinValue">00:28</div><div class="sub">Командир refresh cycle</div></article>
         <article class="summary-card"><div class="label">Выполнено подзадач</div><div class="value" id="completedTasksValue">6</div><div class="sub">Из назначенных шагов</div></article>
         <article class="summary-card"><div class="label">Boss HP</div><div class="value" id="bossPercentValue">72%</div><div class="sub">Остаток работы по миссии</div></article>
-        <article class="summary-card"><div class="label">Blockers</div><div class="value" id="blockerCountValue">0</div><div class="sub">Ручные и автоматические эскалации</div></article>
+        <article class="summary-card"><div class="label">Блокеры</div><div class="value" id="blockerCountValue">0</div><div class="sub">Ручные и автоматические эскалации</div></article>
       </section>
 
       <section class="grid">
@@ -218,7 +218,7 @@
           <article class="card">
             <div class="section-head">
               <div class="section-title">Поставить миссию</div>
-              <span class="tag command">Commander input</span>
+              <span class="tag command">Ввод командира</span>
             </div>
             <div class="mission-form">
               <div class="field">
@@ -228,18 +228,18 @@
               <div class="field">
                 <label class="label" for="missionType">Тип босса</label>
                 <select id="missionType" class="select">
-                  <option value="Marketing">Marketing</option>
-                  <option value="Sales">Sales</option>
-                  <option value="Research">Research</option>
-                  <option value="Ops">Ops</option>
+                  <option value="Маркетинг">Маркетинг</option>
+                  <option value="Продажи">Продажи</option>
+                  <option value="Исследование">Исследование</option>
+                  <option value="Операционка">Операционка</option>
                 </select>
               </div>
               <div class="field">
                 <label class="label" for="missionDifficulty">Сложность</label>
                 <select id="missionDifficulty" class="select">
-                  <option value="Hard">Hard</option>
-                  <option value="Epic" selected>Epic</option>
-                  <option value="Legendary">Legendary</option>
+                  <option value="Сложная">Сложная</option>
+                  <option value="Эпическая" selected>Эпическая</option>
+                  <option value="Легендарная">Легендарная</option>
                 </select>
               </div>
               <div class="field">
@@ -248,32 +248,32 @@
               </div>
             </div>
             <div class="control-buttons" style="margin-top:12px;">
-              <button class="btn" id="reassignBtn">Commander: Reassign Task</button>
-              <button class="btn warn" id="resolveBlockerBtn">Commander: Resolve Blocker</button>
+              <button class="btn" id="reassignBtn">Командир: переназначить задачу</button>
+              <button class="btn warn" id="resolveBlockerBtn">Командир: снять блокер</button>
             </div>
             <div class="footer-note">Дальше это можно уже привязывать к реальным OpenClaw-задачам. Пока сохраняем runtime/history в localStorage, чтобы миссии не умирали от перезагрузки страницы.</div>
           </article>
 
           <article class="card">
             <div class="section-head">
-              <div class="section-title">Живой runtime</div>
-              <span class="tag live">● COMMAND LOOP</span>
+              <div class="section-title">Живой рантайм</div>
+              <span class="tag live">● ЦИКЛ КОМАНДИРА</span>
             </div>
 
             <div class="control-grid">
               <div class="office">
-                <div class="zone command"><h3>Command Desk</h3><p>Командир собирает статусы, назначает задачи, делает review и даёт next orders.</p></div>
-                <div class="zone research"><h3>Research Zone</h3><p>Поиск источников, конкурентов, кейсов и рыночной информации.</p></div>
-                <div class="zone writing"><h3>Writing Desk</h3><p>Посты, summaries, офферы, тексты, сценарии и финальные драфты.</p></div>
-                <div class="zone war"><h3>Boss Arena</h3><p>Главная миссия. Когда подзадачи закрываются, HP босса падает.</p></div>
-                <div class="zone ops"><h3>Ops Desk</h3><p>Контроль статусов, роутинг, блокеры, check-ins.</p></div>
-                <div class="zone memory"><h3>Memory Vault</h3><p>Артефакты, выводы, итоговые отчёты и вчерашние заметки.</p></div>
+                <div class="zone command"><h3>Командный центр</h3><p>Командир собирает статусы, назначает задачи, делает review и даёт next orders.</p></div>
+                <div class="zone research"><h3>Исследование Zone</h3><p>Поиск источников, конкурентов, кейсов и рыночной информации.</p></div>
+                <div class="zone writing"><h3>Стол письма</h3><p>Посты, summaries, офферы, тексты, сценарии и финальные драфты.</p></div>
+                <div class="zone war"><h3>Арена босса</h3><p>Главная миссия. Когда подзадачи закрываются, HP босса падает.</p></div>
+                <div class="zone ops"><h3>Операционка Desk</h3><p>Контроль статусов, роутинг, блокеры, check-ins.</p></div>
+                <div class="zone memory"><h3>Хранилище памяти</h3><p>Артефакты, выводы, итоговые отчёты и вчерашние заметки.</p></div>
 
                 <div class="boss-card">
                   <div class="boss-type" id="bossType">BOSS / MARKETING RAID</div>
                   <div class="boss-title" id="bossTitle">Контент-план на 30 дней</div>
                   <div class="boss-meta">
-                    <div id="bossDifficulty">Сложность: Epic</div>
+                    <div id="bossDifficulty">Сложность: Эпическая</div>
                     <div id="bossReward">Награда: 30 тем + рубрикатор + hooks</div>
                     <div id="bossPhase">Фаза: Breakdown → Assign → Review → Package</div>
                   </div>
@@ -289,8 +289,8 @@
               <div class="mission-stack">
                 <div class="commander-card">
                   <div class="section-head" style="margin-bottom:8px;">
-                    <div class="section-title" style="font-size:18px;">Commander</div>
-                    <span class="tag command" id="commanderMode">Reviewing</span>
+                    <div class="section-title" style="font-size:18px;">Командир</div>
+                    <span class="tag command" id="commanderMode">Проверяет</span>
                   </div>
                   <div class="commander-line"><strong>Текущий приказ:</strong> <span id="currentOrder">Scout собирает источники, Analyst готовит framework, Writer ждёт input.</span></div>
                   <div class="commander-line"><strong>Последний обзор:</strong> <span id="lastReview">2 мин назад</span></div>
@@ -305,7 +305,7 @@
           <article class="card">
             <div class="section-head">
               <div class="section-title">Журнал командира</div>
-              <span class="tag">Check-ins & orders</span>
+              <span class="tag">Чек-ины и приказы</span>
             </div>
             <div class="log-list" id="commanderLog"></div>
           </article>
@@ -313,27 +313,27 @@
 
         <div class="side-stack">
           <article class="card">
-            <div class="section-head"><div class="section-title">Отряд</div><span class="tag">Squad status</span></div>
+            <div class="section-head"><div class="section-title">Отряд</div><span class="tag">Статус отряда</span></div>
             <div class="agent-list" id="agentStatusList"></div>
           </article>
 
           <article class="card">
-            <div class="section-head"><div class="section-title">Подзадачи</div><span class="tag warn">Assignments</span></div>
+            <div class="section-head"><div class="section-title">Подзадачи</div><span class="tag warn">Назначения</span></div>
             <div class="orders-list" id="subtaskList"></div>
           </article>
 
           <article class="card">
-            <div class="section-head"><div class="section-title">Блокеры / эскалации</div><span class="tag warn">Escalation</span></div>
+            <div class="section-head"><div class="section-title">Блокеры / эскалации</div><span class="tag warn">Эскалации</span></div>
             <div class="blocker-list" id="blockerList"></div>
           </article>
 
           <article class="card">
-            <div class="section-head"><div class="section-title">History миссий</div><span class="tag">Persistence</span></div>
+            <div class="section-head"><div class="section-title">History миссий</div><span class="tag">Сохранение</span></div>
             <div class="history-list" id="historyList"></div>
           </article>
 
           <article class="card">
-            <div class="section-head"><div class="section-title">Yesterday Notes</div><span class="tag warn">Daily memory</span></div>
+            <div class="section-head"><div class="section-title">Yesterday Notes</div><span class="tag warn">Память дня</span></div>
             <div class="notes-list" id="yesterdayNotesList"></div>
           </article>
         </div>
@@ -353,28 +353,28 @@
       };
 
       const taskTemplates = {
-        Marketing: [
+        Маркетинг: [
           { agent: 'scout', action: 'Собрать 12 конкурентных каналов', zone: 'research', damage: 8 },
           { agent: 'analyst', action: 'Выделить паттерны форматов', zone: 'war', damage: 10 },
           { agent: 'writer', action: 'Собрать 15 заголовков', zone: 'writing', damage: 9 },
           { agent: 'operator', action: 'Разложить календарь публикаций', zone: 'ops', damage: 7 },
           { agent: 'closer', action: 'Упаковать финальный план', zone: 'memory', damage: 12 },
         ],
-        Sales: [
+        Продажи: [
           { agent: 'scout', action: 'Поднять 50 потенциальных лидов', zone: 'research', damage: 9 },
           { agent: 'analyst', action: 'Квалифицировать сегменты', zone: 'war', damage: 8 },
           { agent: 'writer', action: 'Подготовить outreach-сообщения', zone: 'writing', damage: 8 },
           { agent: 'operator', action: 'Распределить лидов по приоритету', zone: 'ops', damage: 6 },
           { agent: 'closer', action: 'Собрать базу к выдаче', zone: 'memory', damage: 12 },
         ],
-        Research: [
+        Исследование: [
           { agent: 'scout', action: 'Собрать 10 источников', zone: 'research', damage: 8 },
           { agent: 'analyst', action: 'Построить таблицу сравнений', zone: 'war', damage: 10 },
           { agent: 'writer', action: 'Написать summary и выводы', zone: 'writing', damage: 8 },
           { agent: 'operator', action: 'Синхронизировать findings', zone: 'ops', damage: 6 },
           { agent: 'closer', action: 'Собрать финальный отчёт', zone: 'memory', damage: 12 },
         ],
-        Ops: [
+        Операционка: [
           { agent: 'scout', action: 'Собрать входные условия', zone: 'research', damage: 6 },
           { agent: 'analyst', action: 'Выявить узкие места', zone: 'war', damage: 8 },
           { agent: 'writer', action: 'Собрать SOP', zone: 'writing', damage: 7 },
@@ -384,27 +384,27 @@
       };
 
       const baseAgents = [
-        { id: 'commander', name: 'Commander', role: 'Raid Leader', className: 'commander', zone: 'command', status: 'Делит миссию', bubble: 'Собираю отряд…', currentTask: 'Break mission into subtasks', done: 0 },
-        { id: 'scout', name: 'Scout', role: 'Discovery', className: 'scout', zone: 'research', status: 'Ждёт приказ', bubble: 'Жду цель…', currentTask: 'Stand by', done: 0 },
-        { id: 'analyst', name: 'Analyst', role: 'Patterns', className: 'analyst', zone: 'war', status: 'Ждёт приказ', bubble: 'Жду данные…', currentTask: 'Stand by', done: 0 },
-        { id: 'writer', name: 'Writer', role: 'Drafts', className: 'writer', zone: 'writing', status: 'Ждёт приказ', bubble: 'Готов писать…', currentTask: 'Stand by', done: 0 },
-        { id: 'operator', name: 'Operator', role: 'Control', className: 'operator', zone: 'ops', status: 'Ждёт приказ', bubble: 'Контур пуст…', currentTask: 'Stand by', done: 0 },
-        { id: 'closer', name: 'Closer', role: 'Packaging', className: 'closer', zone: 'memory', status: 'Ждёт приказ', bubble: 'Жду финал…', currentTask: 'Stand by', done: 0 },
+        { id: 'commander', name: 'Командир', role: 'Командир отряда', className: 'commander', zone: 'command', status: 'Делит миссию', bubble: 'Собираю отряд…', currentTask: 'Разбить миссию на подзадачи', done: 0 },
+        { id: 'scout', name: 'Scout', role: 'Разведка', className: 'scout', zone: 'research', status: 'Ждёт приказ', bubble: 'Жду цель…', currentTask: 'Ожидание', done: 0 },
+        { id: 'analyst', name: 'Analyst', role: 'Паттерны', className: 'analyst', zone: 'war', status: 'Ждёт приказ', bubble: 'Жду данные…', currentTask: 'Ожидание', done: 0 },
+        { id: 'writer', name: 'Writer', role: 'Черновики', className: 'writer', zone: 'writing', status: 'Ждёт приказ', bubble: 'Готов писать…', currentTask: 'Ожидание', done: 0 },
+        { id: 'operator', name: 'Operator', role: 'Контроль', className: 'operator', zone: 'ops', status: 'Ждёт приказ', bubble: 'Контур пуст…', currentTask: 'Ожидание', done: 0 },
+        { id: 'closer', name: 'Closer', role: 'Упаковка', className: 'closer', zone: 'memory', status: 'Ждёт приказ', bubble: 'Жду финал…', currentTask: 'Ожидание', done: 0 },
       ];
 
       const defaultState = {
         mission: {
           title: 'Контент-план на 30 дней',
-          type: 'Marketing',
-          difficulty: 'Epic',
+          type: 'Маркетинг',
+          difficulty: 'Эпическая',
           reward: '30 тем + рубрикатор + hooks',
           hp: 72,
           maxHp: 100,
           phase: 'Breakdown → Assign → Review → Package',
-          active: true,
+          активно: true,
         },
         commander: {
-          mode: 'Reviewing',
+          mode: 'Проверяет',
           currentOrder: 'Scout собирает источники, Analyst готовит framework, Writer ждёт input.',
           lastReview: '2 мин назад',
           nextOrder: 'После check-in раздать drafting tasks.',
@@ -414,13 +414,13 @@
         completedTasks: 2,
         totalTasks: 5,
         commanderLog: [
-          'Commander принял миссию и разбил её на 5 стартовых подзадач.',
-          'Commander отправил Scout в research, Analyst — в boss arena.',
-          'Commander провёл review и выдал next order для Writer.',
+          'Командир принял миссию и разбил её на 5 стартовых подзадач.',
+          'Командир отправил Scout в research, Analyst — в boss arena.',
+          'Командир провёл review и выдал next order для Writer.',
         ],
         subtasks: [
-          { id: 1, agent: 'Scout', text: 'Собрать 12 каналов', status: 'done' },
-          { id: 2, agent: 'Analyst', text: 'Выделить 6 паттернов', status: 'done' },
+          { id: 1, agent: 'Scout', text: 'Собрать 12 каналов', status: 'сделано' },
+          { id: 2, agent: 'Analyst', text: 'Выделить 6 паттернов', status: 'сделано' },
           { id: 3, agent: 'Writer', text: 'Собрать 15 заголовков', status: 'active' },
           { id: 4, agent: 'Operator', text: 'Собрать publishing map', status: 'queued' },
           { id: 5, agent: 'Closer', text: 'Подготовить итоговую выдачу', status: 'queued' },
@@ -428,7 +428,7 @@
         blockers: [],
         history: [],
         yesterdayNotes: [
-          'Commander завершил рейд по конкурентам и упаковал summary.',
+          'Командир завершил рейд по конкурентам и упаковал summary.',
           'Scout нашёл 27 новых источников по AI/automation.',
           'Writer собрал 34 рабочих темы под предпринимателей.',
           'Closer оформил 3 финальных артефакта для выдачи.',
@@ -480,7 +480,7 @@
         state.commanderLog = state.commanderLog.slice(0, 12);
       }
 
-      function persistMissionToHistory(status = 'completed') {
+      function persistMissionToHistory(status = 'завершено') {
         state.history.unshift({
           title: state.mission.title,
           type: state.mission.type,
@@ -494,7 +494,7 @@
       }
 
       function renderSummary() {
-        $('missionStatusValue').textContent = state.mission.active ? 'LIVE' : 'DONE';
+        $('missionStatusValue').textContent = state.mission.активно ? 'В РАБОТЕ' : 'ГОТОВО';
         $('missionStatusSub').textContent = state.mission.title;
         $('nextCheckinValue').textContent = humanTime(state.commander.secondsToCheckin);
         $('completedTasksValue').textContent = String(state.completedTasks);
@@ -537,7 +537,7 @@
 
         $('agentStatusList').innerHTML = state.agents.map((agent) => `
           <div class="item">
-            <div class="item-top"><div class="item-title">${agent.name}</div><span class="tag ${agent.id === 'commander' ? 'command' : agent.currentTask !== 'Stand by' ? 'live' : ''}">${agent.zone}</span></div>
+            <div class="item-top"><div class="item-title">${agent.name}</div><span class="tag ${agent.id === 'commander' ? 'command' : agent.currentTask !== 'Ожидание' ? 'live' : ''}">${agent.zone}</span></div>
             <div class="item-meta">
               <div>Роль: ${agent.role}</div>
               <div>Статус: ${agent.status}</div>
@@ -564,16 +564,16 @@
         const progress = Math.min(100, Math.round((state.completedTasks / Math.max(state.subtasks.length, 1)) * 100));
         $('missionQueue').innerHTML = `
           <div class="item">
-            <div class="item-top"><div class="item-title">Mission Runtime</div><span class="tag live">Active</span></div>
+            <div class="item-top"><div class="item-title">Рантайм миссии</div><span class="tag live">Активно</span></div>
             <div class="item-meta">
-              <div>Commander cycle: every 30 sec in demo</div>
-              <div>Assignments: ${state.subtasks.length}</div>
+              <div>Командир cycle: every 30 sec in demo</div>
+              <div>Назначения: ${state.subtasks.length}</div>
               <div>Completed: ${state.completedTasks}</div>
             </div>
             <div class="mini-bar"><span style="width:${progress}%"></span></div>
           </div>
           <div class="item">
-            <div class="item-top"><div class="item-title">Next Orders</div><span class="tag command">Pending</span></div>
+            <div class="item-top"><div class="item-title">Следующие приказы</div><span class="tag command">Ожидает</span></div>
             <div class="item-meta"><div>${state.commander.nextOrder}</div></div>
           </div>
         `;
@@ -583,7 +583,7 @@
         $('blockerList').innerHTML = state.blockers.length
           ? state.blockers.map((blocker) => `
               <div class="item">
-                <div class="item-top"><div class="item-title">${blocker.agent}</div><span class="tag warn">blocked</span></div>
+                <div class="item-top"><div class="item-title">${blocker.agent}</div><span class="tag warn">заблокировано</span></div>
                 <div class="item-meta"><div>${blocker.reason}</div><div>${blocker.createdAt}</div></div>
               </div>
             `).join('')
@@ -624,7 +624,7 @@
           if (agent.id === 'commander') {
             agent.status = 'Назначает стартовые задачи';
             agent.bubble = 'Разворачиваю миссию…';
-            agent.currentTask = 'Mission breakdown';
+            agent.currentTask = 'Разбор миссии';
             return agent;
           }
           const task = template.find((t) => t.agent === agent.id);
@@ -638,28 +638,28 @@
       }
 
       function createMissionFromInputs() {
-        if (state.mission.active) persistMissionToHistory('replaced');
+        if (state.mission.активно) persistMissionToHistory('заменено');
 
         const title = $('missionInput').value.trim() || 'Новая миссия';
         const type = $('missionType').value;
         const difficulty = $('missionDifficulty').value;
-        const reward = type === 'Sales'
+        const reward = type === 'Продажи'
           ? 'Лиды + контакты + outreach kit'
-          : type === 'Research'
+          : type === 'Исследование'
           ? 'Summary + таблица + выводы'
-          : type === 'Ops'
+          : type === 'Операционка'
           ? 'SOP + процессы + блокеры'
           : 'Контент + hooks + план';
 
-        state.mission = { title, type, difficulty, reward, hp: 100, maxHp: 100, phase: 'Breakdown → Assign → Review → Package', active: true };
-        const template = taskTemplates[type] || taskTemplates.Marketing;
-        state.subtasks = template.map((task, index) => ({ id: index + 1, agent: task.agent.charAt(0).toUpperCase() + task.agent.slice(1), text: task.action, status: index === 0 ? 'active' : 'queued' }));
+        state.mission = { title, type, difficulty, reward, hp: 100, maxHp: 100, phase: 'Breakdown → Assign → Review → Package', активно: true };
+        const template = taskTemplates[type] || taskTemplates.Маркетинг;
+        state.subtasks = template.map((task, index) => ({ id: index + 1, agent: task.agent.charAt(0).toUpperCase() + task.agent.slice(1), text: task.action, status: index === 0 ? 'активно' : 'в очереди' }));
         state.completedTasks = 0;
         state.totalTasks = state.subtasks.length;
         state.blockers = [];
         state.commander = {
-          mode: 'Assigning',
-          currentOrder: `Commander разбивает миссию «${title}» и раздаёт стартовые приказы.`,
+          mode: 'Назначает',
+          currentOrder: `Командир разбивает миссию «${title}» и раздаёт стартовые приказы.`,
           lastReview: 'только что',
           nextOrder: 'Через check-in собрать статусы и открыть следующую фазу.',
           lastEscalation: 'Нет активных блокеров.',
@@ -668,12 +668,12 @@
         resetAgents(template);
         state.yesterdayNotes.unshift(`Создана новая миссия: ${title}`);
         state.yesterdayNotes = state.yesterdayNotes.slice(0, 4);
-        pushCommanderLog(`Commander принял новую миссию: ${title}.`);
+        pushCommanderLog(`Командир принял новую миссию: ${title}.`);
         renderAll();
       }
 
       function raiseBlocker() {
-        const candidates = state.agents.filter((a) => a.id !== 'commander' && a.currentTask !== 'Stand by');
+        const candidates = state.agents.filter((a) => a.id !== 'commander' && a.currentTask !== 'Ожидание');
         const target = candidates.length ? rand(candidates) : agentById('scout');
         const blocker = {
           id: Date.now(),
@@ -686,14 +686,14 @@
         target.status = 'Застрял / ждёт решения';
         target.bubble = 'Нужна помощь';
         state.commander.lastEscalation = `${target.name}: ${blocker.reason}`;
-        state.commander.mode = 'Escalation';
-        pushCommanderLog(`Commander получил blocker от ${target.name}: ${blocker.reason}.`);
+        state.commander.mode = 'Эскалации';
+        pushCommanderLog(`Командир получил blocker от ${target.name}: ${blocker.reason}.`);
         renderAll();
       }
 
       function resolveBlocker() {
         if (!state.blockers.length) {
-          pushCommanderLog('Commander проверил blockers: активных проблем нет.');
+          pushCommanderLog('Командир проверил blockers: активных проблем нет.');
           renderAll();
           return;
         }
@@ -704,38 +704,38 @@
           agent.bubble = 'Продолжаю миссию';
         }
         state.commander.lastEscalation = `Решён blocker: ${blocker.agent}`;
-        state.commander.mode = 'Reassigning';
-        pushCommanderLog(`Commander снял blocker у ${blocker.agent} и вернул агента в миссию.`);
+        state.commander.mode = 'Переназначает';
+        pushCommanderLog(`Командир снял blocker у ${blocker.agent} и вернул агента в миссию.`);
         renderAll();
       }
 
       function reassignTask() {
-        const queued = state.subtasks.find((t) => t.status === 'queued');
-        if (!queued) {
-          pushCommanderLog('Commander попытался переназначить задачу, но queued steps не осталось.');
+        const queuedTask = state.subtasks.find((t) => t.status === 'queued');
+        if (!queuedTask) {
+          pushCommanderLog('Командир попытался переназначить задачу, но queued steps не осталось.');
           renderAll();
           return;
         }
-        const targetAgent = rand(state.agents.filter((a) => !['commander', queued.agent.toLowerCase()].includes(a.id)));
-        queued.agent = targetAgent.name;
-        targetAgent.currentTask = queued.text;
+        const targetAgent = rand(state.agents.filter((a) => !['commander', queuedTask.agent.toLowerCase()].includes(a.id)));
+        queuedTask.agent = targetAgent.name;
+        targetAgent.currentTask = queuedTask.text;
         targetAgent.status = 'Получил переназначение';
-        targetAgent.bubble = `Reassigned: ${shorten(queued.text)}`;
-        state.commander.mode = 'Reassigning';
-        state.commander.currentOrder = `${targetAgent.name} забирает задачу: ${queued.text}`;
-        pushCommanderLog(`Commander переназначил queued step на ${targetAgent.name}: ${queued.text}.`);
+        targetAgent.bubble = `Reassigned: ${shorten(queuedTask.text)}`;
+        state.commander.mode = 'Переназначает';
+        state.commander.currentOrder = `${targetAgent.name} забирает задачу: ${queuedTask.text}`;
+        pushCommanderLog(`Командир переназначил queued step на ${targetAgent.name}: ${queuedTask.text}.`);
         renderAll();
       }
 
       function runCheckin() {
-        if (!state.mission.active) return;
-        state.commander.mode = 'Reviewing';
+        if (!state.mission.активно) return;
+        state.commander.mode = 'Проверяет';
         state.commander.lastReview = 'только что';
         state.commander.secondsToCheckin = 30;
         const commander = agentById('commander');
         commander.bubble = rand(commanderBubbles);
         commander.status = 'Собирает статусы отряда';
-        commander.currentTask = 'Check-in cycle';
+        commander.currentTask = 'Цикл чек-ина';
         commander.zone = 'command';
 
         if (Math.random() < 0.18 && state.blockers.length < 2) {
@@ -746,7 +746,7 @@
         if (state.blockers.length) {
           state.commander.nextOrder = 'Сначала закрыть blocker, потом продолжить рейд.';
           state.commander.currentOrder = 'Командир приостанавливает прогресс и решает эскалацию.';
-          pushCommanderLog('Commander остановил продвижение миссии из-за активного blocker-а.');
+          pushCommanderLog('Командир остановил продвижение миссии из-за активного blocker-а.');
           renderAll();
           return;
         }
@@ -757,7 +757,7 @@
           if (taskOwner) {
             const damage = rand([7, 8, 9, 10, 12]);
             state.mission.hp = Math.max(0, state.mission.hp - damage);
-            activeTask.status = 'done';
+            activeTask.status = 'сделано';
             state.completedTasks += 1;
             taskOwner.status = 'Завершил этап';
             taskOwner.bubble = `Готово: -${damage} HP`;
@@ -765,10 +765,10 @@
 
             const nextTask = state.subtasks.find((t) => t.status === 'queued');
             if (nextTask) {
-              nextTask.status = 'active';
+              nextTask.status = 'активно';
               const nextAgent = state.agents.find((a) => a.name === nextTask.agent);
               if (nextAgent) {
-                const template = (taskTemplates[state.mission.type] || taskTemplates.Marketing).find((t) => t.action === nextTask.text || t.agent === nextAgent.id);
+                const template = (taskTemplates[state.mission.type] || taskTemplates.Маркетинг).find((t) => t.action === nextTask.text || t.agent === nextAgent.id);
                 nextAgent.zone = template ? template.zone : nextAgent.zone;
                 nextAgent.status = indexLabel(nextTask.text);
                 nextAgent.currentTask = nextTask.text;
@@ -776,7 +776,7 @@
               }
               state.commander.currentOrder = `${nextTask.agent} получает следующий приказ: ${nextTask.text}`;
               state.commander.nextOrder = 'После следующего check-in оценить блокеры и подготовить упаковку.';
-              pushCommanderLog(`Commander выдал новый приказ ${nextTask.agent}: ${nextTask.text}.`);
+              pushCommanderLog(`Командир выдал новый приказ ${nextTask.agent}: ${nextTask.text}.`);
             } else {
               state.commander.currentOrder = 'Все подзадачи закрыты. Переходим к финальной упаковке.';
               state.commander.nextOrder = 'Закрыть миссию и выдать финальный артефакт.';
@@ -786,34 +786,34 @@
 
         if (state.mission.hp === 0 || state.completedTasks >= state.subtasks.length) {
           state.mission.hp = 0;
-          state.mission.active = false;
-          state.commander.mode = 'Mission Complete';
+          state.mission.активно = false;
+          state.commander.mode = 'Миссия завершена';
           state.commander.currentOrder = 'Миссия закрыта. Отряд возвращается с результатом.';
           state.commander.nextOrder = 'Создать следующую миссию.';
           state.commander.lastEscalation = 'Все blockers закрыты.';
-          pushCommanderLog(`Commander закрыл миссию «${state.mission.title}». Финальный артефакт готов.`);
+          pushCommanderLog(`Командир закрыл миссию «${state.mission.title}». Финальный артефакт готов.`);
           state.yesterdayNotes.unshift(`Миссия завершена: ${state.mission.title}`);
           state.yesterdayNotes = state.yesterdayNotes.slice(0, 4);
-          persistMissionToHistory('completed');
+          persistMissionToHistory('завершено');
         }
 
         renderAll();
       }
 
       function tickTimer() {
-        if (state.commander.secondsToCheckin > 0 && state.mission.active) {
+        if (state.commander.secondsToCheckin > 0 && state.mission.активно) {
           state.commander.secondsToCheckin -= 1;
           renderSummary();
           saveState();
           return;
         }
-        if (state.mission.active) runCheckin();
+        if (state.mission.активно) runCheckin();
       }
 
       function exportState() {
         const payload = JSON.stringify(state, null, 2);
         navigator.clipboard.writeText(payload).then(() => {
-          pushCommanderLog('Commander runtime state copied to clipboard.');
+          pushCommanderLog('Командир runtime state copied to clipboard.');
           renderAll();
         }).catch(() => {
           pushCommanderLog('Не удалось скопировать state в clipboard.');
