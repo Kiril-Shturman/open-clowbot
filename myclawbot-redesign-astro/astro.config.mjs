@@ -6,4 +6,9 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
+  vite: {
+    preview: {
+      allowedHosts: ['vizard.ru.tuna.am'],
+    },
+  },
 });
