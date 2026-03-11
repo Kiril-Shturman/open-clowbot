@@ -5,829 +5,582 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Центр миссий — Командир Runtime</title>
+    <title>Центр миссий — Командир</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
       :root {
-        --bg: #08090d;
-        --panel: #11151d;
-        --panel-2: #161b24;
+        --bg: #0b0d12;
+        --panel: #11161f;
+        --panel-2: #171d28;
         --line: rgba(255,255,255,.08);
-        --text: #f5f7fa;
-        --muted: #99a3b5;
-        --red: #ff4d57;
-        --red-2: #b71733;
-        --green: #53f28c;
-        --yellow: #ffd84d;
-        --cyan: #59d9ff;
-        --purple: #b47bff;
-        --shadow: 0 20px 80px rgba(0,0,0,.38);
-        color-scheme: dark;
+        --text: #f5f7fb;
+        --muted: #98a3b8;
+        --danger: #ff5662;
+        --danger-2: #ab1837;
+        --ok: #63f59b;
+        --warn: #ffcf57;
+        --cyan: #70ddff;
+        --shadow: 0 24px 80px rgba(0,0,0,.36);
       }
       * { box-sizing: border-box; }
       body {
         margin: 0;
-        font-family: 'IBM Plex Sans', system-ui, sans-serif;
         color: var(--text);
+        font-family: 'IBM Plex Sans', system-ui, sans-serif;
         background:
-          radial-gradient(circle at top left, rgba(255,77,87,.20), transparent 25%),
-          radial-gradient(circle at top right, rgba(89,217,255,.15), transparent 22%),
-          linear-gradient(180deg, #0a0d13 0%, #07080c 100%);
+          radial-gradient(circle at top left, rgba(255,86,98,.18), transparent 24%),
+          radial-gradient(circle at top right, rgba(112,221,255,.12), transparent 20%),
+          linear-gradient(180deg, #0b0d12 0%, #080a0f 100%);
       }
-      .scanlines::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        background: linear-gradient(to bottom, rgba(255,255,255,.03) 1px, transparent 1px);
-        background-size: 100% 4px;
-        opacity: .07;
-        z-index: 0;
+      .wrap { width: min(1440px, calc(100% - 28px)); margin: 0 auto; padding: 20px 0 40px; }
+      .topbar, .card {
+        background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        box-shadow: var(--shadow);
       }
-      .wrap { position: relative; z-index: 1; width: min(1520px, calc(100% - 28px)); margin: 0 auto; padding: 20px 0 40px; }
       .topbar {
-        display: flex; justify-content: space-between; align-items: center; gap: 16px;
-        margin-bottom: 18px; background: rgba(17,21,29,.88); border: 1px solid var(--line);
-        border-radius: 24px; padding: 14px 18px; box-shadow: var(--shadow);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        padding: 16px 18px;
+        margin-bottom: 16px;
       }
       .brand { display: flex; gap: 14px; align-items: center; }
       .brand-mark {
-        width: 56px; height: 56px; border-radius: 18px; background: linear-gradient(135deg, var(--red), #7e0e29);
-        display: grid; place-items: center; font-family: 'Press Start 2P', monospace; font-size: 12px;
-        box-shadow: 0 14px 30px rgba(255,77,87,.28);
+        width: 54px; height: 54px; border-radius: 18px;
+        background: linear-gradient(135deg, var(--danger), var(--danger-2));
+        display: grid; place-items: center;
+        font-family: 'Press Start 2P', monospace; font-size: 11px;
       }
-      .eyebrow { font-family: 'Press Start 2P', monospace; font-size: 10px; color: #ff9aa1; margin-bottom: 6px; }
-      .title { font-size: clamp(24px, 3vw, 40px); line-height: 1; font-weight: 800; }
-      .subtitle { color: var(--muted); margin-top: 6px; max-width: 820px; }
-      .top-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+      .eyebrow { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #ff9ea7; font-weight: 800; }
+      h1 { margin: 6px 0 4px; font-size: clamp(26px, 4vw, 42px); line-height: .98; }
+      .subtitle { margin: 0; color: var(--muted); max-width: 760px; }
+      .actions { display: flex; gap: 10px; flex-wrap: wrap; }
       .btn {
         border: 1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 12px 14px;
         background: rgba(255,255,255,.04); color: #fff; font-weight: 700; cursor: pointer;
       }
-      .btn.primary { background: linear-gradient(135deg, var(--red), var(--red-2)); border-color: transparent; }
-      .btn.warn { background: linear-gradient(135deg, #ffb347, #b76a17); border-color: transparent; }
-      .summary { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-bottom: 18px; }
-      .card, .summary-card {
-        background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-        border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow);
+      .btn.primary { background: linear-gradient(135deg, var(--danger), var(--danger-2)); border-color: transparent; }
+      .btn.warn { background: linear-gradient(135deg, #ffcc66, #b77411); border-color: transparent; color: #1b1303; }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr .9fr;
+        gap: 16px;
+        margin-bottom: 16px;
       }
-      .summary-card { padding: 18px; }
-      .label { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
-      .value { font-size: 30px; font-weight: 800; }
-      .sub { margin-top: 8px; color: var(--muted); font-size: 13px; }
-      .grid { display: grid; grid-template-columns: 1.55fr .95fr; gap: 16px; }
       .card { padding: 18px; }
       .section-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
       .section-title { font-size: 20px; font-weight: 800; }
-      .main-stack, .side-stack, .mission-stack { display: grid; gap: 16px; }
-      .control-grid { display: grid; grid-template-columns: 1fr .98fr; gap: 16px; }
-      .office {
-        position: relative; min-height: 720px; border-radius: 24px; overflow: hidden;
-        background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)), linear-gradient(180deg, #202632 0%, #171c24 100%);
-        border: 1px solid rgba(255,255,255,.08);
-      }
-      .office::before {
-        content: ''; position: absolute; inset: 0;
-        background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-        background-size: 36px 36px; opacity: .4;
-      }
-      .zone { position: absolute; border: 2px dashed rgba(255,255,255,.08); border-radius: 22px; background: rgba(255,255,255,.025); padding: 14px; }
-      .zone h3 { margin: 0 0 8px; font-family: 'Press Start 2P', monospace; font-size: 10px; color: #c7d3e8; }
-      .zone p { margin: 0; color: var(--muted); font-size: 13px; max-width: 220px; }
-      .zone.research { top: 20px; left: 20px; width: 280px; height: 180px; }
-      .zone.writing { top: 20px; right: 20px; width: 280px; height: 180px; }
-      .zone.ops { bottom: 24px; left: 24px; width: 240px; height: 160px; }
-      .zone.memory { bottom: 24px; right: 24px; width: 240px; height: 160px; }
-      .zone.war { left: 50%; top: 48%; transform: translate(-50%, -50%); width: 360px; height: 220px; border-color: rgba(255,77,87,.22); background: rgba(255,77,87,.06); }
-      .zone.command { left: 50%; top: 16px; transform: translateX(-50%); width: 230px; height: 110px; border-color: rgba(89,217,255,.18); background: rgba(89,217,255,.06); }
-      .boss-card {
-        position: absolute; left: 50%; top: 49%; transform: translate(-50%, -50%); width: 250px;
-        padding: 16px; border-radius: 24px; border: 1px solid rgba(255,77,87,.24);
-        background: linear-gradient(180deg, rgba(72,9,21,.95), rgba(36,8,14,.95));
-        box-shadow: 0 20px 60px rgba(145,15,43,.36); z-index: 4;
-      }
-      .boss-type { font-family: 'Press Start 2P', monospace; font-size: 10px; color: #ff9da4; margin-bottom: 8px; }
-      .boss-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; }
-      .boss-meta { color: #ffcfd3; font-size: 13px; display: grid; gap: 6px; }
-      .hp-wrap { margin-top: 14px; }
-      .hp-label { display: flex; justify-content: space-between; font-size: 12px; color: #ffccd1; margin-bottom: 8px; }
-      .hp-bar { height: 14px; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden; }
-      .hp-fill { height: 100%; width: 72%; background: linear-gradient(90deg, #ff6671, #ff313f); box-shadow: 0 0 20px rgba(255,77,87,.4); transition: width .6s ease; }
-      .agents-layer { position: absolute; inset: 0; z-index: 3; }
-      .agent {
-        position: absolute; width: 108px; padding: 10px; border-radius: 18px;
-        border: 1px solid rgba(255,255,255,.08); background: rgba(18,23,31,.92);
-        text-align: center; transform: translate(-50%, -50%); transition: left 1.2s ease, top 1.2s ease;
-      }
-      .agent.commander { width: 130px; border-color: rgba(89,217,255,.18); background: rgba(10,31,40,.92); }
-      .agent .sprite {
-        width: 40px; height: 40px; margin: 0 auto 8px; border-radius: 12px; display: grid; place-items: center;
-        font-family: 'Press Start 2P', monospace; font-size: 12px; color: #08090d;
-      }
-      .agent.scout .sprite { background: var(--yellow); }
-      .agent.analyst .sprite { background: var(--cyan); }
-      .agent.writer .sprite { background: #ff93b1; }
-      .agent.operator .sprite { background: var(--green); }
-      .agent.closer .sprite { background: var(--purple); }
-      .agent.commander .sprite { background: #9be9ff; }
-      .agent-name { font-size: 13px; font-weight: 700; }
-      .agent-role { font-size: 11px; color: var(--muted); margin-top: 4px; }
-      .agent-state { margin-top: 8px; font-size: 11px; color: #d8e1f0; }
-      .bubble {
-        position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%);
-        min-width: 110px; max-width: 180px; padding: 8px 10px; border-radius: 14px;
-        background: rgba(255,255,255,.96); color: #12161e; font-size: 11px; font-weight: 700; box-shadow: 0 12px 24px rgba(0,0,0,.24);
-      }
-      .bubble::after {
-        content: ''; position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%);
-        border-width: 6px 6px 0 6px; border-style: solid; border-color: rgba(255,255,255,.96) transparent transparent transparent;
-      }
+      .label { color: var(--muted); font-size: 13px; }
       .tag { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; background: rgba(255,255,255,.06); }
-      .tag.live { background: rgba(83,242,140,.14); color: #bbf7cf; }
-      .tag.warn { background: rgba(255,216,77,.12); color: #ffe8a3; }
-      .tag.command { background: rgba(89,217,255,.12); color: #bfeeff; }
-      .item { padding: 14px; border-radius: 18px; background: var(--panel-2); border: 1px solid rgba(255,255,255,.06); }
-      .item-top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
-      .item-title { font-size: 16px; font-weight: 700; }
-      .item-meta { color: var(--muted); font-size: 13px; margin-top: 8px; display: grid; gap: 6px; }
-      .log-list, .agent-list, .queue-list, .notes-list, .orders-list, .history-list, .blocker-list { display: grid; gap: 12px; }
-      .mini-bar { height: 8px; border-radius: 999px; background: rgba(255,255,255,.06); overflow: hidden; margin-top: 12px; }
-      .mini-bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--red), #ff8991); transition: width .6s ease; }
-      .field, .mission-form, .control-buttons { display: grid; gap: 10px; }
-      .mission-form { grid-template-columns: 1.5fr 1fr 1fr auto; align-items: end; }
-      .control-buttons { grid-template-columns: 1fr 1fr; }
-      .input, .select, .textarea {
+      .tag.live { background: rgba(99,245,155,.14); color: #c8fbd9; }
+      .tag.warn { background: rgba(255,207,87,.14); color: #ffe7a6; }
+      .tag.command { background: rgba(112,221,255,.14); color: #c7f2ff; }
+
+      .mission-card {
+        display: grid;
+        gap: 16px;
+      }
+      .mission-title { font-size: clamp(28px, 4vw, 44px); font-weight: 800; line-height: .98; }
+      .mission-meta { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+      .stat {
+        padding: 14px; border-radius: 18px; background: var(--panel-2); border: 1px solid rgba(255,255,255,.06);
+      }
+      .stat-value { font-size: 26px; font-weight: 800; margin-top: 6px; }
+      .hp-wrap { padding: 14px; border-radius: 18px; background: linear-gradient(180deg, rgba(255,86,98,.10), rgba(255,255,255,.02)); border: 1px solid rgba(255,86,98,.14); }
+      .hp-row { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 8px; font-size: 13px; color: #ffc9ce; }
+      .hp-bar { height: 16px; border-radius: 999px; overflow: hidden; background: rgba(255,255,255,.08); }
+      .hp-fill { height: 100%; width: 72%; background: linear-gradient(90deg, var(--danger), #ff7f88); transition: width .6s ease; }
+      .next-step {
+        padding: 14px; border-radius: 18px; background: rgba(112,221,255,.08); border: 1px solid rgba(112,221,255,.12);
+      }
+      .next-step strong { display: block; margin-bottom: 6px; }
+
+      .commander-panel {
+        display: grid; gap: 12px;
+      }
+      .commander-box {
+        padding: 16px; border-radius: 20px; border: 1px solid rgba(112,221,255,.16); background: linear-gradient(180deg, rgba(112,221,255,.08), rgba(255,255,255,.02));
+      }
+      .commander-mode { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: #c7f2ff; font-weight: 800; }
+      .commander-order { font-size: 18px; font-weight: 700; margin-top: 10px; line-height: 1.25; }
+      .commander-lines { display: grid; gap: 8px; margin-top: 12px; color: var(--muted); font-size: 14px; }
+      .control-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+      .mission-form {
+        display: grid; grid-template-columns: 1.6fr 1fr 1fr auto; gap: 10px; align-items: end;
+      }
+      .field { display: grid; gap: 8px; }
+      .textarea, .select {
         width: 100%; border-radius: 14px; border: 1px solid rgba(255,255,255,.08);
         background: rgba(255,255,255,.04); color: #fff; padding: 12px 14px; font: inherit;
       }
-      .textarea { min-height: 110px; resize: vertical; }
-      .commander-card { padding: 16px; border-radius: 20px; border: 1px solid rgba(89,217,255,.14); background: linear-gradient(180deg, rgba(89,217,255,.06), rgba(255,255,255,.02)); }
-      .commander-line { color: var(--muted); font-size: 13px; margin-top: 8px; }
-      .footer-note { margin-top: 18px; color: var(--muted); font-size: 13px; }
-      @media (max-width: 1280px) {
-        .grid, .control-grid, .summary { grid-template-columns: 1fr; }
-        .mission-form, .control-buttons { grid-template-columns: 1fr; }
+      .textarea { min-height: 98px; resize: vertical; }
+
+      .squad-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 16px;
       }
-      @media (max-width: 740px) {
+      .agent-card {
+        padding: 16px; border-radius: 20px; background: var(--panel-2); border: 1px solid rgba(255,255,255,.06);
+      }
+      .agent-top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+      .agent-name { font-size: 16px; font-weight: 800; }
+      .agent-role { margin-top: 4px; color: var(--muted); font-size: 13px; }
+      .agent-task { margin-top: 12px; font-size: 14px; line-height: 1.35; }
+      .agent-zone { margin-top: 10px; color: var(--muted); font-size: 12px; }
+
+      .lower-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px;
+      }
+      .list { display: grid; gap: 10px; }
+      .item { padding: 14px; border-radius: 18px; background: var(--panel-2); border: 1px solid rgba(255,255,255,.06); }
+      .item-title { font-size: 15px; font-weight: 700; }
+      .item-meta { margin-top: 6px; color: var(--muted); font-size: 13px; line-height: 1.4; }
+
+      @media (max-width: 1220px) {
+        .hero-grid, .lower-grid, .squad-grid, .mission-form { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 760px) {
         .wrap { width: min(100% - 18px, 1520px); }
         .topbar { flex-direction: column; align-items: stretch; }
-        .top-actions { width: 100%; }
+        .actions { width: 100%; }
         .btn { width: 100%; }
-        .office { min-height: 980px; }
-        .zone.research, .zone.writing { width: calc(100% - 24px); left: 12px; right: 12px; }
-        .zone.research { top: 112px; }
-        .zone.writing { top: 304px; }
-        .zone.command { top: 12px; width: calc(100% - 24px); }
-        .zone.war { width: calc(100% - 28px); top: 60%; }
-        .zone.ops { left: 12px; width: calc(50% - 18px); }
-        .zone.memory { right: 12px; width: calc(50% - 18px); }
+        .mission-meta { grid-template-columns: 1fr; }
       }
     </style>
   </head>
-  <body class="scanlines">
+  <body>
     <main class="wrap">
       <section class="topbar">
         <div class="brand">
           <div class="brand-mark">OC</div>
           <div>
-            <div class="eyebrow">Рантайм командира / сохранение состояния</div>
-            <div class="title">Центр миссий</div>
-            <div class="subtitle">Теперь это уже не одноразовый демо-loop: есть history миссий, блокеры, эскалации, ручные команды командира и сохранение state в браузере.</div>
+            <div class="eyebrow">Командир / миссия / отряд</div>
+            <h1>Центр миссий</h1>
+            <p class="subtitle">Слева — что за задача. Справа — что решил командир. Ниже — кто чем занят и что мешает двигаться дальше.</p>
           </div>
         </div>
-        <div class="top-actions">
-          <button class="btn" id="exportStateBtn">Экспорт состояния</button>
-          <button class="btn warn" id="raiseBlockerBtn">Поднять блокер</button>
-          <button class="btn" id="forceCheckinBtn">Форс-чек-ин</button>
+        <div class="actions">
+          <button class="btn" id="forceCheckinBtn">Проверить статусы</button>
+          <button class="btn warn" id="raiseBlockerBtn">Сообщить о проблеме</button>
           <button class="btn primary" id="assignMissionBtn">Запустить миссию</button>
         </div>
       </section>
 
-      <section class="summary">
-        <article class="summary-card"><div class="label">Текущая миссия</div><div class="value" id="missionStatusValue">В РАБОТЕ</div><div class="sub" id="missionStatusSub">Контент-план на 30 дней</div></article>
-        <article class="summary-card"><div class="label">Следующий check-in</div><div class="value" id="nextCheckinValue">00:28</div><div class="sub">Когда командир снова проверит всех</div></article>
-        <article class="summary-card"><div class="label">Выполнено подзадач</div><div class="value" id="completedTasksValue">6</div><div class="sub">Из назначенных шагов</div></article>
-        <article class="summary-card"><div class="label">Boss HP</div><div class="value" id="bossPercentValue">72%</div><div class="sub">Сколько ещё осталось добить</div></article>
-        <article class="summary-card"><div class="label">Блокеры</div><div class="value" id="blockerCountValue">0</div><div class="sub">Что мешает задаче двигаться</div></article>
+      <section class="hero-grid">
+        <article class="card mission-card">
+          <div class="section-head">
+            <div class="section-title">1. Текущая задача</div>
+            <span class="tag live" id="missionStatusValue">В работе</span>
+          </div>
+
+          <div class="mission-title" id="missionStatusSub">Контент-план на 30 дней</div>
+
+          <div class="mission-meta">
+            <div class="stat">
+              <div class="label">Следующая проверка</div>
+              <div class="stat-value" id="nextCheckinValue">00:28</div>
+            </div>
+            <div class="stat">
+              <div class="label">Закрыто шагов</div>
+              <div class="stat-value" id="completedTasksValue">2</div>
+            </div>
+            <div class="stat">
+              <div class="label">Блокеры</div>
+              <div class="stat-value" id="blockerCountValue">0</div>
+            </div>
+          </div>
+
+          <div class="hp-wrap">
+            <div class="hp-row"><span id="bossType">БОСС / МАРКЕТИНГ</span><span id="bossHpText">72 / 100</span></div>
+            <div class="hp-bar"><div class="hp-fill" id="bossHpFill"></div></div>
+            <div class="item-meta" style="margin-top:10px; color:#ffc9ce;">
+              <div id="bossDifficulty">Сложность: эпическая</div>
+              <div id="bossReward">Результат: 30 тем + рубрикатор + хуки</div>
+              <div id="bossPhase">Этап: разбор → назначение → проверка → упаковка</div>
+            </div>
+          </div>
+
+          <div class="next-step">
+            <strong>Что делать дальше</strong>
+            <div id="nextOrder">После следующей проверки командир раздаст новые подзадачи.</div>
+          </div>
+        </article>
+
+        <article class="card commander-panel">
+          <div class="section-head">
+            <div class="section-title">2. Что решил командир</div>
+            <span class="tag command" id="commanderMode">Проверяет</span>
+          </div>
+
+          <div class="commander-box">
+            <div class="commander-mode">Текущий приказ</div>
+            <div class="commander-order" id="currentOrder">Scout собирает источники, Analyst готовит framework, Writer ждёт input.</div>
+            <div class="commander-lines">
+              <div><strong>Последняя проверка:</strong> <span id="lastReview">2 мин назад</span></div>
+              <div><strong>Последняя проблема:</strong> <span id="lastEscalation">Нет активных блокеров.</span></div>
+            </div>
+          </div>
+
+          <div class="control-buttons">
+            <button class="btn" id="reassignBtn">Переназначить задачу</button>
+            <button class="btn warn" id="resolveBlockerBtn">Снять блокер</button>
+          </div>
+
+          <div class="field">
+            <label class="label" for="missionInput">Новая задача</label>
+            <textarea id="missionInput" class="textarea">Собери контент-план на 30 дней для продвижения OpenClaw среди предпринимателей.</textarea>
+          </div>
+          <div class="mission-form">
+            <div class="field">
+              <label class="label" for="missionType">Тип задачи</label>
+              <select id="missionType" class="select">
+                <option value="Маркетинг">Маркетинг</option>
+                <option value="Продажи">Продажи</option>
+                <option value="Исследование">Исследование</option>
+                <option value="Операционка">Операционка</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="label" for="missionDifficulty">Сложность</label>
+              <select id="missionDifficulty" class="select">
+                <option value="Сложная">Сложная</option>
+                <option value="Эпическая" selected>Эпическая</option>
+                <option value="Легендарная">Легендарная</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="label">&nbsp;</label>
+              <button class="btn primary" id="createMissionBtn">Создать</button>
+            </div>
+          </div>
+        </article>
       </section>
 
-      <section class="grid">
-        <div class="main-stack">
-          <article class="card">
-            <div class="section-head">
-              <div class="section-title">Дать новую задачу</div>
-              <span class="tag command">Ввод командира</span>
-            </div>
-            <div class="mission-form">
-              <div class="field">
-                <label class="label" for="missionInput">Задача / миссия</label>
-                <textarea id="missionInput" class="textarea">Собери контент-план на 30 дней для продвижения OpenClaw среди предпринимателей.</textarea>
-              </div>
-              <div class="field">
-                <label class="label" for="missionType">Тип босса</label>
-                <select id="missionType" class="select">
-                  <option value="Маркетинг">Маркетинг</option>
-                  <option value="Продажи">Продажи</option>
-                  <option value="Исследование">Исследование</option>
-                  <option value="Операционка">Операционка</option>
-                </select>
-              </div>
-              <div class="field">
-                <label class="label" for="missionDifficulty">Сложность</label>
-                <select id="missionDifficulty" class="select">
-                  <option value="Сложная">Сложная</option>
-                  <option value="Эпическая" selected>Эпическая</option>
-                  <option value="Легендарная">Легендарная</option>
-                </select>
-              </div>
-              <div class="field">
-                <label class="label">&nbsp;</label>
-                <button class="btn primary" id="createMissionBtn">Создать миссию</button>
-              </div>
-            </div>
-            <div class="control-buttons" style="margin-top:12px;">
-              <button class="btn" id="reassignBtn">Командир: переназначить задачу</button>
-              <button class="btn warn" id="resolveBlockerBtn">Командир: снять блокер</button>
-            </div>
-            <div class="footer-note">Дальше это можно уже привязывать к реальным OpenClaw-задачам. Пока сохраняем runtime/history в localStorage, чтобы миссии не умирали от перезагрузки страницы.</div>
-          </article>
-
-          <article class="card">
-            <div class="section-head">
-              <div class="section-title">Что происходит сейчас</div>
-              <span class="tag live">● ЦИКЛ КОМАНДИРА</span>
-            </div>
-
-            <div class="control-grid">
-              <div class="office">
-                <div class="zone command"><h3>Командный центр</h3><p>Командир собирает статусы, назначает задачи, делает review и даёт next orders.</p></div>
-                <div class="zone research"><h3>Исследование Zone</h3><p>Поиск источников, конкурентов, кейсов и рыночной информации.</p></div>
-                <div class="zone writing"><h3>Стол письма</h3><p>Посты, summaries, офферы, тексты, сценарии и финальные драфты.</p></div>
-                <div class="zone war"><h3>Арена босса</h3><p>Главная миссия. Когда подзадачи закрываются, HP босса падает.</p></div>
-                <div class="zone ops"><h3>Операционка Desk</h3><p>Контроль статусов, роутинг, блокеры, check-ins.</p></div>
-                <div class="zone memory"><h3>Хранилище памяти</h3><p>Артефакты, выводы, итоговые отчёты и вчерашние заметки.</p></div>
-
-                <div class="boss-card">
-                  <div class="boss-type" id="bossType">BOSS / MARKETING RAID</div>
-                  <div class="boss-title" id="bossTitle">Контент-план на 30 дней</div>
-                  <div class="boss-meta">
-                    <div id="bossDifficulty">Сложность: Эпическая</div>
-                    <div id="bossReward">Награда: 30 тем + рубрикатор + hooks</div>
-                    <div id="bossPhase">Фаза: Breakdown → Assign → Review → Package</div>
-                  </div>
-                  <div class="hp-wrap">
-                    <div class="hp-label"><span>HP</span><span id="bossHpText">72 / 100</span></div>
-                    <div class="hp-bar"><div class="hp-fill" id="bossHpFill"></div></div>
-                  </div>
-                </div>
-
-                <div class="agents-layer" id="agentsLayer"></div>
-              </div>
-
-              <div class="mission-stack">
-                <div class="commander-card">
-                  <div class="section-head" style="margin-bottom:8px;">
-                    <div class="section-title" style="font-size:18px;">Командир</div>
-                    <span class="tag command" id="commanderMode">Проверяет</span>
-                  </div>
-                  <div class="commander-line"><strong>Текущий приказ:</strong> <span id="currentOrder">Scout собирает источники, Analyst готовит framework, Writer ждёт input.</span></div>
-                  <div class="commander-line"><strong>Последний обзор:</strong> <span id="lastReview">2 мин назад</span></div>
-                  <div class="commander-line"><strong>Следующий шаг:</strong> <span id="nextOrder">После check-in раздать drafting tasks.</span></div>
-                  <div class="commander-line"><strong>Последняя эскалация:</strong> <span id="lastEscalation">Нет активных блокеров.</span></div>
-                </div>
-                <div class="queue-list" id="missionQueue"></div>
-              </div>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="section-head">
-              <div class="section-title">Что меняется по ходу миссии</div>
-              <span class="tag">Чек-ины и приказы</span>
-            </div>
-            <div class="log-list" id="commanderLog"></div>
-          </article>
+      <article class="card" style="margin-bottom:16px;">
+        <div class="section-head">
+          <div class="section-title">3. Кто чем занят</div>
+          <span class="tag">Отряд</span>
         </div>
+        <div class="squad-grid" id="agentStatusList"></div>
+      </article>
 
-        <div class="side-stack">
-          <article class="card">
-            <div class="section-head"><div class="section-title">Кто чем занят</div><span class="tag">Статус отряда</span></div>
-            <div class="agent-list" id="agentStatusList"></div>
-          </article>
-
-          <article class="card">
-            <div class="section-head"><div class="section-title">Что делают агенты</div><span class="tag warn">Назначения</span></div>
-            <div class="orders-list" id="subtaskList"></div>
-          </article>
-
-          <article class="card">
-            <div class="section-head"><div class="section-title">Проблемы и блокеры</div><span class="tag warn">Эскалации</span></div>
-            <div class="blocker-list" id="blockerList"></div>
-          </article>
-
-          <article class="card">
-            <div class="section-head"><div class="section-title">History миссий</div><span class="tag">Сохранение</span></div>
-            <div class="history-list" id="historyList"></div>
-          </article>
-
-          <article class="card">
-            <div class="section-head"><div class="section-title">Что было до этого</div><span class="tag warn">Память дня</span></div>
-            <div class="notes-list" id="yesterdayNotesList"></div>
-          </article>
-        </div>
+      <section class="lower-grid">
+        <article class="card">
+          <div class="section-head"><div class="section-title">Что делают агенты</div><span class="tag warn">Шаги</span></div>
+          <div class="list" id="subtaskList"></div>
+        </article>
+        <article class="card">
+          <div class="section-head"><div class="section-title">Проблемы и блокеры</div><span class="tag warn">Важно</span></div>
+          <div class="list" id="blockerList"></div>
+        </article>
+        <article class="card">
+          <div class="section-head"><div class="section-title">Что меняется по ходу миссии</div><span class="tag">Лог</span></div>
+          <div class="list" id="commanderLog"></div>
+        </article>
       </section>
     </main>
 
     <script>
-      const STORAGE_KEY = 'mission-control-runtime-v2';
-
-      const zonePositions = {
-        command: { x: 50, y: 12 },
-        research: { x: 26, y: 22 },
-        writing: { x: 77, y: 20 },
-        ops: { x: 26, y: 78 },
-        memory: { x: 73, y: 78 },
-        war: { x: 50, y: 49 },
-      };
-
+      const STORAGE_KEY = 'mission-control-runtime-v3';
       const taskTemplates = {
         Маркетинг: [
-          { agent: 'scout', action: 'Собрать 12 конкурентных каналов', zone: 'research', damage: 8 },
-          { agent: 'analyst', action: 'Выделить паттерны форматов', zone: 'war', damage: 10 },
-          { agent: 'writer', action: 'Собрать 15 заголовков', zone: 'writing', damage: 9 },
-          { agent: 'operator', action: 'Разложить календарь публикаций', zone: 'ops', damage: 7 },
-          { agent: 'closer', action: 'Упаковать финальный план', zone: 'memory', damage: 12 },
+          { agent: 'Scout', action: 'Собрать 12 конкурентных каналов', zone: 'Поиск', damage: 8 },
+          { agent: 'Analyst', action: 'Выделить паттерны форматов', zone: 'Анализ', damage: 10 },
+          { agent: 'Writer', action: 'Собрать 15 заголовков', zone: 'Тексты', damage: 9 },
+          { agent: 'Operator', action: 'Разложить календарь публикаций', zone: 'Контроль', damage: 7 },
+          { agent: 'Closer', action: 'Упаковать финальный план', zone: 'Финал', damage: 12 },
         ],
         Продажи: [
-          { agent: 'scout', action: 'Поднять 50 потенциальных лидов', zone: 'research', damage: 9 },
-          { agent: 'analyst', action: 'Квалифицировать сегменты', zone: 'war', damage: 8 },
-          { agent: 'writer', action: 'Подготовить outreach-сообщения', zone: 'writing', damage: 8 },
-          { agent: 'operator', action: 'Распределить лидов по приоритету', zone: 'ops', damage: 6 },
-          { agent: 'closer', action: 'Собрать базу к выдаче', zone: 'memory', damage: 12 },
+          { agent: 'Scout', action: 'Поднять 50 потенциальных лидов', zone: 'Поиск', damage: 9 },
+          { agent: 'Analyst', action: 'Квалифицировать сегменты', zone: 'Анализ', damage: 8 },
+          { agent: 'Writer', action: 'Подготовить outreach-сообщения', zone: 'Тексты', damage: 8 },
+          { agent: 'Operator', action: 'Распределить лидов по приоритету', zone: 'Контроль', damage: 6 },
+          { agent: 'Closer', action: 'Собрать базу к выдаче', zone: 'Финал', damage: 12 },
         ],
         Исследование: [
-          { agent: 'scout', action: 'Собрать 10 источников', zone: 'research', damage: 8 },
-          { agent: 'analyst', action: 'Построить таблицу сравнений', zone: 'war', damage: 10 },
-          { agent: 'writer', action: 'Написать summary и выводы', zone: 'writing', damage: 8 },
-          { agent: 'operator', action: 'Синхронизировать findings', zone: 'ops', damage: 6 },
-          { agent: 'closer', action: 'Собрать финальный отчёт', zone: 'memory', damage: 12 },
+          { agent: 'Scout', action: 'Собрать 10 источников', zone: 'Поиск', damage: 8 },
+          { agent: 'Analyst', action: 'Построить таблицу сравнений', zone: 'Анализ', damage: 10 },
+          { agent: 'Writer', action: 'Написать summary и выводы', zone: 'Тексты', damage: 8 },
+          { agent: 'Operator', action: 'Синхронизировать findings', zone: 'Контроль', damage: 6 },
+          { agent: 'Closer', action: 'Собрать финальный отчёт', zone: 'Финал', damage: 12 },
         ],
         Операционка: [
-          { agent: 'scout', action: 'Собрать входные условия', zone: 'research', damage: 6 },
-          { agent: 'analyst', action: 'Выявить узкие места', zone: 'war', damage: 8 },
-          { agent: 'writer', action: 'Собрать SOP', zone: 'writing', damage: 7 },
-          { agent: 'operator', action: 'Маршрутизировать процессы', zone: 'ops', damage: 10 },
-          { agent: 'closer', action: 'Упаковать операционный набор', zone: 'memory', damage: 11 },
+          { agent: 'Scout', action: 'Собрать входные условия', zone: 'Поиск', damage: 6 },
+          { agent: 'Analyst', action: 'Выявить узкие места', zone: 'Анализ', damage: 8 },
+          { agent: 'Writer', action: 'Собрать SOP', zone: 'Тексты', damage: 7 },
+          { agent: 'Operator', action: 'Маршрутизировать процессы', zone: 'Контроль', damage: 10 },
+          { agent: 'Closer', action: 'Упаковать операционный набор', zone: 'Финал', damage: 11 },
         ],
       };
-
-      const baseAgents = [
-        { id: 'commander', name: 'Командир', role: 'Командир отряда', className: 'commander', zone: 'command', status: 'Делит миссию', bubble: 'Собираю отряд…', currentTask: 'Разбить миссию на подзадачи', done: 0 },
-        { id: 'scout', name: 'Scout', role: 'Разведка', className: 'scout', zone: 'research', status: 'Ждёт приказ', bubble: 'Жду цель…', currentTask: 'Ожидание', done: 0 },
-        { id: 'analyst', name: 'Analyst', role: 'Паттерны', className: 'analyst', zone: 'war', status: 'Ждёт приказ', bubble: 'Жду данные…', currentTask: 'Ожидание', done: 0 },
-        { id: 'writer', name: 'Writer', role: 'Черновики', className: 'writer', zone: 'writing', status: 'Ждёт приказ', bubble: 'Готов писать…', currentTask: 'Ожидание', done: 0 },
-        { id: 'operator', name: 'Operator', role: 'Контроль', className: 'operator', zone: 'ops', status: 'Ждёт приказ', bubble: 'Контур пуст…', currentTask: 'Ожидание', done: 0 },
-        { id: 'closer', name: 'Closer', role: 'Упаковка', className: 'closer', zone: 'memory', status: 'Ждёт приказ', bubble: 'Жду финал…', currentTask: 'Ожидание', done: 0 },
-      ];
 
       const defaultState = {
         mission: {
           title: 'Контент-план на 30 дней',
           type: 'Маркетинг',
           difficulty: 'Эпическая',
-          reward: '30 тем + рубрикатор + hooks',
+          reward: '30 тем + рубрикатор + хуки',
           hp: 72,
           maxHp: 100,
-          phase: 'Breakdown → Assign → Review → Package',
-          активно: true,
+          phase: 'Разбор → назначение → проверка → упаковка',
+          active: true,
         },
         commander: {
           mode: 'Проверяет',
           currentOrder: 'Scout собирает источники, Analyst готовит framework, Writer ждёт input.',
           lastReview: '2 мин назад',
-          nextOrder: 'После check-in раздать drafting tasks.',
+          nextOrder: 'После следующей проверки выдать следующий шаг Writer.',
           lastEscalation: 'Нет активных блокеров.',
           secondsToCheckin: 28,
         },
         completedTasks: 2,
-        totalTasks: 5,
-        commanderLog: [
-          'Командир принял миссию и разбил её на 5 стартовых подзадач.',
-          'Командир отправил Scout в research, Analyst — в boss arena.',
-          'Командир провёл review и выдал next order для Writer.',
-        ],
         subtasks: [
           { id: 1, agent: 'Scout', text: 'Собрать 12 каналов', status: 'сделано' },
           { id: 2, agent: 'Analyst', text: 'Выделить 6 паттернов', status: 'сделано' },
-          { id: 3, agent: 'Writer', text: 'Собрать 15 заголовков', status: 'active' },
-          { id: 4, agent: 'Operator', text: 'Собрать publishing map', status: 'queued' },
-          { id: 5, agent: 'Closer', text: 'Подготовить итоговую выдачу', status: 'queued' },
+          { id: 3, agent: 'Writer', text: 'Собрать 15 заголовков', status: 'активно' },
+          { id: 4, agent: 'Operator', text: 'Собрать publishing map', status: 'в очереди' },
+          { id: 5, agent: 'Closer', text: 'Подготовить итоговую выдачу', status: 'в очереди' },
         ],
         blockers: [],
-        history: [],
-        yesterdayNotes: [
-          'Командир завершил рейд по конкурентам и упаковал summary.',
-          'Scout нашёл 27 новых источников по AI/automation.',
-          'Writer собрал 34 рабочих темы под предпринимателей.',
-          'Closer оформил 3 финальных артефакта для выдачи.',
+        agents: [
+          { name: 'Scout', role: 'Поиск', status: 'Работает в поле', task: 'Собирает источники', zone: 'Поиск' },
+          { name: 'Analyst', role: 'Анализ', status: 'Готовит структуру', task: 'Выделяет паттерны', zone: 'Анализ' },
+          { name: 'Writer', role: 'Тексты', status: 'Активный исполнитель', task: 'Готовит заголовки', zone: 'Тексты' },
+          { name: 'Operator', role: 'Контроль', status: 'Ждёт очередь', task: 'Ожидает приказ', zone: 'Контроль' },
+          { name: 'Closer', role: 'Финал', status: 'Ждёт завершения', task: 'Ожидает финал', zone: 'Финал' },
         ],
-        agents: structuredClone(baseAgents),
+        commanderLog: [
+          'Командир принял миссию и разбил её на стартовые шаги.',
+          'Scout и Analyst уже закрыли первые этапы.',
+          'Writer сейчас главный активный агент.',
+        ],
       };
 
       let state = loadState();
-
       const $ = (id) => document.getElementById(id);
-      const agentById = (id) => state.agents.find((a) => a.id === id);
       const humanTime = (sec) => `00:${String(Math.max(sec, 0)).padStart(2, '0')}`;
       const rand = (arr) => arr[Math.floor(Math.random() * arr.length)];
-      const commanderBubbles = ['Собираю статусы…', 'Проверяю прогресс…', 'Раздаю next orders…', 'Переназначаю задачи…'];
-      const blockerReasons = ['нет источников', 'нужен input от человека', 'не хватает данных', 'требуется ручная валидация'];
+      const blockerReasons = ['не хватает данных', 'нужен input от человека', 'нет подтверждения', 'источник не найден'];
 
       function loadState() {
         try {
           const raw = localStorage.getItem(STORAGE_KEY);
-          if (!raw) return structuredClone(defaultState);
-          const parsed = JSON.parse(raw);
-          return {
-            ...structuredClone(defaultState),
-            ...parsed,
-            agents: parsed.agents?.length ? parsed.agents : structuredClone(baseAgents),
-            blockers: parsed.blockers || [],
-            history: parsed.history || [],
-          };
+          return raw ? { ...defaultState, ...JSON.parse(raw) } : structuredClone(defaultState);
         } catch {
           return structuredClone(defaultState);
         }
       }
-
-      function saveState() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      }
-
-      function shorten(text) { return text.length > 24 ? `${text.slice(0, 24)}…` : text; }
-      function indexLabel(text) {
-        if (/собрать|найти|поднять/i.test(text)) return 'Работает в поле';
-        if (/напис|собрал|оффер|summary/i.test(text)) return 'Готовит артефакт';
-        if (/разлож|маршру|процесс|SOP/i.test(text)) return 'Оркестрирует';
-        if (/выдел|таблиц|анализ/i.test(text)) return 'Анализирует';
-        return 'Исполняет приказ';
-      }
-
-      function pushCommanderLog(text) {
-        state.commanderLog.unshift(text);
-        state.commanderLog = state.commanderLog.slice(0, 12);
-      }
-
-      function persistMissionToHistory(status = 'завершено') {
-        state.history.unshift({
-          title: state.mission.title,
-          type: state.mission.type,
-          difficulty: state.mission.difficulty,
-          status,
-          completedTasks: state.completedTasks,
-          totalTasks: state.subtasks.length,
-          createdAt: new Date().toLocaleString('ru-RU'),
-        });
-        state.history = state.history.slice(0, 8);
-      }
+      function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+      function pushLog(text) { state.commanderLog.unshift(text); state.commanderLog = state.commanderLog.slice(0, 10); }
 
       function renderSummary() {
-        $('missionStatusValue').textContent = state.mission.активно ? 'В РАБОТЕ' : 'ГОТОВО';
+        $('missionStatusValue').textContent = state.mission.active ? 'В работе' : 'Готово';
         $('missionStatusSub').textContent = state.mission.title;
         $('nextCheckinValue').textContent = humanTime(state.commander.secondsToCheckin);
         $('completedTasksValue').textContent = String(state.completedTasks);
-        $('bossPercentValue').textContent = `${state.mission.hp}%`;
         $('blockerCountValue').textContent = String(state.blockers.length);
       }
-
-      function renderBoss() {
-        $('bossType').textContent = `BOSS / ${state.mission.type.toUpperCase()} RAID`;
-        $('bossTitle').textContent = state.mission.title;
-        $('bossDifficulty').textContent = `Сложность: ${state.mission.difficulty}`;
-        $('bossReward').textContent = `Награда: ${state.mission.reward}`;
-        $('bossPhase').textContent = `Фаза: ${state.mission.phase}`;
+      function renderMission() {
+        $('bossType').textContent = `БОСС / ${state.mission.type.toUpperCase()}`;
         $('bossHpText').textContent = `${state.mission.hp} / ${state.mission.maxHp}`;
         $('bossHpFill').style.width = `${(state.mission.hp / state.mission.maxHp) * 100}%`;
-      }
-
-      function renderCommanderPanel() {
+        $('bossDifficulty').textContent = `Сложность: ${state.mission.difficulty}`;
+        $('bossReward').textContent = `Результат: ${state.mission.reward}`;
+        $('bossPhase').textContent = `Этап: ${state.mission.phase}`;
         $('commanderMode').textContent = state.commander.mode;
         $('currentOrder').textContent = state.commander.currentOrder;
         $('lastReview').textContent = state.commander.lastReview;
-        $('nextOrder').textContent = state.commander.nextOrder;
         $('lastEscalation').textContent = state.commander.lastEscalation;
+        $('nextOrder').textContent = state.commander.nextOrder;
       }
-
       function renderAgents() {
-        $('agentsLayer').innerHTML = state.agents.map((agent) => {
-          const pos = zonePositions[agent.zone];
-          const initials = agent.name.slice(0, 2).toUpperCase();
-          return `
-            <div class="agent ${agent.className}" style="left:${pos.x}%; top:${pos.y}%">
-              <div class="bubble">${agent.bubble}</div>
-              <div class="sprite">${initials}</div>
-              <div class="agent-name">${agent.name}</div>
-              <div class="agent-role">${agent.role}</div>
-              <div class="agent-state">${agent.status}</div>
-            </div>
-          `;
-        }).join('');
-
         $('agentStatusList').innerHTML = state.agents.map((agent) => `
-          <div class="item">
-            <div class="item-top"><div class="item-title">${agent.name}</div><span class="tag ${agent.id === 'commander' ? 'command' : agent.currentTask !== 'Ожидание' ? 'live' : ''}">${agent.zone}</span></div>
-            <div class="item-meta">
-              <div>Роль: ${agent.role}</div>
-              <div>Статус: ${agent.status}</div>
-              <div>Текущая задача: ${agent.currentTask}</div>
+          <div class="agent-card">
+            <div class="agent-top">
+              <div>
+                <div class="agent-name">${agent.name}</div>
+                <div class="agent-role">${agent.role}</div>
+              </div>
+              <span class="tag ${agent.status.includes('Жд') ? '' : 'live'}">${agent.zone}</span>
             </div>
+            <div class="agent-task">${agent.task}</div>
+            <div class="agent-zone">Статус: ${agent.status}</div>
           </div>
         `).join('');
       }
-
-      function renderCommanderLog() {
-        $('commanderLog').innerHTML = state.commanderLog.map((line) => `<div class="item">${line}</div>`).join('');
-      }
-
       function renderSubtasks() {
         $('subtaskList').innerHTML = state.subtasks.map((task) => `
           <div class="item">
-            <div class="item-top"><div class="item-title">${task.text}</div><span class="tag ${task.status === 'done' ? 'live' : task.status === 'active' ? 'warn' : ''}">${task.status}</span></div>
-            <div class="item-meta"><div>Назначено: ${task.agent}</div></div>
+            <div class="item-title">${task.text}</div>
+            <div class="item-meta">${task.agent} • ${task.status}</div>
           </div>
         `).join('');
       }
-
-      function renderQueue() {
-        const progress = Math.min(100, Math.round((state.completedTasks / Math.max(state.subtasks.length, 1)) * 100));
-        $('missionQueue').innerHTML = `
-          <div class="item">
-            <div class="item-top"><div class="item-title">Прогресс миссии</div><span class="tag live">Активно</span></div>
-            <div class="item-meta">
-              <div>Командир cycle: every 30 sec in demo</div>
-              <div>Назначения: ${state.subtasks.length}</div>
-              <div>Completed: ${state.completedTasks}</div>
-            </div>
-            <div class="mini-bar"><span style="width:${progress}%"></span></div>
-          </div>
-          <div class="item">
-            <div class="item-top"><div class="item-title">Следующий шаг</div><span class="tag command">Ожидает</span></div>
-            <div class="item-meta"><div>${state.commander.nextOrder}</div></div>
-          </div>
-        `;
-      }
-
       function renderBlockers() {
         $('blockerList').innerHTML = state.blockers.length
-          ? state.blockers.map((blocker) => `
-              <div class="item">
-                <div class="item-top"><div class="item-title">${blocker.agent}</div><span class="tag warn">заблокировано</span></div>
-                <div class="item-meta"><div>${blocker.reason}</div><div>${blocker.createdAt}</div></div>
-              </div>
-            `).join('')
-          : '<div class="item">Нет активных блокеров.</div>';
+          ? state.blockers.map((b) => `<div class="item"><div class="item-title">${b.agent}</div><div class="item-meta">${b.reason}</div></div>`).join('')
+          : '<div class="item"><div class="item-title">Сейчас проблем нет</div><div class="item-meta">Миссия идёт без блокеров</div></div>';
       }
-
-      function renderHistory() {
-        $('historyList').innerHTML = state.history.length
-          ? state.history.map((row) => `
-              <div class="item">
-                <div class="item-top"><div class="item-title">${row.title}</div><span class="tag ${row.status === 'completed' ? 'live' : row.status === 'failed' ? 'warn' : ''}">${row.status}</span></div>
-                <div class="item-meta"><div>${row.type} • ${row.difficulty}</div><div>${row.completedTasks}/${row.totalTasks} steps • ${row.createdAt}</div></div>
-              </div>
-            `).join('')
-          : '<div class="item">История пока пуста.</div>';
+      function renderLog() {
+        $('commanderLog').innerHTML = state.commanderLog.map((line) => `<div class="item"><div class="item-title">${line}</div></div>`).join('');
       }
-
-      function renderYesterdayNotes() {
-        $('yesterdayNotesList').innerHTML = state.yesterdayNotes.map((note) => `<div class="item">${note}</div>`).join('');
-      }
-
       function renderAll() {
         renderSummary();
-        renderBoss();
-        renderCommanderPanel();
+        renderMission();
         renderAgents();
-        renderCommanderLog();
         renderSubtasks();
-        renderQueue();
         renderBlockers();
-        renderHistory();
-        renderYesterdayNotes();
+        renderLog();
         saveState();
       }
 
-      function resetAgents(template) {
-        state.agents = structuredClone(baseAgents).map((agent) => {
-          if (agent.id === 'commander') {
-            agent.status = 'Назначает стартовые задачи';
-            agent.bubble = 'Разворачиваю миссию…';
-            agent.currentTask = 'Разбор миссии';
-            return agent;
-          }
-          const task = template.find((t) => t.agent === agent.id);
-          if (!task) return agent;
-          agent.zone = task.zone;
-          agent.status = indexLabel(task.action);
-          agent.currentTask = task.action;
-          agent.bubble = `Принял: ${shorten(task.action)}`;
-          return agent;
-        });
-      }
-
-      function createMissionFromInputs() {
-        if (state.mission.активно) persistMissionToHistory('заменено');
-
+      function createMission() {
         const title = $('missionInput').value.trim() || 'Новая миссия';
         const type = $('missionType').value;
         const difficulty = $('missionDifficulty').value;
-        const reward = type === 'Продажи'
-          ? 'Лиды + контакты + outreach kit'
-          : type === 'Исследование'
-          ? 'Summary + таблица + выводы'
-          : type === 'Операционка'
-          ? 'SOP + процессы + блокеры'
-          : 'Контент + hooks + план';
-
-        state.mission = { title, type, difficulty, reward, hp: 100, maxHp: 100, phase: 'Breakdown → Assign → Review → Package', активно: true };
-        const template = taskTemplates[type] || taskTemplates.Маркетинг;
-        state.subtasks = template.map((task, index) => ({ id: index + 1, agent: task.agent.charAt(0).toUpperCase() + task.agent.slice(1), text: task.action, status: index === 0 ? 'активно' : 'в очереди' }));
-        state.completedTasks = 0;
-        state.totalTasks = state.subtasks.length;
-        state.blockers = [];
+        const reward = type === 'Продажи' ? 'Лиды + контакты' : type === 'Исследование' ? 'Сводка + таблица' : type === 'Операционка' ? 'SOP + процессы' : 'Контент + хуки + план';
+        const template = taskTemplates[type] || taskTemplates['Маркетинг'];
+        state.mission = { title, type, difficulty, reward, hp: 100, maxHp: 100, phase: 'Разбор → назначение → проверка → упаковка', active: true };
         state.commander = {
           mode: 'Назначает',
-          currentOrder: `Командир разбивает миссию «${title}» и раздаёт стартовые приказы.`,
+          currentOrder: `Командир принял задачу «${title}» и раздаёт стартовые шаги.`,
           lastReview: 'только что',
-          nextOrder: 'Через check-in собрать статусы и открыть следующую фазу.',
+          nextOrder: 'После проверки двинуть следующего агента.',
           lastEscalation: 'Нет активных блокеров.',
           secondsToCheckin: 30,
         };
-        resetAgents(template);
-        state.yesterdayNotes.unshift(`Создана новая миссия: ${title}`);
-        state.yesterdayNotes = state.yesterdayNotes.slice(0, 4);
-        pushCommanderLog(`Командир принял новую миссию: ${title}.`);
+        state.subtasks = template.map((t, i) => ({ id: i + 1, agent: t.agent, text: t.action, status: i === 0 ? 'активно' : 'в очереди' }));
+        state.completedTasks = 0;
+        state.blockers = [];
+        state.agents = [
+          { name: 'Scout', role: 'Поиск', status: 'Ждёт приказ', task: 'Ожидает', zone: 'Поиск' },
+          { name: 'Analyst', role: 'Анализ', status: 'Ждёт приказ', task: 'Ожидает', zone: 'Анализ' },
+          { name: 'Writer', role: 'Тексты', status: 'Ждёт приказ', task: 'Ожидает', zone: 'Тексты' },
+          { name: 'Operator', role: 'Контроль', status: 'Ждёт приказ', task: 'Ожидает', zone: 'Контроль' },
+          { name: 'Closer', role: 'Финал', status: 'Ждёт приказ', task: 'Ожидает', zone: 'Финал' },
+        ];
+        const first = state.subtasks[0];
+        const firstAgent = state.agents.find((a) => a.name === first.agent);
+        if (firstAgent) {
+          firstAgent.status = 'Активный исполнитель';
+          firstAgent.task = first.text;
+        }
+        state.commanderLog = [`Командир создал новую миссию: ${title}.`];
         renderAll();
       }
 
       function raiseBlocker() {
-        const candidates = state.agents.filter((a) => a.id !== 'commander' && a.currentTask !== 'Ожидание');
-        const target = candidates.length ? rand(candidates) : agentById('scout');
-        const blocker = {
-          id: Date.now(),
-          agent: target.name,
-          reason: rand(blockerReasons),
-          createdAt: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }),
-        };
+        const activeAgent = rand(state.agents.filter((a) => a.status.includes('Актив')) || state.agents);
+        const blocker = { agent: activeAgent.name, reason: rand(blockerReasons) };
         state.blockers.unshift(blocker);
         state.blockers = state.blockers.slice(0, 5);
-        target.status = 'Застрял / ждёт решения';
-        target.bubble = 'Нужна помощь';
-        state.commander.lastEscalation = `${target.name}: ${blocker.reason}`;
-        state.commander.mode = 'Эскалации';
-        pushCommanderLog(`Командир получил blocker от ${target.name}: ${blocker.reason}.`);
+        state.commander.mode = 'Эскалация';
+        state.commander.lastEscalation = `${blocker.agent}: ${blocker.reason}`;
+        activeAgent.status = 'Застрял';
+        activeAgent.task = blocker.reason;
+        pushLog(`Командир получил проблему от ${blocker.agent}: ${blocker.reason}.`);
         renderAll();
       }
 
       function resolveBlocker() {
-        if (!state.blockers.length) {
-          pushCommanderLog('Командир проверил blockers: активных проблем нет.');
-          renderAll();
-          return;
-        }
+        if (!state.blockers.length) return;
         const blocker = state.blockers.shift();
         const agent = state.agents.find((a) => a.name === blocker.agent);
         if (agent) {
-          agent.status = 'Возобновил работу';
-          agent.bubble = 'Продолжаю миссию';
+          agent.status = 'Вернулся в работу';
+          agent.task = 'Продолжает этап';
         }
-        state.commander.lastEscalation = `Решён blocker: ${blocker.agent}`;
         state.commander.mode = 'Переназначает';
-        pushCommanderLog(`Командир снял blocker у ${blocker.agent} и вернул агента в миссию.`);
+        state.commander.lastEscalation = `Решён blocker: ${blocker.agent}`;
+        pushLog(`Командир снял проблему у ${blocker.agent}.`);
         renderAll();
       }
 
       function reassignTask() {
-        const queuedTask = state.subtasks.find((t) => t.status === 'queued');
-        if (!queuedTask) {
-          pushCommanderLog('Командир попытался переназначить задачу, но queued steps не осталось.');
-          renderAll();
-          return;
-        }
-        const targetAgent = rand(state.agents.filter((a) => !['commander', queuedTask.agent.toLowerCase()].includes(a.id)));
-        queuedTask.agent = targetAgent.name;
-        targetAgent.currentTask = queuedTask.text;
-        targetAgent.status = 'Получил переназначение';
-        targetAgent.bubble = `Reassigned: ${shorten(queuedTask.text)}`;
-        state.commander.mode = 'Переназначает';
-        state.commander.currentOrder = `${targetAgent.name} забирает задачу: ${queuedTask.text}`;
-        pushCommanderLog(`Командир переназначил queued step на ${targetAgent.name}: ${queuedTask.text}.`);
+        const queued = state.subtasks.find((t) => t.status === 'в очереди');
+        if (!queued) return;
+        const target = rand(state.agents.filter((a) => a.name !== queued.agent));
+        queued.agent = target.name;
+        target.status = 'Получил переназначение';
+        target.task = queued.text;
+        state.commander.currentOrder = `${target.name} забирает шаг: ${queued.text}`;
+        pushLog(`Командир переназначил задачу на ${target.name}.`);
         renderAll();
       }
 
       function runCheckin() {
-        if (!state.mission.активно) return;
+        if (!state.mission.active) return;
         state.commander.mode = 'Проверяет';
         state.commander.lastReview = 'только что';
         state.commander.secondsToCheckin = 30;
-        const commander = agentById('commander');
-        commander.bubble = rand(commanderBubbles);
-        commander.status = 'Собирает статусы отряда';
-        commander.currentTask = 'Цикл чек-ина';
-        commander.zone = 'command';
-
-        if (Math.random() < 0.18 && state.blockers.length < 2) {
-          raiseBlocker();
-          return;
-        }
 
         if (state.blockers.length) {
-          state.commander.nextOrder = 'Сначала закрыть blocker, потом продолжить рейд.';
-          state.commander.currentOrder = 'Командир приостанавливает прогресс и решает эскалацию.';
-          pushCommanderLog('Командир остановил продвижение миссии из-за активного blocker-а.');
+          state.commander.currentOrder = 'Сначала закрыть проблему, потом продолжать миссию.';
+          state.commander.nextOrder = 'Снять blocker и вернуть агента в работу.';
+          pushLog('Командир остановил прогресс из-за активной проблемы.');
           renderAll();
           return;
         }
 
-        const activeTask = state.subtasks.find((t) => t.status === 'active');
-        if (activeTask) {
-          const taskOwner = state.agents.find((a) => a.name === activeTask.agent);
-          if (taskOwner) {
-            const damage = rand([7, 8, 9, 10, 12]);
-            state.mission.hp = Math.max(0, state.mission.hp - damage);
-            activeTask.status = 'сделано';
-            state.completedTasks += 1;
-            taskOwner.status = 'Завершил этап';
-            taskOwner.bubble = `Готово: -${damage} HP`;
-            pushCommanderLog(`${taskOwner.name} закрыл подзадачу «${activeTask.text}» → Boss HP -${damage}.`);
+        const active = state.subtasks.find((t) => t.status === 'активно');
+        if (!active) return;
+        active.status = 'сделано';
+        state.completedTasks += 1;
+        const damage = rand([7, 8, 9, 10, 12]);
+        state.mission.hp = Math.max(0, state.mission.hp - damage);
+        const activeAgent = state.agents.find((a) => a.name === active.agent);
+        if (activeAgent) {
+          activeAgent.status = 'Завершил этап';
+          activeAgent.task = `Сделал: ${active.text}`;
+        }
+        pushLog(`${active.agent} закрыл шаг «${active.text}» → Boss HP -${damage}.`);
 
-            const nextTask = state.subtasks.find((t) => t.status === 'queued');
-            if (nextTask) {
-              nextTask.status = 'активно';
-              const nextAgent = state.agents.find((a) => a.name === nextTask.agent);
-              if (nextAgent) {
-                const template = (taskTemplates[state.mission.type] || taskTemplates.Маркетинг).find((t) => t.action === nextTask.text || t.agent === nextAgent.id);
-                nextAgent.zone = template ? template.zone : nextAgent.zone;
-                nextAgent.status = indexLabel(nextTask.text);
-                nextAgent.currentTask = nextTask.text;
-                nextAgent.bubble = `Новый приказ: ${shorten(nextTask.text)}`;
-              }
-              state.commander.currentOrder = `${nextTask.agent} получает следующий приказ: ${nextTask.text}`;
-              state.commander.nextOrder = 'После следующего check-in оценить блокеры и подготовить упаковку.';
-              pushCommanderLog(`Командир выдал новый приказ ${nextTask.agent}: ${nextTask.text}.`);
-            } else {
-              state.commander.currentOrder = 'Все подзадачи закрыты. Переходим к финальной упаковке.';
-              state.commander.nextOrder = 'Закрыть миссию и выдать финальный артефакт.';
-            }
+        const next = state.subtasks.find((t) => t.status === 'в очереди');
+        if (next) {
+          next.status = 'активно';
+          const nextAgent = state.agents.find((a) => a.name === next.agent);
+          if (nextAgent) {
+            nextAgent.status = 'Активный исполнитель';
+            nextAgent.task = next.text;
           }
-        }
-
-        if (state.mission.hp === 0 || state.completedTasks >= state.subtasks.length) {
-          state.mission.hp = 0;
-          state.mission.активно = false;
+          state.commander.currentOrder = `${next.agent} получает следующий шаг: ${next.text}`;
+          state.commander.nextOrder = 'После следующей проверки двинуть миссию дальше.';
+        } else {
+          state.mission.active = false;
           state.commander.mode = 'Миссия завершена';
-          state.commander.currentOrder = 'Миссия закрыта. Кто чем занят возвращается с результатом.';
-          state.commander.nextOrder = 'Создать следующую миссию.';
-          state.commander.lastEscalation = 'Все blockers закрыты.';
-          pushCommanderLog(`Командир закрыл миссию «${state.mission.title}». Финальный артефакт готов.`);
-          state.yesterdayNotes.unshift(`Миссия завершена: ${state.mission.title}`);
-          state.yesterdayNotes = state.yesterdayNotes.slice(0, 4);
-          persistMissionToHistory('завершено');
+          state.commander.currentOrder = 'Все шаги закрыты. Миссия завершена.';
+          state.commander.nextOrder = 'Можно ставить следующую задачу.';
+          pushLog(`Командир закрыл миссию «${state.mission.title}».`);
         }
-
         renderAll();
       }
 
       function tickTimer() {
-        if (state.commander.secondsToCheckin > 0 && state.mission.активно) {
+        if (state.commander.secondsToCheckin > 0 && state.mission.active) {
           state.commander.secondsToCheckin -= 1;
           renderSummary();
           saveState();
           return;
         }
-        if (state.mission.активно) runCheckin();
+        if (state.mission.active) runCheckin();
       }
 
-      function exportState() {
-        const payload = JSON.stringify(state, null, 2);
-        navigator.clipboard.writeText(payload).then(() => {
-          pushCommanderLog('Командир runtime state copied to clipboard.');
-          renderAll();
-        }).catch(() => {
-          pushCommanderLog('Не удалось скопировать state в clipboard.');
-          renderAll();
-        });
-      }
-
-      $('createMissionBtn').addEventListener('click', createMissionFromInputs);
-      $('assignMissionBtn').addEventListener('click', createMissionFromInputs);
+      $('createMissionBtn').addEventListener('click', createMission);
+      $('assignMissionBtn').addEventListener('click', createMission);
       $('forceCheckinBtn').addEventListener('click', runCheckin);
       $('raiseBlockerBtn').addEventListener('click', raiseBlocker);
       $('resolveBlockerBtn').addEventListener('click', resolveBlocker);
       $('reassignBtn').addEventListener('click', reassignTask);
-      $('exportStateBtn').addEventListener('click', exportState);
 
       renderAll();
       setInterval(tickTimer, 1000);
