@@ -77,7 +77,7 @@
       <section class="card">
         <div class="eyebrow">Шаг 1 из 2</div>
         <h1>Собери команду</h1>
-        <p class="subtitle">Выбери, кто пойдёт в миссию. Минимально нужен костяк: разведка, анализ, тексты, контроль и финализация.</p>
+        <p class="subtitle">Пока это экран подготовки. Здесь нужно выбрать состав команды перед запуском миссии. Следующий шаг после этого — подключить реальных ботов/агентов вместо демо-ролей и связать их с Mission Control.</p>
         <div class="top-actions">
           <a class="btn" href="/mission-control/">Назад</a>
           <button class="btn" id="selectAllBtn">Выбрать всех</button>
@@ -131,11 +131,11 @@
 
         <aside class="card summary">
           <div class="box">
-            <h3>Что будет дальше</h3>
-            <div class="muted">После выбора команды откроется основной экран миссии. Командир начнёт раздавать задачи, а система покажет, кто чем занят.</div>
+            <h3>Что нужно сделать дальше</h3>
+            <div class="muted">1. Подключить реального COO-бота. 2. Подключить реального worker-бота. 3. Добавить их в общий Telegram-чат. 4. Проверить, что командир умеет ставить задачи, а worker — отвечать статусом, результатом или blocker.</div>
           </div>
           <div class="box">
-            <h3>Какой минимум нужен</h3>
+            <h3>Минимум для реального теста</h3>
             <div class="list">
               <div>• Scout — без разведки нечего анализировать</div>
               <div>• Analyst — без него нет структуры</div>
@@ -145,8 +145,8 @@
             </div>
           </div>
           <div class="box">
-            <h3>Текущий пресет</h3>
-            <div class="muted" id="selectedAgentsText">Scout, Analyst, Writer, Operator, Closer</div>
+            <h3>Что сейчас происходит</h3>
+            <div class="muted" id="selectedAgentsText">Сейчас это только демо-состав ролей. Следом их нужно заменить на реальных подключённых ботов.</div>
           </div>
           <button class="btn success" id="startMissionBtn">START</button>
         </aside>
