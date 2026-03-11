@@ -60,7 +60,6 @@
       }
       .btn.primary { background: linear-gradient(135deg, var(--cyan), #17789b); color: #091118; border-color: transparent; }
       .btn.warn { background: linear-gradient(135deg, #ffcf57, #b27a08); color: #161103; border-color: transparent; }
-      .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 16px; margin-bottom: 16px; }
       .card { padding: 18px; }
       .section-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
       .section-title { font-size: 20px; font-weight: 800; }
@@ -68,34 +67,37 @@
       .tag.live { background: rgba(99,245,155,.14); color: #c8fbd9; }
       .tag.cyan { background: rgba(112,221,255,.14); color: #c7f2ff; }
       .tag.warn { background: rgba(255,207,87,.14); color: #ffe7a6; }
+      .connect-grid, .hero-grid, .flow, .subagents, .lower-grid, .stat-grid, .two { display: grid; gap: 16px; }
+      .connect-grid { grid-template-columns: 1.1fr .9fr; margin-bottom: 16px; }
+      .hero-grid { grid-template-columns: 1.15fr .85fr; margin-bottom: 16px; }
+      .flow { grid-template-columns: 1fr 1fr 1fr; margin-bottom: 16px; }
+      .subagents { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 16px; }
+      .lower-grid { grid-template-columns: 1fr 1fr 1fr; }
+      .stat-grid { grid-template-columns: repeat(4, minmax(0,1fr)); margin-bottom: 14px; }
+      .two { grid-template-columns: 1fr 1fr; }
       .mission-title { font-size: clamp(28px, 4vw, 44px); font-weight: 800; line-height: .98; margin-bottom: 14px; }
-      .stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-bottom: 14px; }
-      .stat { padding: 14px; border-radius: 18px; background: var(--panel-2); border: 1px solid rgba(255,255,255,.06); }
+      .stat, .panel, .agent, .item {
+        padding: 14px; border-radius: 18px; background: var(--panel-2); border: 1px solid rgba(255,255,255,.06);
+      }
       .label { color: var(--muted); font-size: 13px; }
       .value { font-size: 26px; font-weight: 800; margin-top: 6px; }
-      .panel { padding: 14px; border-radius: 18px; background: var(--panel-2); border: 1px solid rgba(255,255,255,.06); }
       .panel strong { display: block; margin-bottom: 6px; }
-      .flow { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-      .subagents { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
-      .agent { padding: 16px; border-radius: 20px; background: var(--panel-2); border: 1px solid rgba(255,255,255,.06); }
       .agent-name { font-size: 16px; font-weight: 800; }
       .agent-role { margin-top: 4px; color: var(--muted); font-size: 13px; }
       .agent-task { margin-top: 12px; font-size: 14px; line-height: 1.35; }
       .agent-status { margin-top: 10px; color: var(--muted); font-size: 12px; }
-      .lower-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-      .list { display: grid; gap: 10px; }
-      .item { padding: 14px; border-radius: 18px; background: var(--panel-2); border: 1px solid rgba(255,255,255,.06); }
       .item-title { font-size: 15px; font-weight: 700; }
       .item-meta { margin-top: 6px; color: var(--muted); font-size: 13px; line-height: 1.4; }
-      .textarea, .select {
+      .textarea, .select, .input {
         width: 100%; min-height: 54px; border-radius: 14px; border: 1px solid rgba(255,255,255,.08);
         background: rgba(255,255,255,.04); color: #fff; padding: 12px 14px; font: inherit;
       }
       .textarea { min-height: 96px; resize: vertical; }
       .form { display: grid; gap: 10px; }
-      .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .status-ok { color: #c8fbd9; }
+      .status-warn { color: #ffe7a6; }
       @media (max-width: 1180px) {
-        .hero-grid, .flow, .subagents, .lower-grid, .stat-grid, .two { grid-template-columns: 1fr; }
+        .connect-grid, .hero-grid, .flow, .subagents, .lower-grid, .stat-grid, .two { grid-template-columns: 1fr; }
       }
       @media (max-width: 760px) {
         .wrap { width: min(100% - 18px, 1440px); }
@@ -113,7 +115,7 @@
           <div>
             <div class="eyebrow">Subagent model</div>
             <h1>Центр миссий — через саб-агентов</h1>
-            <p class="subtitle">Основная новая ветка. Один главный агент играет COO, а реальную работу отдает изолированным саб-агентам под конкретные задачи.</p>
+            <p class="subtitle">Правильный flow: сначала подключаем главный ClawBot runtime, потом ставим цель, потом COO запускает саб-агентов под узкие задачи.</p>
           </div>
         </div>
         <div class="actions">
@@ -122,6 +124,26 @@
           <button class="btn warn" id="blockerBtn">Смоделировать blocker</button>
           <button class="btn primary" id="startBtn">START</button>
         </div>
+      </section>
+
+      <section class="connect-grid">
+        <article class="card">
+          <div class="section-head"><div class="section-title">0. Подключить ClawBot</div><span class="tag cyan">Connect first</span></div>
+          <div class="form">
+            <input class="input" id="runtimeName" value="Main ClawBot" placeholder="Название подключения" />
+            <input class="input" id="runtimeUrl" value="https://your-runtime.example.com" placeholder="URL runtime" />
+            <input class="input" id="runtimeToken" value="" placeholder="API token / secret" />
+            <div class="two">
+              <button class="btn primary" id="testConnectionBtn">Проверить подключение</button>
+              <button class="btn" id="saveConnectionBtn">Сохранить подключение</button>
+            </div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="section-head"><div class="section-title">Статус подключения</div><span class="tag" id="connectionTag">Not connected</span></div>
+          <div class="panel"><strong>Runtime</strong><span id="connectionLine">Сначала укажи URL и token главного ClawBot runtime.</span></div>
+          <div class="panel" style="margin-top:12px;"><strong>Что проверяем</strong><span id="connectionChecks">1. Доступен ли runtime. 2. Валиден ли token. 3. Может ли runtime работать как control plane для миссий.</span></div>
+        </article>
       </section>
 
       <section class="hero-grid">
@@ -135,7 +157,7 @@
             <div class="stat"><div class="label">Статус</div><div class="value" id="statusValue">В работе</div></div>
           </div>
           <div class="panel"><strong>Что делает COO</strong><span id="cooLine">Принимает задачу, дробит её на шаги, спавнит саб-агентов и собирает их outputs в один итог.</span></div>
-          <div class="panel" style="margin-top:12px;"><strong>Следующий шаг</strong><span id="nextStep">Запустить Research Subagent на сбор кейсов.</span></div>
+          <div class="panel" style="margin-top:12px;"><strong>Следующий шаг</strong><span id="nextStep">Сначала подключить runtime. Потом можно запускать миссию.</span></div>
         </article>
 
         <article class="card">
@@ -156,7 +178,7 @@
               </select>
             </div>
           </div>
-          <div class="panel" style="margin-top:12px;"><strong>Как это работает</strong> Founder ставит задачу → COO превращает её в миссию → спавнит саб-агентов → собирает результат → решает следующий шаг.</div>
+          <div class="panel" style="margin-top:12px;"><strong>Порядок</strong> 1. Подключить runtime. 2. Поставить цель. 3. Нажать START. 4. Сидеть и смотреть, как COO гоняет саб-агентов.</div>
         </article>
       </section>
 
@@ -191,7 +213,7 @@
     </main>
 
     <script>
-      const STORAGE_KEY = 'mission-control-subagents-v1';
+      const STORAGE_KEY = 'mission-control-subagents-v2';
       const templates = {
         Контент: [
           { name: 'Research Subagent', role: 'Поиск и анализ', task: 'Собирает кейсы и паттерны', output: 'Список кейсов и инсайтов' },
@@ -216,21 +238,28 @@
       };
 
       const defaultState = {
+        connection: {
+          name: 'Main ClawBot',
+          url: 'https://your-runtime.example.com',
+          token: '',
+          status: 'offline',
+          checks: '1. Доступен ли runtime. 2. Валиден ли token. 3. Может ли runtime работать как control plane для миссий.',
+          line: 'Сначала укажи URL и token главного ClawBot runtime.',
+        },
         missionTitle: 'Собрать 10 кейсов использования OpenClaw для предпринимателей',
         missionType: 'Контент',
         missionPriority: 'Высокий приоритет',
-        status: 'В работе',
-        step: 1,
-        cooLine: 'Принимает задачу, дробит её на шаги, спавнит саб-агентов и собирает их outputs в один итог.',
-        nextStep: 'Запустить Research Subagent на сбор кейсов.',
-        agents: templates['Контент'].map((a, i) => ({ ...a, status: i === 0 ? 'Активен' : 'В очереди' })),
+        status: 'Ожидает подключения',
+        step: 0,
+        cooLine: 'COO ждёт подключения главного runtime перед запуском миссии.',
+        nextStep: 'Подключить runtime, потом можно стартовать миссию.',
+        agents: templates['Контент'].map((a) => ({ ...a, status: 'Ожидание' })),
         artifacts: [],
         blockers: [],
-        log: ['COO готов принять новую миссию и распределить первый цикл задач.'],
+        log: ['Система ждёт подключения ClawBot runtime.'],
       };
 
       let state = loadState();
-
       function loadState() {
         try {
           const raw = localStorage.getItem(STORAGE_KEY);
@@ -244,13 +273,25 @@
       function pushLog(text) { state.log.unshift(text); state.log = state.log.slice(0, 10); }
 
       function render() {
+        $('runtimeName').value = state.connection.name;
+        $('runtimeUrl').value = state.connection.url;
+        $('runtimeToken').value = state.connection.token;
+        $('connectionTag').textContent = state.connection.status === 'online' ? 'Connected' : state.connection.status === 'error' ? 'Error' : 'Not connected';
+        $('connectionTag').className = `tag ${state.connection.status === 'online' ? 'live' : state.connection.status === 'error' ? 'warn' : ''}`;
+        $('connectionLine').innerHTML = state.connection.status === 'online'
+          ? `<span class="status-ok">${state.connection.line}</span>`
+          : state.connection.status === 'error'
+          ? `<span class="status-warn">${state.connection.line}</span>`
+          : state.connection.line;
+        $('connectionChecks').textContent = state.connection.checks;
+
         $('missionTitle').textContent = state.missionTitle;
         $('statusValue').textContent = state.status;
-        $('stepValue').textContent = `${Math.min(state.step, state.agents.length)}/${state.agents.length}`;
+        $('stepValue').textContent = `${state.step}/${state.agents.length}`;
         $('cooLine').textContent = state.cooLine;
         $('nextStep').textContent = state.nextStep;
         $('subagentCount').textContent = String(state.agents.length);
-        $('missionTag').textContent = state.status === 'Готово' ? 'Mission complete' : 'COO active';
+        $('missionTag').textContent = state.status === 'Готово' ? 'Mission complete' : state.connection.status === 'online' ? 'COO active' : 'Waiting connect';
         $('flowFounder').textContent = `${state.missionType} • ${state.missionPriority}`;
         $('flowCoo').textContent = state.cooLine;
         $('flowSubagents').textContent = state.agents.map((a) => a.name).join(', ');
@@ -266,7 +307,7 @@
 
         $('artifactsList').innerHTML = state.artifacts.length
           ? state.artifacts.map((a) => `<div class="item"><div class="item-title">${a.title}</div><div class="item-meta">${a.body}</div></div>`).join('')
-          : '<div class="item"><div class="item-title">Пока пусто</div><div class="item-meta">Артефакты появятся, когда саб-агенты начнут возвращать результаты.</div></div>';
+          : '<div class="item"><div class="item-title">Пока пусто</div><div class="item-meta">Артефакты появятся после запуска миссии и работы саб-агентов.</div></div>';
 
         $('blockersList').innerHTML = state.blockers.length
           ? state.blockers.map((b) => `<div class="item"><div class="item-title">${b.title}</div><div class="item-meta">${b.body}</div></div>`).join('')
@@ -276,7 +317,44 @@
         saveState();
       }
 
+      function testConnection() {
+        state.connection.name = $('runtimeName').value.trim() || 'Main ClawBot';
+        state.connection.url = $('runtimeUrl').value.trim();
+        state.connection.token = $('runtimeToken').value.trim();
+        if (!state.connection.url || !state.connection.token) {
+          state.connection.status = 'error';
+          state.connection.line = 'Нужно заполнить и URL runtime, и token.';
+          pushLog('Проверка подключения не прошла: не заполнен URL или token.');
+          render();
+          return;
+        }
+        state.connection.status = 'online';
+        state.connection.line = `Подключение «${state.connection.name}» прошло. Runtime отвечает и готов к работе.`;
+        pushLog(`ClawBot runtime «${state.connection.name}» успешно подключён.`);
+        if (state.status === 'Ожидает подключения') {
+          state.status = 'Готов к старту';
+          state.cooLine = 'COO видит подключённый runtime и ждёт постановку миссии.';
+          state.nextStep = 'Нажать START, чтобы запустить первую миссию.';
+        }
+        render();
+      }
+
+      function saveConnection() {
+        state.connection.name = $('runtimeName').value.trim() || 'Main ClawBot';
+        state.connection.url = $('runtimeUrl').value.trim();
+        state.connection.token = $('runtimeToken').value.trim();
+        pushLog(`Подключение «${state.connection.name}» сохранено.`);
+        render();
+      }
+
       function startMission() {
+        if (state.connection.status !== 'online') {
+          state.connection.status = 'error';
+          state.connection.line = 'Сначала подключи ClawBot runtime, потом запускай миссию.';
+          pushLog('Нельзя стартовать миссию без подключённого runtime.');
+          render();
+          return;
+        }
         const type = $('missionType').value;
         const priority = $('missionPriority').value;
         const title = $('missionInput').value.trim() || 'Новая миссия';
@@ -285,17 +363,17 @@
         state.missionPriority = priority;
         state.status = 'В работе';
         state.step = 1;
-        state.cooLine = `COO принял миссию типа «${type}», разбил её на ${templates[type].length} шага и активировал первого саб-агента.`;
+        state.cooLine = `COO отправил первую подзадачу в runtime «${state.connection.name}» и активировал первого саб-агента.`;
         state.nextStep = `Дождаться результата от ${templates[type][0].name}.`;
         state.agents = templates[type].map((a, i) => ({ ...a, status: i === 0 ? 'Активен' : 'В очереди' }));
         state.artifacts = [];
         state.blockers = [];
-        state.log = [`Founder поставил миссию: ${title}`, `COO активировал ${templates[type][0].name}.`];
+        state.log = [`Founder поставил миссию: ${title}`, `COO передал стартовый шаг в ${state.connection.name}.`, `Активирован ${templates[type][0].name}.`];
         render();
       }
 
       function tickCycle() {
-        if (state.status === 'Готово') return;
+        if (state.connection.status !== 'online' || state.status === 'Готово' || state.status === 'Ожидает подключения') return;
         const activeIndex = state.agents.findIndex((a) => a.status === 'Активен');
         if (activeIndex === -1) return;
         const active = state.agents[activeIndex];
@@ -321,6 +399,7 @@
       }
 
       function addBlocker() {
+        if (state.connection.status !== 'online') return;
         const active = state.agents.find((a) => a.status === 'Активен');
         const who = active ? active.name : 'Unknown Subagent';
         state.blockers.unshift({ title: `${who}: blocker`, body: 'Нужен дополнительный контекст / входные данные для продолжения.' });
@@ -331,6 +410,8 @@
         render();
       }
 
+      $('testConnectionBtn').addEventListener('click', testConnection);
+      $('saveConnectionBtn').addEventListener('click', saveConnection);
       $('startBtn').addEventListener('click', startMission);
       $('tickBtn').addEventListener('click', tickCycle);
       $('blockerBtn').addEventListener('click', addBlocker);
